@@ -35,7 +35,12 @@ const PropertiesPage = () => {
   const fetchProperties = async () => {
     try {
       setPropertyState((prev) => ({ ...prev, loading: true }));
+      console.log('🏠 Propertiespage: Fetching properties from:', `${Backendurl}/api/products/list`);
+      console.log('🏠 Propertiespage: Backend URL:', Backendurl);
+      
       const response = await axios.get(`${Backendurl}/api/products/list`);
+      console.log('🏠 Propertiespage: API Response:', response.data);
+      
       if (response.data.success) {
         setPropertyState((prev) => ({
           ...prev,
@@ -43,6 +48,7 @@ const PropertiesPage = () => {
           error: null,
           loading: false,
         }));
+        console.log('🏠 Propertiespage: Properties loaded successfully:', response.data.property?.length);
       } else {
         throw new Error(response.data.message);
       }
@@ -52,7 +58,13 @@ const PropertiesPage = () => {
         error: "Emlaklar yüklenemedi. Lütfen daha sonra tekrar deneyin.",
         loading: false,
       }));
-      console.error("Error fetching properties:", err);
+      console.error("🏠 Propertiespage: Error fetching properties:", err);
+      console.error("🏠 Propertiespage: Error details:", {
+        message: err.message,
+        status: err.response?.status,
+        statusText: err.response?.statusText,
+        data: err.response?.data
+      });
     }
   };
 
