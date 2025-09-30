@@ -166,7 +166,6 @@ const translations = {
     handpickedSelection: 'Yaşam tarzı ihtiyaçlarınıza uygun olarak tasarlanmış premium mülklerin özenle seçilmiş koleksiyonumuzu keşfedin',
     allProperties: 'Tüm Mülkler',
     noPropertiesAvailable: 'Mülk mevcut değil',
-    noPropertiesFound: 'Bu kategoride mülk bulunamadı.',
     viewAllProperties: 'Tüm Mülkleri Görüntüle',
     browseAllProperties: 'Tüm Mülkleri İncele',
     discoverComplete: 'Premium mülklerin tam koleksiyonumuzu keşfedin',
