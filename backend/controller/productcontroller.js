@@ -17,7 +17,7 @@ const addproperty = async (req, res) => {
 
         const images = [image1, image2, image3, image4].filter((item) => item !== undefined);
 
-        // Upload images to ImageKit if available, otherwise use placeholder
+        // Upload images to ImageKit if available, otherwise save locally
         let imageUrls = [];
         
         if (imagekit && images.length > 0) {
@@ -37,25 +37,36 @@ const addproperty = async (req, res) => {
                 );
             } catch (error) {
                 console.log("ImageKit upload error:", error);
-                // Use placeholder images if ImageKit fails
+                // Save locally if ImageKit fails
+                imageUrls = images.map(item => {
+                    const fileName = `${Date.now()}_${item.originalname}`;
+                    const newPath = `uploads/${fileName}`;
+                    
+                    // Move file to uploads directory
+                    fs.renameSync(item.path, newPath);
+                    
+                    return `http://localhost:4000/${newPath}`;
+                });
+            }
+        } else {
+            // Save images locally when ImageKit is not available
+            if (images.length > 0) {
+                imageUrls = images.map(item => {
+                    const fileName = `${Date.now()}_${item.originalname}`;
+                    const newPath = `uploads/${fileName}`;
+                    
+                    // Move file to uploads directory
+                    fs.renameSync(item.path, newPath);
+                    
+                    return `http://localhost:4000/${newPath}`;
+                });
+            } else {
+                // Use placeholder images only if no images are uploaded
                 imageUrls = [
                     "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
                     "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800"
                 ];
             }
-        } else {
-            // Use placeholder images when ImageKit is not available
-            imageUrls = [
-                "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
-                "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800"
-            ];
-            
-            // Clean up uploaded files
-            images.forEach(item => {
-                fs.unlink(item.path, (err) => {
-                    if (err) console.log("Error deleting the file: ", err);
-                });
-            });
         }
 
         // Create a new product
@@ -139,162 +150,15 @@ const listproperty = async (req, res) => {
         
         if (isMongoConnected) {
             const property = await Property.find();
-            // If no properties in database, return demo data
-            if (property.length === 0) {
-                const defaultDemoProperties = [
-                    {
-                        _id: "demo1",
-                        title: "Modern Villa",
-                        location: "Istanbul, Turkey",
-                        price: 1500000,
-                        beds: 4,
-                        baths: 3,
-                        sqft: 2500,
-                        type: "Villa",
-                        availability: "For Sale",
-                        description: "Beautiful modern villa with sea view",
-                        amenities: ["Pool", "Garden", "Garage"],
-                        image: [
-                            "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
-                            "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800"
-                        ],
-                        phone: "+90 555 123 4567",
-                        latitude: 41.0082,
-                        longitude: 28.9784
-                    },
-                    {
-                        _id: "demo2",
-                        title: "City Apartment",
-                        location: "Ankara, Turkey",
-                        price: 750000,
-                        beds: 2,
-                        baths: 2,
-                        sqft: 1200,
-                        type: "Apartment",
-                        availability: "For Sale",
-                        description: "Modern apartment in city center",
-                        amenities: ["Elevator", "Parking", "Security"],
-                        image: [
-                            "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800",
-                            "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800"
-                        ],
-                        phone: "+90 555 987 6543",
-                        latitude: 39.9334,
-                        longitude: 32.8597
-                    }
-                ];
-                
-                // Combine default demo properties with user-added demo properties
-                const allDemoProperties = [...defaultDemoProperties, ...demoPropertiesStorage];
-                console.log("Demo mode: Returning", allDemoProperties.length, "properties");
-                
-                res.json({ property: allDemoProperties, success: true });
-            } else {
-                res.json({ property, success: true });
-            }
+            res.json({ property, success: true });
         } else {
-            // Demo mode - return demo data
-            const defaultDemoProperties = [
-                {
-                    _id: "demo1",
-                    title: "Modern Villa",
-                    location: "Istanbul, Turkey",
-                    price: 1500000,
-                    beds: 4,
-                    baths: 3,
-                    sqft: 2500,
-                    type: "Villa",
-                    availability: "For Sale",
-                    description: "Beautiful modern villa with sea view",
-                    amenities: ["Pool", "Garden", "Garage"],
-                    image: [
-                        "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
-                        "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800"
-                    ],
-                    phone: "+90 555 123 4567",
-                    latitude: 41.0082,
-                    longitude: 28.9784
-                },
-                {
-                    _id: "demo2",
-                    title: "City Apartment",
-                    location: "Ankara, Turkey",
-                    price: 750000,
-                    beds: 2,
-                    baths: 2,
-                    sqft: 1200,
-                    type: "Apartment",
-                    availability: "For Sale",
-                    description: "Modern apartment in city center",
-                    amenities: ["Elevator", "Parking", "Security"],
-                    image: [
-                        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800",
-                        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800"
-                    ],
-                    phone: "+90 555 987 6543",
-                    latitude: 39.9334,
-                    longitude: 32.8597
-                }
-            ];
-            
-            // Combine default demo properties with user-added demo properties
-            const allDemoProperties = [...defaultDemoProperties, ...demoPropertiesStorage];
-            console.log("Demo mode: Returning", allDemoProperties.length, "properties");
-            
-            res.json({ property: allDemoProperties, success: true });
+            // Demo mode - return only user-added demo properties
+            console.log("Demo mode: Returning", demoPropertiesStorage.length, "properties");
+            res.json({ property: demoPropertiesStorage, success: true });
         }
     } catch (error) {
         console.log("Error listing products: ", error);
-        
-        // Return demo data when database is not available
-        const defaultDemoProperties = [
-            {
-                _id: "demo1",
-                title: "Modern Villa",
-                location: "Istanbul, Turkey",
-                price: 1500000,
-                beds: 4,
-                baths: 3,
-                sqft: 2500,
-                type: "Villa",
-                availability: "For Sale",
-                description: "Beautiful modern villa with sea view",
-                amenities: ["Pool", "Garden", "Garage"],
-                image: [
-                    "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
-                    "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800"
-                ],
-                phone: "+90 555 123 4567",
-                latitude: 41.0082,
-                longitude: 28.9784
-            },
-            {
-                _id: "demo2",
-                title: "City Apartment",
-                location: "Ankara, Turkey",
-                price: 750000,
-                beds: 2,
-                baths: 2,
-                sqft: 1200,
-                type: "Apartment",
-                availability: "For Sale",
-                description: "Modern apartment in city center",
-                amenities: ["Elevator", "Parking", "Security"],
-                image: [
-                    "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800",
-                    "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800"
-                ],
-                phone: "+90 555 987 6543",
-                latitude: 39.9334,
-                longitude: 32.8597
-            }
-        ];
-        
-        // Combine default demo properties with user-added demo properties
-        const allDemoProperties = [...defaultDemoProperties, ...demoPropertiesStorage];
-        console.log("Demo mode: Returning", allDemoProperties.length, "properties");
-        
-        res.json({ property: allDemoProperties, success: true });
+        res.status(500).json({ message: "Sunucu hatası", success: false });
     }
 };
 
@@ -357,19 +221,52 @@ const updateproperty = async (req, res) => {
         const images = [image1, image2, image3, image4].filter((item) => item !== undefined);
 
         // Upload images to ImageKit and delete after upload
-        const imageUrls = await Promise.all(
-            images.map(async (item) => {
-                const result = await imagekit.upload({
-                    file: fs.readFileSync(item.path),
-                    fileName: item.originalname,
-                    folder: "Property",
+        let imageUrls = [];
+        
+        if (imagekit) {
+            try {
+                imageUrls = await Promise.all(
+                    images.map(async (item) => {
+                        const result = await imagekit.upload({
+                            file: fs.readFileSync(item.path),
+                            fileName: item.originalname,
+                            folder: "Property",
+                        });
+                        fs.unlink(item.path, (err) => {
+                            if (err) console.log("Error deleting the file: ", err);
+                        });
+                        return result.url;
+                    })
+                );
+            } catch (error) {
+                console.log("ImageKit upload error:", error);
+                // Use placeholder images if ImageKit fails
+                imageUrls = [
+                    "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
+                    "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800"
+                ];
+                
+                // Clean up uploaded files
+                images.forEach(item => {
+                    fs.unlink(item.path, (err) => {
+                        if (err) console.log("Error deleting the file: ", err);
+                    });
                 });
+            }
+        } else {
+            // Use placeholder images when ImageKit is not available
+            imageUrls = [
+                "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
+                "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800"
+            ];
+            
+            // Clean up uploaded files
+            images.forEach(item => {
                 fs.unlink(item.path, (err) => {
                     if (err) console.log("Error deleting the file: ", err);
                 });
-                return result.url;
-            })
-        );
+            });
+        }
 
         property.title = title;
         property.location = location;
@@ -421,55 +318,8 @@ const singleproperty = async (req, res) => {
             }
             res.json({ property, success: true });
         } else {
-            // Demo mode - search in demo data
-            const defaultDemoProperties = [
-                {
-                    _id: "demo1",
-                    title: "Modern Villa",
-                    location: "Istanbul, Turkey",
-                    price: 1500000,
-                    beds: 4,
-                    baths: 3,
-                    sqft: 2500,
-                    type: "Villa",
-                    availability: "For Sale",
-                    description: "Beautiful modern villa with sea view",
-                    amenities: ["Pool", "Garden", "Garage"],
-                    image: [
-                        "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
-                        "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800"
-                    ],
-                    phone: "+90 555 123 4567",
-                    latitude: 41.0082,
-                    longitude: 28.9784
-                },
-                {
-                    _id: "demo2",
-                    title: "City Apartment",
-                    location: "Ankara, Turkey",
-                    price: 750000,
-                    beds: 2,
-                    baths: 2,
-                    sqft: 1200,
-                    type: "Apartment",
-                    availability: "For Sale",
-                    description: "Modern apartment in city center",
-                    amenities: ["Elevator", "Parking", "Security"],
-                    image: [
-                        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800",
-                        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800"
-                    ],
-                    phone: "+90 555 987 6543",
-                    latitude: 39.9334,
-                    longitude: 32.8597
-                }
-            ];
-            
-            // Combine default demo properties with user-added demo properties
-            const allDemoProperties = [...defaultDemoProperties, ...demoPropertiesStorage];
-            
-            // Find property by ID
-            const property = allDemoProperties.find(p => p._id === id);
+            // Demo mode - search only in user-added demo properties
+            const property = demoPropertiesStorage.find(p => p._id === id);
             
             if (!property) {
                 return res.status(404).json({ message: "Emlak bulunamadı", success: false });

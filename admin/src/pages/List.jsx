@@ -60,18 +60,25 @@ const PropertyListings = () => {
   const fetchProperties = async () => {
     try {
       setLoading(true);
+      console.log("🏠 Admin Panel: Fetching properties from:", `${backendurl}/api/products/list`);
       const response = await axios.get(`${backendurl}/api/products/list`);
+      console.log("🏠 Admin Panel: API Response:", response.data);
+      
       if (response.data.success) {
+        console.log("🏠 Admin Panel: Raw properties count:", response.data.property.length);
         const parsedProperties = response.data.property.map(property => ({
           ...property,
           amenities: parseAmenities(property.amenities)
         }));
+        console.log("🏠 Admin Panel: Parsed properties count:", parsedProperties.length);
+        console.log("🏠 Admin Panel: First few properties:", parsedProperties.slice(0, 3));
         setProperties(parsedProperties);
       } else {
+        console.error("🏠 Admin Panel: API Error:", response.data.error);
         toast.error(response.data.error);
       }
     } catch (error) {
-      console.error("Error fetching properties:", error);
+      console.error("🏠 Admin Panel: Error fetching properties:", error);
       toast.error("Emlaklar yüklenemedi");
     } finally {
       setLoading(false);
@@ -131,6 +138,16 @@ const PropertyListings = () => {
           return 0;
       }
     });
+
+  // Debug logging for filtered properties
+  console.log("🔍 Admin Panel: Total properties in state:", properties.length);
+  console.log("🔍 Admin Panel: Filtered properties count:", filteredProperties.length);
+  console.log("🔍 Admin Panel: Search term:", searchTerm);
+  console.log("🔍 Admin Panel: Filter type:", filterType);
+  console.log("🔍 Admin Panel: Sort by:", sortBy);
+  if (filteredProperties.length > 0) {
+    console.log("🔍 Admin Panel: Visible properties:", filteredProperties.map(p => ({ id: p._id, title: p.title })));
+  }
 
   const containerVariants = {
     hidden: { opacity: 0 },

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
@@ -46,6 +46,13 @@ const Update = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    // ID doğrulaması - demo ID'ler veya geçersiz ID'ler için yönlendirme
+    if (!id || id === 'demo1' || id === 'demo2' || id.length < 24) {
+      toast.error('Geçersiz ilan ID\'si. Ana sayfaya yönlendiriliyorsunuz.');
+      navigate('/list');
+      return;
+    }
+
     const fetchProperty = async () => {
       try {
         const response = await axios.get(`${backendurl}/api/products/single/${id}`);
@@ -97,13 +104,13 @@ const Update = () => {
     }));
   };
 
-  const handleLocationChange = (lat, lng) => {
+  const handleLocationChange = useCallback((lat, lng) => {
     setFormData(prev => ({
       ...prev,
       latitude: lat,
       longitude: lng
     }));
-  };
+  }, []);
 
   const handleAmenityToggle = (amenity) => {
     setFormData((prev) => ({

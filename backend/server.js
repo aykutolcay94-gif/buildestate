@@ -74,6 +74,9 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(trackAPIStats);
 
+// Serve uploaded files statically
+app.use('/uploads', express.static('uploads'));
+
 
 // CORS Configuration
 app.use(cors({

@@ -1,10 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
-import { Grid, List, SlidersHorizontal, MapPin, Home } from "lucide-react";
+import { Grid, List, SlidersHorizontal, MapPin, Home, Map } from "lucide-react";
 import SearchBar from "./Searchbar.jsx";
 import FilterSection from "./Filtersection.jsx";
 import PropertyCard from "./Propertycard.jsx";
+import PropertiesMap from "../PropertiesMap.jsx";
 import { Backendurl } from "../../App.jsx";
 
 const PropertiesPage = () => {
@@ -281,17 +282,29 @@ const PropertiesPage = () => {
                       <SlidersHorizontal className="w-5 h-5" />
                     </button>
                     <button
-                      onClick={() => setViewState(prev => ({ ...prev, isGridView: true }))}
+                      onClick={() => setViewState(prev => ({ 
+                        ...prev, 
+                        showMap: !prev.showMap 
+                      }))}
                       className={`p-2 rounded-lg ${
-                        viewState.isGridView ? "bg-blue-100 text-blue-600" : "hover:bg-gray-100"
+                        viewState.showMap ? "bg-blue-100 text-blue-600" : "hover:bg-gray-100"
+                      }`}
+                      title="Toggle Map View"
+                    >
+                      <Map className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={() => setViewState(prev => ({ ...prev, isGridView: true, showMap: false }))}
+                      className={`p-2 rounded-lg ${
+                        viewState.isGridView && !viewState.showMap ? "bg-blue-100 text-blue-600" : "hover:bg-gray-100"
                       }`}
                     >
                       <Grid className="w-5 h-5" />
                     </button>
                     <button
-                      onClick={() => setViewState(prev => ({ ...prev, isGridView: false }))}
+                      onClick={() => setViewState(prev => ({ ...prev, isGridView: false, showMap: false }))}
                       className={`p-2 rounded-lg ${
-                        !viewState.isGridView ? "bg-blue-100 text-blue-600" : "hover:bg-gray-100"
+                        !viewState.isGridView && !viewState.showMap ? "bg-blue-100 text-blue-600" : "hover:bg-gray-100"
                       }`}
                     >
                       <List className="w-5 h-5" />
@@ -301,39 +314,50 @@ const PropertiesPage = () => {
               </div>
             </div>
 
-            <motion.div
-              layout
-              className={`grid gap-6 ${
-                viewState.isGridView ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1"
-              }`}
-            >
-              <AnimatePresence>
-                {filteredProperties.length > 0 ? (
-                  filteredProperties.map((property) => (
-                    <PropertyCard
-                      key={property._id}
-                      property={property}
-                      viewType={viewState.isGridView ? "grid" : "list"}
-                    />
-                  ))
-                ) : (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="col-span-full text-center py-12 bg-white rounded-lg shadow-sm"
-                  >
-                    <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">
-                      Emlak bulunamadı
-                    </h3>
-                    <p className="text-gray-600">
-                      Filtrelerinizi veya arama kriterlerinizi ayarlamayı deneyin
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
+            {viewState.showMap ? (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <PropertiesMap />
+              </motion.div>
+            ) : (
+              <motion.div
+                layout
+                className={`grid gap-6 ${
+                  viewState.isGridView ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1"
+                }`}
+              >
+                <AnimatePresence>
+                  {filteredProperties.length > 0 ? (
+                    filteredProperties.map((property) => (
+                      <PropertyCard
+                        key={property._id}
+                        property={property}
+                        viewType={viewState.isGridView ? "grid" : "list"}
+                      />
+                    ))
+                  ) : (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="col-span-full text-center py-12 bg-white rounded-lg shadow-sm"
+                    >
+                      <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">
+                        Emlak bulunamadı
+                      </h3>
+                      <p className="text-gray-600">
+                        Filtrelerinizi veya arama kriterlerinizi ayarlamayı deneyin
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            )}
           </div>
         </div>
       </div>
