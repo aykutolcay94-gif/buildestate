@@ -61,7 +61,6 @@ const translations = {
     trustedPartner: 'Mükemmel evi bulmanızda güvenilir ortağınız. Emlak avcılığını basit, verimli ve benzersiz ihtiyaçlarınıza uygun hale getiriyoruz.',
     quickLinks: 'Hızlı Bağlantılar',
     contactUs: 'Bize Ulaşın',
-    exploreProperties: 'Emlakları Keşfedin',
     
     // Contact
     haveQuestions: 'Emlaklar hakkında sorularınız mı var? Mükemmel evinizi bulma konusunda yardıma mı ihtiyacınız var?',
@@ -101,7 +100,6 @@ const translations = {
     pleaseWait: 'Sizin için emlakları seçerken lütfen bekleyin',
     
     // Errors
-    noPropertiesFound: 'Emlak bulunamadı',
     failedToFetch: 'Emlaklar getirilemedi. Lütfen tekrar deneyin.',
     
     // Common
@@ -186,7 +184,6 @@ const translations = {
     trustedPartner: 'Your trusted partner in finding the perfect home. We make property hunting simple, efficient, and tailored to your unique needs with cutting-edge technology and personalized service.',
     quickLinks: 'Quick Links',
     contactUs: 'Contact Us',
-    exploreProperties: 'Explore Properties',
     
     // Contact
     haveQuestions: 'Have questions about our properties? Need assistance with finding your perfect home?',
