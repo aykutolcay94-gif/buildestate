@@ -53,21 +53,21 @@ const limiter = rateLimit({
   }
 });
 
-// Simple CORS - Allow all origins for now - Updated v2
+// CORS configuration using cors package
+const corsOptions = {
+  origin: '*', // Allow all origins for now
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+  credentials: false, // Set to false when origin is '*'
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+
+// Additional CORS logging middleware
 app.use((req, res, next) => {
-  console.log('🌐 CORS middleware triggered for:', req.method, req.url);
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  
-  if (req.method === 'OPTIONS') {
-    console.log('✅ OPTIONS request handled');
-    res.sendStatus(200);
-  } else {
-    console.log('🔄 Continuing to next middleware');
-    next();
-  }
+  console.log('🌐 CORS request:', req.method, req.url, 'Origin:', req.headers.origin);
+  next();
 });
 
 // Security middlewares
