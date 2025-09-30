@@ -54,27 +54,47 @@ const limiter = rateLimit({
 });
 
 // CORS Configuration - MUST be before other middlewares
-app.use(cors({
-  origin: [
-    'http://localhost:3000', // Frontend
-    'http://localhost:4000',
-    'http://localhost:5174',
-    'http://localhost:5173',
-    'http://localhost:9000', // Production site (aykutolcay.com)
-    'http://localhost:8080', // Admin panel
-    'https://buildestate.vercel.app',
-    'https://real-estate-website-admin.onrender.com',
-    'https://real-estate-website-backend-zfu7.onrender.com',
-    'https://aykutolcay.com', // Production domain
-    'https://www.aykutolcay.com', // Production domain with www
-    'https://frontend-1ucvef2mf-aykutolcay94-gifs-projects.vercel.app', // Vercel deployment URL
-    'https://frontend-three-mu-99.vercel.app', // New Vercel deployment URL
-  ],
+const corsOptions = {
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      'http://localhost:3000', // Frontend
+      'http://localhost:4000',
+      'http://localhost:5174',
+      'http://localhost:5173',
+      'http://localhost:9000', // Production site (aykutolcay.com)
+      'http://localhost:8080', // Admin panel
+      'https://buildestate.vercel.app',
+      'https://real-estate-website-admin.onrender.com',
+      'https://real-estate-website-backend-zfu7.onrender.com',
+      'https://aykutolcay.com', // Production domain
+      'https://www.aykutolcay.com', // Production domain with www
+      'https://frontend-1ucvef2mf-aykutolcay94-gifs-projects.vercel.app', // Vercel deployment URL
+      'https://frontend-three-mu-99.vercel.app', // New Vercel deployment URL
+    ];
+    
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    console.log('🌐 CORS Origin check:', origin);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      console.log('✅ CORS Origin allowed:', origin);
+      callback(null, true);
+    } else {
+      console.log('❌ CORS Origin blocked:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-  optionsSuccessStatus: 200 // Some legacy browsers (IE11, various SmartTVs) choke on 204
-}));
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+  exposedHeaders: ['Content-Length', 'X-Foo', 'X-Bar'],
+  optionsSuccessStatus: 200, // Some legacy browsers (IE11, various SmartTVs) choke on 204
+  preflightContinue: false,
+  maxAge: 86400 // 24 hours
+};
+
+app.use(cors(corsOptions));
 
 // Security middlewares
 app.use(limiter);
