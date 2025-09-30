@@ -139,7 +139,59 @@ const listproperty = async (req, res) => {
         
         if (isMongoConnected) {
             const property = await Property.find();
-            res.json({ property, success: true });
+            // If no properties in database, return demo data
+            if (property.length === 0) {
+                const defaultDemoProperties = [
+                    {
+                        _id: "demo1",
+                        title: "Modern Villa",
+                        location: "Istanbul, Turkey",
+                        price: 1500000,
+                        beds: 4,
+                        baths: 3,
+                        sqft: 2500,
+                        type: "Villa",
+                        availability: "For Sale",
+                        description: "Beautiful modern villa with sea view",
+                        amenities: ["Pool", "Garden", "Garage"],
+                        image: [
+                            "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
+                            "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800"
+                        ],
+                        phone: "+90 555 123 4567",
+                        latitude: 41.0082,
+                        longitude: 28.9784
+                    },
+                    {
+                        _id: "demo2",
+                        title: "City Apartment",
+                        location: "Ankara, Turkey",
+                        price: 750000,
+                        beds: 2,
+                        baths: 2,
+                        sqft: 1200,
+                        type: "Apartment",
+                        availability: "For Sale",
+                        description: "Modern apartment in city center",
+                        amenities: ["Elevator", "Parking", "Security"],
+                        image: [
+                            "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800",
+                            "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800"
+                        ],
+                        phone: "+90 555 987 6543",
+                        latitude: 39.9334,
+                        longitude: 32.8597
+                    }
+                ];
+                
+                // Combine default demo properties with user-added demo properties
+                const allDemoProperties = [...defaultDemoProperties, ...demoPropertiesStorage];
+                console.log("Demo mode: Returning", allDemoProperties.length, "properties");
+                
+                res.json({ property: allDemoProperties, success: true });
+            } else {
+                res.json({ property, success: true });
+            }
         } else {
             // Demo mode - return demo data
             const defaultDemoProperties = [
@@ -159,7 +211,9 @@ const listproperty = async (req, res) => {
                         "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
                         "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800"
                     ],
-                    phone: "+90 555 123 4567"
+                    phone: "+90 555 123 4567",
+                    latitude: 41.0082,
+                    longitude: 28.9784
                 },
                 {
                     _id: "demo2",
@@ -177,7 +231,9 @@ const listproperty = async (req, res) => {
                         "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800",
                         "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800"
                     ],
-                    phone: "+90 555 987 6543"
+                    phone: "+90 555 987 6543",
+                    latitude: 39.9334,
+                    longitude: 32.8597
                 }
             ];
             
@@ -208,7 +264,9 @@ const listproperty = async (req, res) => {
                     "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
                     "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800"
                 ],
-                phone: "+90 555 123 4567"
+                phone: "+90 555 123 4567",
+                latitude: 41.0082,
+                longitude: 28.9784
             },
             {
                 _id: "demo2",
@@ -226,7 +284,9 @@ const listproperty = async (req, res) => {
                     "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800",
                     "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800"
                 ],
-                phone: "+90 555 987 6543"
+                phone: "+90 555 987 6543",
+                latitude: 39.9334,
+                longitude: 32.8597
             }
         ];
         
@@ -350,6 +410,11 @@ const singleproperty = async (req, res) => {
         const isMongoConnected = mongoose.connection.readyState === 1;
         
         if (isMongoConnected) {
+            // Validate ObjectId format
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return res.status(400).json({ message: "Geçersiz emlak ID formatı", success: false });
+            }
+            
             const property = await Property.findById(id);
             if (!property) {
                 return res.status(404).json({ message: "Emlak bulunamadı", success: false });
