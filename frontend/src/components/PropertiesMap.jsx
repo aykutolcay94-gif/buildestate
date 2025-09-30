@@ -14,11 +14,13 @@ const getBackendUrl = () => {
   // Auto-detect based on current domain
   const currentDomain = window.location.hostname;
   
+  // Development environment
   if (currentDomain === 'localhost' || currentDomain === '127.0.0.1') {
     return 'http://localhost:4000';
-  } else {
-    // For production, try to find the backend URL
-    // You should replace this with your actual backend domain
+  } 
+  // Production environment (Vercel, custom domains, etc.)
+  else {
+    // Always use production backend for any non-localhost domain
     return 'https://real-estate-website-backend-zfu7.onrender.com';
   }
 };
