@@ -89,6 +89,9 @@ app.use(cors({
     'https://buildestate.vercel.app',
     'https://real-estate-website-admin.onrender.com',
     'https://real-estate-website-backend-zfu7.onrender.com',
+    'https://aykutolcay.com', // Production domain
+    'https://www.aykutolcay.com', // Production domain with www
+    'https://frontend-1ucvef2mf-aykutolcay94-gifs-projects.vercel.app', // Vercel deployment URL
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD'], // Added HEAD
