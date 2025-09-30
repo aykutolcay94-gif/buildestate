@@ -53,51 +53,18 @@ const limiter = rateLimit({
   }
 });
 
-// CORS Configuration - MUST be before other middlewares
-const allowedOrigins = [
-  'http://localhost:3000', // Frontend
-  'http://localhost:4000',
-  'http://localhost:5174',
-  'http://localhost:5173',
-  'http://localhost:9000', // Production site (aykutolcay.com)
-  'http://localhost:8080', // Admin panel
-  'https://buildestate.vercel.app',
-  'https://real-estate-website-admin.onrender.com',
-  'https://real-estate-website-backend-zfu7.onrender.com',
-  'https://aykutolcay.com', // Production domain
-  'https://www.aykutolcay.com', // Production domain with www
-  'https://frontend-1ucvef2mf-aykutolcay94-gifs-projects.vercel.app', // Vercel deployment URL
-  'https://frontend-three-mu-99.vercel.app', // New Vercel deployment URL
-];
-
-// CORS Configuration using cors middleware
-const corsOptions = {
-  origin: function (origin, callback) {
-    console.log('🌐 CORS Request from origin:', origin);
-    
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) {
-      console.log('✅ CORS No origin - allowing');
-      return callback(null, true);
-    }
-    
-    if (allowedOrigins.includes(origin)) {
-      console.log('✅ CORS Origin allowed:', origin);
-      callback(null, true);
-    } else {
-      console.log('❌ CORS Origin blocked:', origin);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
-  exposedHeaders: ['Content-Length', 'X-Foo', 'X-Bar'],
-  maxAge: 86400,
-  optionsSuccessStatus: 200 // Some legacy browsers choke on 204
-};
-
-app.use(cors(corsOptions));
+// Simple CORS - Allow all origins for now
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
 
 // Security middlewares
 app.use(limiter);
