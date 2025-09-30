@@ -11,7 +11,7 @@ const submitNewsletter = async (req, res) => {
     // Validate email
     if (!email) {
       return res.status(400).json({ 
-        message: 'Email is required',
+        message: 'E-posta gereklidir',
         success: false 
       });
     }
@@ -20,7 +20,7 @@ const submitNewsletter = async (req, res) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return res.status(400).json({ 
-        message: 'Please provide a valid email address',
+        message: 'Lütfen geçerli bir e-posta adresi girin',
         success: false 
       });
     }
@@ -29,7 +29,7 @@ const submitNewsletter = async (req, res) => {
     const existingSubscription = await News.findOne({ email: email.toLowerCase().trim() });
     if (existingSubscription) {
       return res.status(400).json({ 
-        message: 'Email already subscribed to newsletter',
+        message: 'Bu e-posta zaten bültene kayıtlı',
         success: false 
       });
     }
@@ -50,13 +50,13 @@ const submitNewsletter = async (req, res) => {
     await transporter.sendMail(mailOptions);
 
     res.json({ 
-      message: "Newsletter subscribed successfully",
+      message: "Bültene başarıyla abone olundu",
       success: true 
     });
   } catch (error) {
     console.error("Error saving newsletter data:", error);
     res.status(500).json({ 
-      message: "Server error",
+      message: "Sunucu hatası",
       success: false 
     });
   }

@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { Backendurl } from "../../App.jsx";
 import ScheduleViewing from "./ScheduleViewing";
+import PropertyMap from "../PropertyMap";
 
 const PropertyDetails = () => {
   const { id } = useParams();
@@ -65,17 +66,24 @@ const PropertyDetails = () => {
   }, [id]);
 
   const parseAmenities = (amenities) => {
-    if (!amenities || !Array.isArray(amenities)) return [];
+    if (!amenities) return [];
     
-    try {
-      if (typeof amenities[0] === "string") {
-        return JSON.parse(amenities[0].replace(/'/g, '"'));
-      }
+    // If it's already an array, return it
+    if (Array.isArray(amenities)) {
       return amenities;
-    } catch (error) {
-      console.error("Error parsing amenities:", error);
-      return [];
     }
+    
+    // If it's a string, try to parse it
+    if (typeof amenities === "string") {
+      try {
+        return JSON.parse(amenities.replace(/'/g, '"'));
+      } catch (error) {
+        console.error("Error parsing amenities:", error);
+        return [];
+      }
+    }
+    
+    return [];
   };
 
   const handleKeyNavigation = useCallback((e) => {
@@ -216,7 +224,7 @@ const PropertyDetails = () => {
             to="/properties"
             className="text-blue-600 hover:underline flex items-center justify-center"
           >
-            <ArrowLeft className="w-4 h-4 mr-1" /> Back to Properties
+            <ArrowLeft className="w-4 h-4 mr-1" /> Emlaklar'a Dön
           </Link>
         </div>
       </div>
@@ -236,7 +244,7 @@ const PropertyDetails = () => {
             to="/properties"
             className="inline-flex items-center text-blue-600 hover:text-blue-700"
           >
-            <ArrowLeft className="w-4 h-4 mr-2" /> Back to Properties
+            <ArrowLeft className="w-4 h-4 mr-2" /> Emlaklar'a Dön
           </Link>
           <button
             onClick={handleShare}
@@ -246,12 +254,12 @@ const PropertyDetails = () => {
             {copySuccess ? (
               <span className="text-green-600">
                 <Copy className="w-5 h-5" />
-                Copied!
+                Kopyalandı!
               </span>
             ) : (
               <>
                 <Share2 className="w-5 h-5" />
-                Share
+                Paylaş
               </>
             )}
           </button>
@@ -264,7 +272,7 @@ const PropertyDetails = () => {
               <motion.img
                 key={activeImage}
                 src={property.image[activeImage]}
-                alt={`${property.title} - View ${activeImage + 1}`}
+                alt={`${property.title} - Görünüm ${activeImage + 1}`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -327,34 +335,84 @@ const PropertyDetails = () => {
               <div>
                 <div className="bg-blue-50 rounded-lg p-6 mb-6">
                   <p className="text-3xl font-bold text-blue-600 mb-2">
-                    ₹{Number(property.price).toLocaleString('en-IN')}
+                    ₺{Number(property.price).toLocaleString('tr-TR')}
                   </p>
                   <p className="text-gray-600">
-                    Available for {property.availability}
+                    {property.availability} için uygun
                   </p>
                 </div>
 
-                <div className="grid grid-cols-3 gap-4 mb-6">
-                  <div className="bg-gray-50 p-4 rounded-lg text-center">
-                    <BedDouble className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-                    <p className="text-sm text-gray-600">
-                      {property.beds} {property.beds > 1 ? 'Beds' : 'Bed'}
-                    </p>
+                {property.type !== "Arsa" ? (
+                  <div className="grid grid-cols-3 gap-4 mb-6">
+                    <div className="bg-gray-50 p-4 rounded-lg text-center">
+                      <BedDouble className="w-6 h-6 text-blue-600 mx-auto mb-2" />
+                      <p className="text-sm text-gray-600">
+                        {property.beds} {property.beds > 1 ? 'Yatak Odası' : 'Yatak Odası'}
+                      </p>
+                    </div>
+                    <div className="bg-gray-50 p-4 rounded-lg text-center">
+                      <Bath className="w-6 h-6 text-blue-600 mx-auto mb-2" />
+                      <p className="text-sm text-gray-600">
+                        {property.baths} {property.baths > 1 ? 'Banyo' : 'Banyo'}
+                      </p>
+                    </div>
+                    <div className="bg-gray-50 p-4 rounded-lg text-center">
+                      <Maximize className="w-6 h-6 text-blue-600 mx-auto mb-2" />
+                      <p className="text-sm text-gray-600">{property.sqft} m²</p>
+                    </div>
                   </div>
-                  <div className="bg-gray-50 p-4 rounded-lg text-center">
-                    <Bath className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-                    <p className="text-sm text-gray-600">
-                      {property.baths} {property.baths > 1 ? 'Baths' : 'Bath'}
-                    </p>
+                ) : (
+                  <div className="space-y-4 mb-6">
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-3">Arsa Bilgileri</h3>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-sm text-gray-600 mb-1">Metrekare</p>
+                          <p className="font-medium">{property.sqft} m²</p>
+                        </div>
+                        {property.zoningStatus && (
+                          <div>
+                            <p className="text-sm text-gray-600 mb-1">İmar Durumu</p>
+                            <p className="font-medium">{property.zoningStatus}</p>
+                          </div>
+                        )}
+                        {property.landType && (
+                          <div>
+                            <p className="text-sm text-gray-600 mb-1">Arsa Türü</p>
+                            <p className="font-medium">{property.landType}</p>
+                          </div>
+                        )}
+                        {property.deedStatus && (
+                          <div>
+                            <p className="text-sm text-gray-600 mb-1">Tapu Durumu</p>
+                            <p className="font-medium">{property.deedStatus}</p>
+                          </div>
+                        )}
+                        {property.adaNumber && (
+                          <div>
+                            <p className="text-sm text-gray-600 mb-1">Ada No</p>
+                            <p className="font-medium">{property.adaNumber}</p>
+                          </div>
+                        )}
+                        {property.parcelNumber && (
+                          <div>
+                            <p className="text-sm text-gray-600 mb-1">Parsel No</p>
+                            <p className="font-medium">{property.parcelNumber}</p>
+                          </div>
+                        )}
+                        {property.buildingCoefficient && (
+                          <div>
+                            <p className="text-sm text-gray-600 mb-1">İmar Katsayısı</p>
+                            <p className="font-medium">{property.buildingCoefficient}</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                  <div className="bg-gray-50 p-4 rounded-lg text-center">
-                    <Maximize className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-                    <p className="text-sm text-gray-600">{property.sqft} sqft</p>
-                  </div>
-                </div>
+                )}
 
                 <div className="mb-6">
-                  <h2 className="text-xl font-semibold mb-4">Contact Details</h2>
+                  <h2 className="text-xl font-semibold mb-4">İletişim Bilgileri</h2>
                   <div className="flex items-center text-gray-600">
                     <Phone className="w-5 h-5 mr-2" />
                     {property.phone}
@@ -368,20 +426,20 @@ const PropertyDetails = () => {
                     justify-center gap-2"
                 >
                   <Calendar className="w-5 h-5" />
-                  Schedule Viewing
+                  Görüntüleme Planla
                 </button>
               </div>
 
               <div>
                 <div className="mb-6">
-                  <h2 className="text-xl font-semibold mb-4">Description</h2>
+                  <h2 className="text-xl font-semibold mb-4">Açıklama</h2>
                   <p className="text-gray-600 leading-relaxed">
                     {property.description}
                   </p>
                 </div>
 
                 <div className="mb-6">
-                  <h2 className="text-xl font-semibold mb-4">Amenities</h2>
+                  <h2 className="text-xl font-semibold mb-4">Olanaklar</h2>
                   <div className="grid grid-cols-2 gap-4">
                     {property.amenities.map((amenity, index) => (
                       <div 
@@ -399,24 +457,14 @@ const PropertyDetails = () => {
           </div>
         </div>
 
-        {/* Add Map Location */}
-        <div className="mt-8 p-6 bg-blue-50 rounded-xl">
-          <div className="flex items-center gap-2 text-blue-600 mb-4">
-            <Compass className="w-5 h-5" />
-            <h3 className="text-lg font-semibold">Location</h3>
-          </div>
-          <p className="text-gray-600 mb-4">
-            {property.location}
-          </p>
-          <a
-            href={`https://maps.google.com/?q=${encodeURIComponent(property.location)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700"
-          >
-            <MapPin className="w-4 h-4" />
-            View on Google Maps
-          </a>
+        {/* Interactive Map */}
+        <div className="mt-8">
+          <PropertyMap
+            latitude={property.latitude}
+            longitude={property.longitude}
+            title={property.title}
+            location={property.location}
+          />
         </div>
 
         {/* Viewing Modal */}

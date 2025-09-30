@@ -207,7 +207,7 @@ const socialLinks = [
 const SocialLinks = () => {
   return (
     <div className="flex items-center gap-4 mt-8">
-      <span className="text-sm text-gray-600 font-medium">Follow us:</span>
+      <span className="text-sm text-gray-600 font-medium">Bizi takip edin:</span>
       <div className="flex gap-3">
         {socialLinks.map(({ icon: Icon, href, label, color, hoverColor }) => (
           <motion.a
@@ -237,7 +237,7 @@ const Newsletter = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email) {
-      toast.error('Please enter your email');
+      toast.error('Lütfen e-posta adresinizi girin');
       return;
     }
 
@@ -245,14 +245,14 @@ const Newsletter = () => {
     try {
       const response = await axios.post(`${Backendurl || 'http://localhost:4000'}/news/newsdata`, { email });
       if (response.status === 200) {
-        toast.success('🎉 Successfully subscribed to our newsletter!');
+        toast.success('🎉 Bültenimize başarıyla abone oldunuz!');
         setEmail('');
       } else {
-        toast.error('Failed to subscribe. Please try again.');
+        toast.error('Abonelik başarısız. Lütfen tekrar deneyin.');
       }
     } catch (error) {
       console.error('Error subscribing to newsletter:', error);
-      toast.error('Failed to subscribe. Please try again.');
+      toast.error('Abonelik başarısız. Lütfen tekrar deneyin.');
     } finally {
       setLoading(false);
     }
@@ -279,11 +279,11 @@ const Newsletter = () => {
         >
           <Mail className="w-5 h-5 text-white" />
         </motion.div>
-        <h3 className="text-xl font-bold text-gray-800">Stay Updated</h3>
+        <h3 className="text-xl font-bold text-gray-800">Güncel Kalın</h3>
       </div>
       
       <p className="text-gray-600 mb-6 text-sm leading-relaxed">
-        Get the latest property listings, market insights, and exclusive deals delivered straight to your inbox.
+        En son emlak ilanları, piyasa analizleri ve özel fırsatları doğrudan e-posta kutunuza alın.
       </p>
       
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -293,7 +293,7 @@ const Newsletter = () => {
             type="email"
             name="email"
             id="newsletter-email"
-            placeholder="Enter your email address"
+            placeholder="E-posta adresinizi girin"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="pl-12 pr-4 py-4 w-full text-gray-700 placeholder-gray-400 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 shadow-sm"
@@ -310,12 +310,12 @@ const Newsletter = () => {
           {loading ? (
             <div className="flex items-center gap-2">
               <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-              <span>Subscribing...</span>
+              <span>Abone oluyor...</span>
             </div>
           ) : (
             <div className="flex items-center gap-2">
               <Send className="w-5 h-5" />
-              <span>Subscribe Now</span>
+              <span>Abone Ol</span>
               <Zap className="w-4 h-4" />
             </div>
           )}
@@ -324,7 +324,7 @@ const Newsletter = () => {
 
       <p className="mt-4 text-xs text-gray-500 flex items-center gap-1">
         <Shield className="w-3 h-3" />
-        By subscribing, you agree to our <a href="#" className="underline hover:text-blue-600 transition-colors">Privacy Policy</a>.
+        Abone olarak <a href="#" className="underline hover:text-blue-600 transition-colors">Gizlilik Politikamızı</a> kabul etmiş olursunuz.
       </p>
     </motion.div>
   );
@@ -332,35 +332,35 @@ const Newsletter = () => {
 
 // Main Footer Component
 const companyLinks = [
-  { name: 'Home', href: '/', icon: Home },
-  { name: 'Properties', href: '/properties', icon: MapPin },
-  { name: 'About Us', href: '/about', icon: Star },
-  { name: 'Contact', href: '/contact', icon: Mail },
-  { name: 'AI Property Hub', href: '/ai-agent', icon: Zap },
+  { name: 'Ana Sayfa', href: '/', icon: Home },
+  { name: 'Emlaklar', href: '/properties', icon: MapPin },
+  { name: 'Hakkımızda', href: '/about', icon: Star },
+  { name: 'İletişim', href: '/contact', icon: Mail },
+  { name: 'AI Emlak Merkezi', href: '/ai-agent', icon: Zap },
 ];
 
 const helpLinks = [
-  { name: 'Customer Support', href: '/', icon: Heart },
-  { name: 'FAQs', href: '/', icon: Sparkles },
-  { name: 'Terms & Conditions', href: '/', icon: Shield },
-  { name: 'Privacy Policy', href: '/', icon: Clock },
+  { name: 'Müşteri Desteği', href: '/', icon: Heart },
+  { name: 'Sık Sorulan Sorular', href: '/', icon: Sparkles },
+  { name: 'Şartlar ve Koşullar', href: '/', icon: Shield },
+  { name: 'Gizlilik Politikası', href: '/', icon: Clock },
 ];
 
 const contactInfo = [
   { 
     icon: MapPin, 
-    text: '123 Property Plaza, Silicon Valley, CA 94088',
-    href: 'https://maps.google.com/?q=123+Property+Plaza,Silicon+Valley,CA+94088' 
+    text: 'Ataşehir Mah. Atatürk Cad. No:123, İstanbul, Türkiye',
+    href: 'https://maps.google.com/?q=Ataşehir+Mah.+Atatürk+Cad.+No:123,İstanbul,Türkiye' 
   },
   { 
     icon: Phone, 
-    text: '+1 (234) 567-890',
-    href: 'tel:+1234567890'
+    text: '+90 (212) 555-0123',
+    href: 'tel:+902125550123'
   },
   { 
     icon: Mail, 
-    text: 'support@buildestate.com',
-    href: 'mailto:support@buildestate.com' 
+    text: 'destek@buildestate.com',
+    href: 'mailto:destek@buildestate.com' 
   },
 ];
 
@@ -393,7 +393,7 @@ const Footer = () => {
                 <span className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600">
                   BuildEstate
                 </span>
-                <p className="text-sm text-gray-500 font-medium">Premium Real Estate</p>
+                <p className="text-sm text-gray-500 font-medium">Premium Emlak Hizmetleri</p>
               </div>
             </div>
             
@@ -403,7 +403,7 @@ const Footer = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.6 }}
             >
-              Your trusted partner in finding the perfect home. We make property hunting simple, efficient, and tailored to your unique needs with cutting-edge technology and personalized service.
+              Mükemmel evinizi bulmanızda güvenilir ortağınız. Emlak arayışınızı son teknoloji ve kişiselleştirilmiş hizmetimizle basit, verimli ve ihtiyaçlarınıza özel hale getiriyoruz.
             </motion.p>
             
             <div className="flex justify-center lg:justify-start">
@@ -415,7 +415,7 @@ const Footer = () => {
           <div className="hidden lg:grid grid-cols-12 gap-8 mb-12">
             {/* Quick Links Column */}
             <FooterColumn 
-              title="Quick Links" 
+              title="Hızlı Linkler" 
               className="col-span-3" 
               delay={0.2}
               icon={Home}
@@ -433,7 +433,7 @@ const Footer = () => {
 
             {/* Help Column */}
             <FooterColumn 
-              title="Support" 
+              title="Destek" 
               className="col-span-3" 
               delay={0.3}
               icon={Heart}
@@ -451,7 +451,7 @@ const Footer = () => {
 
             {/* Contact Info */}
             <FooterColumn 
-              title="Contact Us" 
+              title="İletişim" 
               className="col-span-3" 
               delay={0.4}
               icon={MapPin}
@@ -490,7 +490,7 @@ const Footer = () => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <MobileFooterSection title="Quick Links" icon={Home}>
+            <MobileFooterSection title="Hızlı Linkler" icon={Home}>
               <ul className="space-y-2">
                 {companyLinks.map(link => (
                   <li key={link.name}>
@@ -502,7 +502,7 @@ const Footer = () => {
               </ul>
             </MobileFooterSection>
 
-            <MobileFooterSection title="Support" icon={Heart}>
+            <MobileFooterSection title="Destek" icon={Heart}>
               <ul className="space-y-2">
                 {helpLinks.map(link => (
                   <li key={link.name}>
@@ -514,7 +514,7 @@ const Footer = () => {
               </ul>
             </MobileFooterSection>
 
-            <MobileFooterSection title="Contact Us" icon={MapPin}>
+            <MobileFooterSection title="İletişim" icon={MapPin}>
               <ul className="space-y-3">
                 {contactInfo.map((item, index) => (
                   <li key={index}>
@@ -552,9 +552,9 @@ const Footer = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <span>© {new Date().getFullYear()} BuildEstate. All Rights Reserved.</span>
+              <span>© {new Date().getFullYear()} BuildEstate. Tüm Hakları Saklıdır.</span>
               <Heart className="w-4 h-4 text-red-400 animate-pulse" />
-              <span className="text-gray-400">Made with love</span>
+              <span className="text-gray-400">Sevgiyle yapıldı</span>
             </motion.p>
             
             <motion.a
@@ -567,7 +567,7 @@ const Footer = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <Sparkles className="w-4 h-4" />
-              Explore Properties
+              Emlakları Keşfet
               <ArrowRight className="w-4 h-4" />
             </motion.a>
           </div>

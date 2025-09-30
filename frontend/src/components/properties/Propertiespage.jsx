@@ -48,7 +48,7 @@ const PropertiesPage = () => {
     } catch (err) {
       setPropertyState((prev) => ({
         ...prev,
-        error: "Failed to fetch properties. Please try again later.",
+        error: "Emlaklar yüklenemedi. Lütfen daha sonra tekrar deneyin.",
         loading: false,
       }));
       console.error("Error fetching properties:", err);
@@ -151,11 +151,11 @@ const PropertiesPage = () => {
           </div>
           
           <h3 className="text-2xl font-bold text-gray-800 mb-3 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-            Loading Properties
+            Emlaklar Yükleniyor
           </h3>
           
           <p className="text-gray-600 mb-5 max-w-xs text-center">
-            {`We're finding the perfect homes that match your preferences...`}
+            {`Tercihlerinize uygun mükemmel evleri buluyoruz...`}
           </p>
           
           {/* Progress bar with animated gradient */}
@@ -180,7 +180,7 @@ const PropertiesPage = () => {
               transition={{ duration: 1.5, repeat: Infinity }}
               className="w-1.5 h-1.5 bg-blue-600 rounded-full mr-2"
             />
-            <span>Please wait while we curate properties for you</span>
+            <span>Sizin için emlakları hazırlarken lütfen bekleyin</span>
           </div>
         </motion.div>
       </div>
@@ -201,7 +201,7 @@ const PropertiesPage = () => {
             className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 
               transition-colors duration-200"
           >
-            Try Again
+            Tekrar Dene
           </button>
         </motion.div>
       </div>
@@ -221,10 +221,10 @@ const PropertiesPage = () => {
           className="text-center mb-12"
         >
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Find Your Perfect Property
+            Mükemmel Emlağınızı Bulun
           </h1>
           <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-            Discover a curated collection of premium properties
+            Özenle seçilmiş premium emlaklar koleksiyonunu keşfedin
           </p>
         </motion.header>
 
@@ -263,10 +263,10 @@ const PropertiesPage = () => {
                     }))}
                     className="px-3 py-2 border rounded-lg text-sm"
                   >
-                    <option value="">Sort By</option>
-                    <option value="price-asc">Price: Low to High</option>
-                    <option value="price-desc">Price: High to Low</option>
-                    <option value="newest">Newest First</option>
+                    <option value="">Sırala</option>
+                    <option value="price-asc">Fiyat: Düşükten Yükseğe</option>
+                    <option value="price-desc">Fiyat: Yüksekten Düşüğe</option>
+                    <option value="newest">En Yeniler Önce</option>
                   </select>
 
                   <div className="flex items-center gap-2">
@@ -325,10 +325,10 @@ const PropertiesPage = () => {
                   >
                     <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                     <h3 className="text-lg font-medium text-gray-900 mb-2">
-                      No properties found
+                      Emlak bulunamadı
                     </h3>
                     <p className="text-gray-600">
-                      Try adjusting your filters or search criteria
+                      Filtrelerinizi veya arama kriterlerinizi ayarlamayı deneyin
                     </p>
                   </motion.div>
                 )}

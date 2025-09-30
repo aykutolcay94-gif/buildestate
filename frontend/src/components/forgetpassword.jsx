@@ -126,8 +126,8 @@ const ForgotPassword = () => {
                   >
                     <CheckCircle className="w-10 h-10 text-white" />
                   </motion.div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">Email Sent!</h3>
-                  <p className="text-gray-600 text-sm">Check your inbox for reset instructions.</p>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">E-posta Gönderildi!</h3>
+                  <p className="text-gray-600 text-sm">Sıfırlama talimatları için gelen kutunuzu kontrol edin.</p>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -160,10 +160,10 @@ const ForgotPassword = () => {
                 >
                   <div className="flex items-center justify-center gap-2 mb-3">
                     <Key className="w-5 h-5 text-blue-500" />
-                    <h2 className="text-2xl font-bold text-gray-800">Forgot Password?</h2>
+                    <h2 className="text-2xl font-bold text-gray-800">Şifremi Unuttum?</h2>
                   </div>
                   <p className="text-gray-600 text-sm leading-relaxed">
-                    No worries, we&apos;ll send you reset instructions to get you back on track.
+                    Endişelenmeyin, size sıfırlama talimatları göndereceğiz.
                   </p>
                 </motion.div>
               </div>
@@ -180,7 +180,7 @@ const ForgotPassword = () => {
               >
                 <div>
                   <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Email Address
+                    E-posta Adresi
                   </label>
                   <div className="relative group">
                     <div className={`absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm ${emailFocused ? 'opacity-100' : ''}`}></div>
@@ -196,7 +196,7 @@ const ForgotPassword = () => {
                         onFocus={() => setEmailFocused(true)}
                         onBlur={() => setEmailFocused(false)}
                         className="w-full pl-12 pr-4 py-4 rounded-xl bg-gray-50/80 backdrop-blur-sm border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300 text-gray-700 placeholder-gray-400"
-                        placeholder="Enter your email address"
+                        placeholder="E-posta adresinizi girin"
                       />
                     </div>
                   </div>
@@ -213,12 +213,12 @@ const ForgotPassword = () => {
                   {loading ? (
                     <>
                       <Loader className="w-5 h-5 animate-spin" />
-                      <span>Sending...</span>
+                      <span>Gönderiliyor...</span>
                     </>
                   ) : (
                     <>
                       <Mail className="w-5 h-5" />
-                      <span>Send Reset Link</span>
+                      <span>Sıfırlama Bağlantısı Gönder</span>
                       <Sparkles className="w-4 h-4 opacity-70" />
                     </>
                   )}
@@ -235,7 +235,7 @@ const ForgotPassword = () => {
                     className="inline-flex items-center text-sm text-gray-600 hover:text-gray-800 transition-colors duration-300 font-medium group"
                   >
                     <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform duration-300" />
-                    Back to login
+                    Girişe dön
                   </Link>
                 </motion.div>
               </motion.form>
@@ -259,14 +259,14 @@ const ForgotPassword = () => {
                   className="w-full bg-gradient-to-r from-gray-600 to-gray-700 text-white py-3 rounded-xl hover:from-gray-700 hover:to-gray-800 transition-all duration-300 flex items-center justify-center space-x-2 font-medium"
                 >
                   <Mail className="w-4 h-4" />
-                  <span>Send Another Email</span>
+                  <span>Başka E-posta Gönder</span>
                 </motion.button>
                 
                 <Link
                   to="/login"
                   className="block w-full text-center py-3 text-blue-600 hover:text-blue-800 transition-colors font-medium"
                 >
-                  Return to Login
+                  Girişe Dön
                 </Link>
               </motion.div>
             )}
@@ -279,7 +279,7 @@ const ForgotPassword = () => {
               className="mt-8 flex items-center justify-center gap-2 text-xs text-gray-500"
             >
               <Shield className="w-4 h-4 text-green-500" />
-              <span className="font-medium">Secured by 256-bit SSL encryption</span>
+              <span className="font-medium">256-bit SSL şifreleme ile güvence altında</span>
             </motion.div>
           </div>
         </motion.div>

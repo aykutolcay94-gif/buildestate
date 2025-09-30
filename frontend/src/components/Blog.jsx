@@ -76,18 +76,18 @@ const BlogCard = ({ post }) => {
           text: post.excerpt,
           url: post.link
         });
-        toast.success("Post shared successfully! 🎉", {
+        toast.success("Gönderi başarıyla paylaşıldı! 🎉", {
           style: { borderRadius: '12px', background: '#10B981', color: '#fff' }
         });
       } else {
         await navigator.clipboard.writeText(post.link);
-        toast.success("Link copied to clipboard! 📋", {
+        toast.success("Link panoya kopyalandı! 📋", {
           style: { borderRadius: '12px', background: '#10B981', color: '#fff' }
         });
       }
     } catch (error) {
       console.error('Error sharing:', error);
-      toast.error("Unable to share post 😕", {
+      toast.error("Gönderi paylaşılamadı 😕", {
         style: { borderRadius: '12px', background: '#EF4444', color: '#fff' }
       });
     }
@@ -98,11 +98,11 @@ const BlogCard = ({ post }) => {
     setIsBookmarked(!isBookmarked);
     
     if (!isBookmarked) {
-      toast.success(`Saved "${post.title}" to your reading list 💾`, {
+      toast.success(`"${post.title}" okuma listenize eklendi 💾`, {
         style: { borderRadius: '12px', background: '#3B82F6', color: '#fff' }
       });
     } else {
-      toast.info(`Removed "${post.title}" from your reading list 🗑️`, {
+      toast.info(`"${post.title}" okuma listenizden çıkarıldı 🗑️`, {
         style: { borderRadius: '12px', background: '#6B7280', color: '#fff' }
       });
     }
@@ -115,7 +115,7 @@ const BlogCard = ({ post }) => {
   const estimatedReadTime = Math.ceil(post.excerpt.split(' ').length / 200);
   
   // Extract category from post (or use default)
-  const category = post.category || "Real Estate";
+  const category = post.category || "Emlak";
 
   return (
     <motion.div
@@ -170,7 +170,7 @@ const BlogCard = ({ post }) => {
                 }}
                 className="px-6 py-3 bg-white/95 backdrop-blur-sm text-blue-600 rounded-full flex items-center gap-2 hover:bg-blue-600 hover:text-white transition-all duration-300 font-semibold text-sm shadow-xl border border-white/50 group-hover:scale-105"
               >
-                Read Full Article <ExternalLink className="w-4 h-4" />
+                Tam Makaleyi Oku <ExternalLink className="w-4 h-4" />
               </button>
             </motion.div>
           )}
@@ -212,12 +212,12 @@ const BlogCard = ({ post }) => {
             </div>
             <div className="flex items-center">
               <Clock className="w-4 h-4 mr-2 text-green-500" />
-              <span className="font-medium">{estimatedReadTime} min read</span>
+              <span className="font-medium">{estimatedReadTime} dk okuma</span>
             </div>
           </div>
           <div className="flex items-center text-orange-500">
             <TrendingUp className="w-4 h-4 mr-1" />
-            <span className="text-xs font-medium">Trending</span>
+            <span className="text-xs font-medium">Trend</span>
           </div>
         </div>
 
@@ -237,14 +237,14 @@ const BlogCard = ({ post }) => {
             }}
             className="inline-flex items-center text-blue-600 hover:text-blue-800 font-semibold transition-all duration-300 text-sm group/btn"
           >
-            Continue Reading
+            Okumaya Devam Et
             <ChevronRight className="w-4 h-4 ml-1 group-hover/btn:translate-x-1 transition-transform duration-300" />
           </button>
 
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1 text-xs text-gray-500 bg-gray-50 px-3 py-1 rounded-full">
               <Tag className="w-3 h-3 text-gray-400" />
-              <span className="font-medium">{post.tags?.[0] || "Property"}</span>
+              <span className="font-medium">{post.tags?.[0] || "Emlak"}</span>
             </div>
           </div>
         </div>
@@ -256,15 +256,15 @@ const BlogCard = ({ post }) => {
 // Main Blog component
 const Blog = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState('Tümü');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   
-  const categories = ['All', 'Buying', 'Selling', 'Investment', 'Tips', 'Market Trends'];
+  const categories = ['Tümü', 'Satın Alma', 'Satış', 'Yatırım', 'İpuçları', 'Piyasa Trendleri'];
   
   const filteredPosts = blogPosts.filter(post => {
     const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'All' || (post.category || 'Real Estate') === selectedCategory;
+    const matchesCategory = selectedCategory === 'Tümü' || (post.category || 'Emlak') === selectedCategory;
     
     return matchesSearch && matchesCategory;
   });
@@ -291,15 +291,15 @@ const Blog = () => {
             transition={{ duration: 2, repeat: Infinity }}
           >
             <TrendingUp className="w-4 h-4" />
-            Latest Real Estate Insights
+            En Son Emlak Görüşleri
           </motion.div>
           
           <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 relative">
             <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
-              Expert Insights
+              Uzman Görüşleri
             </span>
             <br />
-            <span className="text-gray-900">& Market Updates</span>
+            <span className="text-gray-900">& Piyasa Güncellemeleri</span>
             <motion.div 
               className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full"
               initial={{ width: 0 }}
@@ -308,8 +308,8 @@ const Blog = () => {
             />
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Stay ahead of the market with our curated collection of expert advice, 
-            market trends, and insider tips for your real estate journey.
+            Emlak yolculuğunuz için özenle seçilmiş uzman tavsiyeleri, 
+            piyasa trendleri ve içeriden ipuçları ile piyasada bir adım önde olun.
           </p>
         </motion.div>
         
@@ -327,7 +327,7 @@ const Blog = () => {
               >
                 <input
                   type="text"
-                  placeholder="Search articles, topics, tips..."
+                  placeholder="Makale, konu, ipucu ara..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onFocus={() => setIsSearchFocused(true)}
@@ -397,21 +397,21 @@ const Blog = () => {
               >
                 <Search className="w-8 h-8 text-white" />
               </motion.div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">No articles found</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-4">Makale bulunamadı</h3>
               <p className="text-gray-600 max-w-md mx-auto mb-8 leading-relaxed">
-                {`We couldn't find any articles matching your search criteria. 
-                Try different keywords or explore our categories.`}
+                {`Arama kriterlerinizle eşleşen makale bulunamadı. 
+                Farklı anahtar kelimeler deneyin veya kategorilerimizi keşfedin.`}
               </p>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => {
                   setSearchTerm('');
-                  setSelectedCategory('All');
+                  setSelectedCategory('Tümü');
                 }}
                 className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all"
               >
-                Clear Filters
+                Filtreleri Temizle
               </motion.button>
             </div>
           </motion.div>
@@ -431,14 +431,14 @@ const Blog = () => {
               shadow-2xl hover:shadow-blue-500/25 transition-all font-bold text-lg inline-flex items-center group relative overflow-hidden"
           >
             <span className="relative z-10 flex items-center">
-              Explore All Articles
+              Tüm Makaleleri Keşfet
               <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform duration-300" />
             </span>
             <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </motion.button>
           
           <p className="text-gray-500 mt-4 text-sm">
-            Join thousands of readers staying informed about real estate trends
+            Emlak trendleri hakkında bilgi sahibi olan binlerce okuyucuya katılın
           </p>
         </motion.div>
       </div>

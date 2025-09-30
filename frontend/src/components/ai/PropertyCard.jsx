@@ -42,13 +42,13 @@ const PropertyCard = ({ property }) => {
         {/* Price and area information */}
         <div className="flex items-center gap-3 mb-4 sm:mb-5">
           <div className="flex-1">
-            <p className="text-xs text-gray-500 uppercase tracking-wider mb-0.5 sm:mb-1">Price</p>
+            <p className="text-xs text-gray-500 uppercase tracking-wider mb-0.5 sm:mb-1">Fiyat</p>
             <p className="text-lg sm:text-xl font-bold text-gray-900">{property.price}</p>
           </div>
           
           {property.area_sqft && (
             <div className="flex flex-col items-end">
-              <p className="text-xs text-gray-500 uppercase tracking-wider mb-0.5 sm:mb-1">Area</p>
+              <p className="text-xs text-gray-500 uppercase tracking-wider mb-0.5 sm:mb-1">Alan</p>
               <div className="flex items-center">
                 <Maximize className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-gray-500 mr-1" />
                 <p className="text-sm sm:text-base font-medium text-gray-800">{property.area_sqft}</p>
@@ -65,7 +65,7 @@ const PropertyCard = ({ property }) => {
           >
             <h4 className="text-sm font-medium text-gray-700 flex items-center">
               <Building className="w-4 h-4 text-blue-500 mr-1.5" />
-              Overview
+              Genel Bakış
             </h4>
             <motion.div 
               animate={{ rotate: isExpanded ? 90 : 0 }}
@@ -96,7 +96,7 @@ const PropertyCard = ({ property }) => {
           <div className="mt-auto">
             <h4 className="text-sm font-medium text-gray-700 mb-2 flex items-center">
               <Tag className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-500 mr-1.5" />
-              Amenities
+              Olanaklar
             </h4>
             <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {property.amenities.slice(0, isExpanded ? property.amenities.length : 2).map((amenity, index) => (
@@ -117,7 +117,7 @@ const PropertyCard = ({ property }) => {
                   className="bg-gray-50 text-gray-600 text-xs px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full flex items-center border border-gray-100 cursor-pointer"
                 >
                   <Plus className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-0.5 sm:mr-1" />
-                  {property.amenities.length - 2} more
+                  {property.amenities.length - 2} daha
                 </motion.span>
               )}
             </div>

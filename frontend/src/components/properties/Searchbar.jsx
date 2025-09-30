@@ -57,7 +57,7 @@ const SearchBar = ({ onSearch, className }) => {
       <form onSubmit={handleSubmit} className="relative">
         <input
           type="text"
-          placeholder="Search by location, property type..."
+          placeholder="Konum, emlak türü ile arayın..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onFocus={() => setShowSuggestions(true)}
@@ -91,7 +91,7 @@ const SearchBar = ({ onSearch, className }) => {
               hover:bg-blue-700 transition-colors flex items-center gap-2"
           >
             <Search className="h-4 w-4" />
-            Search
+            Ara
           </button>
         </div>
       </form>
@@ -109,7 +109,7 @@ const SearchBar = ({ onSearch, className }) => {
             {recentSearches.length > 0 && (
               <div className="p-2">
                 <h3 className="text-xs font-medium text-gray-500 px-3 mb-2">
-                  Recent Searches
+                  Son Aramalar
                 </h3>
                 {recentSearches.map((query, index) => (
                   <button
@@ -130,7 +130,7 @@ const SearchBar = ({ onSearch, className }) => {
 
             <div className="border-t border-gray-100 p-2">
               <h3 className="text-xs font-medium text-gray-500 px-3 mb-2">
-                Popular Locations
+                Popüler Lokasyonlar
               </h3>
               {popularLocations.map((location, index) => (
                 <button

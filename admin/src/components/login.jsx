@@ -31,14 +31,14 @@ const Login = () => {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('isAdmin', 'true');
         
-        toast.success("Welcome back, Admin!");
+        toast.success("Hoş geldiniz, Admin!");
         navigate("/dashboard");
       } else {
-        toast.error(response.data.message || "Login failed");
+        toast.error(response.data.message || "Giriş başarısız");
       }
     } catch (error) {
       console.error('Error logging in:', error);
-      toast.error(error.response?.data?.message || 'Invalid admin credentials');
+      toast.error(error.response?.data?.message || 'Geçersiz admin kimlik bilgileri');
     } finally {
       setLoading(false);
     }
@@ -121,10 +121,10 @@ const Login = () => {
               </div>
             </div>
             <h1 className="text-2xl font-bold text-gray-800 mb-2">
-              Admin Portal
+              Yönetici Portalı
             </h1>
             <p className="text-gray-600 text-sm">
-              Sign in to manage BuildEstate properties
+              BuildEstate emlakları yönetmek için giriş yapın
             </p>
           </motion.div>
 
@@ -133,7 +133,7 @@ const Login = () => {
             {/* Email Input */}
             <motion.div variants={itemVariants}>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email Address
+                E-posta Adresi
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -159,7 +159,7 @@ const Login = () => {
             {/* Password Input */}
             <motion.div variants={itemVariants}>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Password
+                Şifre
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -177,7 +177,7 @@ const Login = () => {
                   onFocus={() => setFocusedField('password')}
                   onBlur={() => setFocusedField(null)}
                   className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white/50 backdrop-blur-sm"
-                  placeholder="Enter your password"
+                  placeholder="Şifrenizi girin"
                 />
                 <button
                   type="button"
@@ -203,11 +203,11 @@ const Login = () => {
                 {loading ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin" />
-                    Signing in...
+                    Giriş yapılıyor...
                   </>
                 ) : (
                   <>
-                    Sign in to Dashboard
+                    Kontrol Paneline Giriş
                     <ArrowRight className="w-5 h-5" />
                   </>
                 )}
@@ -218,7 +218,7 @@ const Login = () => {
           {/* Footer */}
           <motion.div variants={itemVariants} className="mt-8 text-center">
             <p className="text-xs text-gray-500">
-              Secure admin access • BuildEstate © 2025
+              Güvenli yönetici erişimi • BuildEstate © 2025
             </p>
           </motion.div>
         </div>
@@ -230,7 +230,7 @@ const Login = () => {
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-50 border border-green-200 rounded-full text-green-700 text-sm">
             <Shield className="w-4 h-4" />
-            <span>Secured with 256-bit encryption</span>
+            <span>256-bit şifreleme ile güvence altında</span>
           </div>
         </motion.div>
       </motion.div>

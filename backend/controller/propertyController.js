@@ -6,7 +6,7 @@ export const searchProperties = async (req, res) => {
         const { city, maxPrice, propertyCategory, propertyType, limit = 6 } = req.body;
 
         if (!city || !maxPrice) {
-            return res.status(400).json({ success: false, message: 'City and maxPrice are required' });
+            return res.status(400).json({ success: false, message: 'Şehir ve maksimum fiyat gereklidir' });
         }
 
         // Extract property data using Firecrawl, specifying the limit
@@ -36,7 +36,7 @@ export const searchProperties = async (req, res) => {
         console.error('Error searching properties:', error);
         res.status(500).json({ 
             success: false, 
-            message: 'Failed to search properties',
+            message: 'Emlak arama başarısız',
             error: error.message
         });
     }
@@ -48,7 +48,7 @@ export const getLocationTrends = async (req, res) => {
         const { limit = 5 } = req.query;
 
         if (!city) {
-            return res.status(400).json({ success: false, message: 'City parameter is required' });
+            return res.status(400).json({ success: false, message: 'Şehir parametresi gereklidir' });
         }
 
         // Extract location trend data using Firecrawl, with limit
@@ -69,7 +69,7 @@ export const getLocationTrends = async (req, res) => {
         console.error('Error getting location trends:', error);
         res.status(500).json({ 
             success: false, 
-            message: 'Failed to get location trends',
+            message: 'Konum trendleri alınamadı',
             error: error.message
         });
     }

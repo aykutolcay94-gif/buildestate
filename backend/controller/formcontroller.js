@@ -14,9 +14,9 @@ export const submitForm = async (req, res) => {
     const savedForm = await newForm.save();
     
 
-    res.json({ message: 'Form submitted successfully' });
+    res.json({ message: 'Form başarıyla gönderildi' });
   } catch (error) {
     console.error('Error saving form data:', error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Sunucu hatası' });
   }
 };

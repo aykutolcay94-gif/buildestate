@@ -49,6 +49,40 @@ const propertySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  // Arsa için özel alanlar
+  zoningStatus: {
+    type: String,
+    required: false, // Sadece arsa için gerekli
+  },
+  landType: {
+    type: String,
+    required: false, // Sadece arsa için gerekli
+  },
+  deedStatus: {
+    type: String,
+    required: false, // Sadece arsa için gerekli
+  },
+  adaNumber: {
+    type: String,
+    required: false, // Sadece arsa için gerekli
+  },
+  parcelNumber: {
+    type: String,
+    required: false, // Sadece arsa için gerekli
+  },
+  buildingCoefficient: {
+    type: Number,
+    required: false, // Sadece arsa için gerekli
+  },
+  // Harita koordinatları
+  latitude: {
+    type: Number,
+    required: false, // Koordinat bilgisi opsiyonel
+  },
+  longitude: {
+    type: Number,
+    required: false, // Koordinat bilgisi opsiyonel
+  },
 });
 
 const Property = mongoose.model("Property", propertySchema);

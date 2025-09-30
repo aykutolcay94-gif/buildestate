@@ -236,7 +236,7 @@ export default function HowItWorks() {
             animate={pulseAnimation}
           >
             <Zap className="w-4 h-4" />
-            Simple Process
+            Basit Süreç
             <Sparkles className="w-4 h-4" />
           </motion.span>
           
@@ -255,7 +255,7 @@ export default function HowItWorks() {
               backgroundClip: "text",
             }}
           >
-            How It Works
+            Nasıl Çalışır
           </motion.h2>
           
           {/* Decorative line */}
@@ -280,8 +280,8 @@ export default function HowItWorks() {
             whileInView={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
           >
-            Finding your perfect property is easy with our{" "}
-            <span className="font-semibold text-blue-600">AI-powered</span> three-step process
+            Mükemmel mülkünüzü bulmak{" "}
+            <span className="font-semibold text-blue-600">AI destekli</span> üç adımlı sürecimizle çok kolay
           </motion.p>
           
           {/* Stats */}
@@ -292,9 +292,9 @@ export default function HowItWorks() {
             transition={{ delay: 1 }}
           >
             {[
-              { icon: Star, value: "4.9", label: "Rating" },
-              { icon: CheckCircle2, value: "99%", label: "Success Rate" },
-              { icon: Zap, value: "< 24h", label: "Avg. Response" }
+              { icon: Star, value: "4.9", label: "Değerlendirme" },
+              { icon: CheckCircle2, value: "99%", label: "Başarı Oranı" },
+              { icon: Zap, value: "< 24h", label: "Ort. Yanıt" }
             ].map((stat, index) => (
               <motion.div 
                 key={index}
@@ -393,7 +393,7 @@ export default function HowItWorks() {
               transition={{ duration: 2, repeat: Infinity }}
             />
             
-            <span className="relative z-10">Start Your Journey</span>
+            <span className="relative z-10">Yolculuğunuza Başlayın</span>
             <motion.div
               animate={{ x: [0, 4, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
@@ -438,7 +438,7 @@ export default function HowItWorks() {
             >
               <div className="text-6xl text-blue-600/20 font-serif leading-none">&ldquo;</div>
               <p className="text-gray-700 italic text-xl lg:text-2xl mb-6 leading-relaxed -mt-4">
-                The 3-step process was incredibly smooth. Within a week, I found and secured my dream apartment!
+                3 adımlı süreç inanılmaz derecede sorunsuzdu. Bir hafta içinde hayallerimin dairesini buldum ve satın aldım!
               </p>
               
               {/* Author info */}

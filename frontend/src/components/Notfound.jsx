@@ -14,6 +14,7 @@ import {
   Shield
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 // Enhanced Animation Variants
 const containerVariants = {
@@ -76,6 +77,7 @@ const glowAnimation = {
 
 export default function NotFoundPage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [darkMode, setDarkMode] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
@@ -89,10 +91,10 @@ export default function NotFoundPage() {
   }, []);
 
   const suggestions = [
-    { icon: Home, text: "Browse Properties", path: "/properties" },
-    { icon: Search, text: "Search Listings", path: "/search" },
-    { icon: MapPin, text: "Explore Areas", path: "/locations" },
-    { icon: Shield, text: "Learn About Us", path: "/about" }
+    { icon: Home, text: t('exploreOurProperties'), path: "/properties" },
+    { icon: Search, text: t('searchOurSite'), path: "/properties" },
+    { icon: MapPin, text: t('contact'), path: "/contact" },
+    { icon: Shield, text: t('learnAboutUs'), path: "/about" }
   ];
 
   return (
@@ -205,7 +207,7 @@ export default function NotFoundPage() {
             <h1 className={`text-4xl md:text-5xl font-bold mb-4 ${
               darkMode ? 'text-white' : 'text-gray-900'
             }`}>
-              Oops! Page Not Found
+              {t('oopsPageNotFound')}
             </h1>
             
             <motion.p 
@@ -214,8 +216,7 @@ export default function NotFoundPage() {
               }`}
               animate={floatingAnimation}
             >
-              The page you&apos;re looking for seems to have taken a vacation! 
-              Don&apos;t worry, we&apos;ll help you find your way back home.
+              {t('pageNotFoundDescription')} {t('dontWorry')}
             </motion.p>
           </motion.div>
 
@@ -236,7 +237,7 @@ export default function NotFoundPage() {
             >
               <span className="relative z-10 flex items-center">
                 <ArrowLeft className="w-5 h-5 mr-2 transition-transform group-hover:-translate-x-1" />
-                Go Back
+                {t('goBack')}
               </span>
               <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20"
@@ -258,7 +259,7 @@ export default function NotFoundPage() {
               >
                 <span className="relative z-10 flex items-center">
                   <Home className="w-5 h-5 mr-2 transition-transform group-hover:scale-110" />
-                  Return Home
+                  {t('returnHome')}
                 </span>
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent"
@@ -275,7 +276,7 @@ export default function NotFoundPage() {
             <h3 className={`text-xl font-semibold mb-6 ${
               darkMode ? 'text-white' : 'text-gray-800'
             }`}>
-              Or explore these popular sections:
+              {t('orExplorePopularSections')}
             </h3>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

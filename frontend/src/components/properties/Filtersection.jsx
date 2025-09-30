@@ -1,8 +1,8 @@
 import { Home, IndianRupee, Filter } from "lucide-react";
 import { motion } from "framer-motion";
 
-const propertyTypes = ["House", "Apartment", "Villa", "Office"];
-const availabilityTypes = ["Rent", "Buy", "Lease"];
+const propertyTypes = ["Ev", "Daire", "Villa", "Ofis", "Arsa"];
+const availabilityTypes = ["Kiralık", "Satılık", "Kiralama"];
 const priceRanges = [
   { min: 0, max: 5000000, label: "Under ₹50L" },
   { min: 5000000, max: 10000000, label: "₹50L - ₹1Cr" },
@@ -49,13 +49,13 @@ const FilterSection = ({ filters, setFilters, onApplyFilters }) => {
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center space-x-2">
           <Filter className="w-5 h-5 text-blue-600" />
-          <h2 className="text-lg font-semibold">Filters</h2>
+          <h2 className="text-lg font-semibold">Filtreler</h2>
         </div>
         <button
           onClick={handleReset}
           className="text-sm text-blue-600 hover:text-blue-700"
         >
-          Reset All
+          Tümünü Sıfırla
         </button>
       </div>
 
@@ -64,7 +64,7 @@ const FilterSection = ({ filters, setFilters, onApplyFilters }) => {
         <div className="filter-group">
           <label className="filter-label">
             <Home className="w-4 h-4 mr-2" />
-            Property Type
+            Emlak Türü
           </label>
           <div className="grid grid-cols-2 gap-2">
             {propertyTypes.map((type) => (
@@ -88,7 +88,7 @@ const FilterSection = ({ filters, setFilters, onApplyFilters }) => {
         <div className="filter-group">
           <label className="filter-label">
             <IndianRupee className="w-4 h-4 mr-2" />
-            Price Range
+            Fiyat Aralığı
           </label>
           <div className="grid grid-cols-2 gap-2">
             {priceRanges.map(({ min, max, label }) => (
@@ -115,7 +115,7 @@ const FilterSection = ({ filters, setFilters, onApplyFilters }) => {
             className="flex-1 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 
               transition-colors font-medium"
           >
-            Apply Filters
+            Filtreleri Uygula
           </button>
         </div>
       </div>

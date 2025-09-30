@@ -139,14 +139,14 @@ const ResetPassword = () => {
     switch (passwordStrength) {
       case 0:
       case 1:
-        return "Weak";
+        return "Zayıf";
       case 2:
-        return "Fair";
+        return "Orta";
       case 3:
-        return "Good";
+        return "İyi";
       case 4:
       case 5:
-        return "Strong";
+        return "Güçlü";
       default:
         return "";
     }
@@ -159,7 +159,7 @@ const ResetPassword = () => {
     e.preventDefault();
     
     if (!isFormValid) {
-      toast.error("Please ensure passwords match and meet strength requirements.");
+      toast.error("Lütfen şifrelerin eşleştiğinden ve güçlü olduğundan emin olun.");
       return;
     }
 
@@ -168,7 +168,7 @@ const ResetPassword = () => {
       const response = await axios.post(`${Backendurl}/api/users/reset/${token}`, { password });
       if (response.data.success) {
         setIsSuccess(true);
-        toast.success("Password reset successful!");
+        toast.success("Şifre başarıyla sıfırlandı!");
         setTimeout(() => {
           navigate("/login");
         }, 2000);
@@ -177,7 +177,7 @@ const ResetPassword = () => {
       }
     } catch (error) {
       console.error("Error resetting password:", error);
-      toast.error("Failed to reset password. Please try again.");
+      toast.error("Şifre sıfırlanamadı. Lütfen tekrar deneyin.");
     } finally {
       setLoading(false);
     }
@@ -231,8 +231,8 @@ const ResetPassword = () => {
                 >
                   <CheckCircle className="w-8 h-8 text-white" />
                 </motion.div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">Password Reset!</h3>
-                <p className="text-gray-600">Redirecting to login...</p>
+                <h3 className="text-2xl font-bold text-gray-800 mb-2">Şifre Sıfırlandı!</h3>
+                <p className="text-gray-600">Girişe yönlendiriliyor...</p>
               </div>
             </motion.div>
           )}
@@ -264,8 +264,8 @@ const ResetPassword = () => {
               <Key className="w-8 h-8 text-white" />
             </motion.div>
             
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">Reset Password</h2>
-            <p className="text-gray-600">Create a new secure password for your account</p>
+            <h2 className="text-3xl font-bold text-gray-800 mb-2">Şifre Sıfırla</h2>
+            <p className="text-gray-600">Hesabınız için yeni güvenli bir şifre oluşturun</p>
           </motion.div>
 
           <motion.form 
@@ -275,9 +275,9 @@ const ResetPassword = () => {
           >
             {/* New Password Field */}
             <motion.div variants={inputVariants}>
-              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
-                New Password
-              </label>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                  Yeni Şifre
+                </label>
               <div className="relative group">
                 <motion.div
                   animate={passwordFocused ? { scale: 1.1, color: "#3B82F6" } : { scale: 1, color: "#9CA3AF" }}
@@ -295,7 +295,7 @@ const ResetPassword = () => {
                   onFocus={() => setPasswordFocused(true)}
                   onBlur={() => setPasswordFocused(false)}
                   className="w-full pl-11 pr-12 py-3.5 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300 text-gray-800 placeholder-gray-400 group-hover:border-gray-300"
-                  placeholder="Enter new password"
+                  placeholder="Yeni şifrenizi girin"
                 />
                 <motion.button
                   whileHover={{ scale: 1.1 }}
@@ -316,7 +316,7 @@ const ResetPassword = () => {
                   className="mt-3"
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-medium text-gray-600">Password Strength</span>
+                    <span className="text-xs font-medium text-gray-600">Şifre Gücü</span>
                     <span className={`text-xs font-bold ${passwordStrength >= 3 ? 'text-green-600' : passwordStrength >= 2 ? 'text-yellow-600' : 'text-red-600'}`}>
                       {getPasswordStrengthText()}
                     </span>
@@ -334,9 +334,9 @@ const ResetPassword = () => {
 
             {/* Confirm Password Field */}
             <motion.div variants={inputVariants}>
-              <label htmlFor="confirmPassword" className="block text-sm font-semibold text-gray-700 mb-2">
-                Confirm Password
-              </label>
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                  Şifre Onayı
+                </label>
               <div className="relative group">
                 <motion.div
                   animate={confirmPasswordFocused ? { scale: 1.1, color: "#3B82F6" } : { scale: 1, color: "#9CA3AF" }}
@@ -354,7 +354,7 @@ const ResetPassword = () => {
                   onFocus={() => setConfirmPasswordFocused(true)}
                   onBlur={() => setConfirmPasswordFocused(false)}
                   className="w-full pl-11 pr-12 py-3.5 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300 text-gray-800 placeholder-gray-400 group-hover:border-gray-300"
-                  placeholder="Confirm new password"
+                  placeholder="Yeni şifrenizi onaylayın"
                 />
                 <motion.button
                   whileHover={{ scale: 1.1 }}
@@ -377,12 +377,12 @@ const ResetPassword = () => {
                   {passwordsMatch ? (
                     <>
                       <CheckCircle className="w-4 h-4 text-green-500" />
-                      <span className="text-xs text-green-600 font-medium">Passwords match</span>
+                      <span className="text-xs text-green-600 font-medium">Şifreler eşleşiyor</span>
                     </>
                   ) : (
                     <>
                       <AlertCircle className="w-4 h-4 text-red-500" />
-                      <span className="text-xs text-red-600 font-medium">Passwords don&apos;t match</span>
+                      <span className="text-xs text-red-600 font-medium">Şifreler eşleşmiyor</span>
                     </>
                   )}
                 </motion.div>
@@ -411,7 +411,7 @@ const ResetPassword = () => {
               ) : (
                 <>
                   <Key className="w-5 h-5" />
-                  <span>Reset Password</span>
+                  <span>Şifre Sıfırla</span>
                 </>
               )}
             </motion.button>
@@ -430,7 +430,7 @@ const ResetPassword = () => {
                 >
                   <ArrowLeft className="w-4 h-4" />
                 </motion.div>
-                <span className="group-hover:underline">Back to login</span>
+                <span className="group-hover:underline">Girişe dön</span>
               </Link>
             </motion.div>
           </motion.form>

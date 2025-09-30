@@ -124,18 +124,18 @@ const Signup = () => {
     
     switch (name) {
       case 'name':
-        if (!value.trim()) errors.name = 'Name is required';
-        else if (value.trim().length < 2) errors.name = 'Name must be at least 2 characters';
+        if (!value.trim()) errors.name = 'İsim gereklidir';
+        else if (value.trim().length < 2) errors.name = 'İsim en az 2 karakter olmalıdır';
         break;
       case 'email': {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!value) errors.email = 'Email is required';
-        else if (!emailRegex.test(value)) errors.email = 'Please enter a valid email';
+        if (!value) errors.email = 'E-posta gereklidir';
+        else if (!emailRegex.test(value)) errors.email = 'Lütfen geçerli bir e-posta adresi girin';
         break;
       }
       case 'password':
-        if (!value) errors.password = 'Password is required';
-        else if (value.length < 6) errors.password = 'Password must be at least 6 characters';
+        if (!value) errors.password = 'Şifre gereklidir';
+        else if (value.length < 6) errors.password = 'Şifre en az 6 karakter olmalıdır';
         break;
     }
     
@@ -183,14 +183,14 @@ const Signup = () => {
       );
       if (response.data.success) {
         localStorage.setItem('token', response.data.token);
-        toast.success('Account created successfully!');
+        toast.success('Hesap başarıyla oluşturuldu!');
         navigate('/');
       } else {
         toast.error(response.data.message);
       }
     } catch (error) {
       console.error('Error signing up:', error);
-      toast.error('An error occurred. Please try again.');
+      toast.error('Bir hata oluştu. Lütfen tekrar deneyin.');
     } finally {
       setLoading(false);
     }
@@ -279,8 +279,8 @@ const Signup = () => {
               </Link>
               
               <div className="space-y-2">
-                <h2 className="text-2xl font-bold text-gray-800">Create Your Account</h2>
-                <p className="text-gray-600">Join thousands of property enthusiasts</p>
+                <h2 className="text-2xl font-bold text-gray-800">Hesabınızı Oluşturun</h2>
+                <p className="text-gray-600">Binlerce emlak tutkununa katılın</p>
                 
                 {/* Stats */}
                 <div className="flex items-center justify-center space-x-6 mt-4 text-sm text-gray-500">
@@ -290,11 +290,11 @@ const Signup = () => {
                   </div>
                   <div className="flex items-center space-x-1">
                     <Shield className="w-4 h-4 text-green-500" />
-                    <span>Secure</span>
+                    <span>Güvenli</span>
                   </div>
                   <div className="flex items-center space-x-1">
                     <User className="w-4 h-4 text-blue-500" />
-                    <span>50K+ Users</span>
+                    <span>50K+ Kullanıcı</span>
                   </div>
                 </div>
               </div>
@@ -304,7 +304,7 @@ const Signup = () => {
               {/* Name Field */}
               <motion.div variants={inputVariants}>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                  Full Name
+                  Ad Soyad
                 </label>
                 <div className="relative group">
                   <div className={`absolute left-3 top-1/2 -translate-y-1/2 transition-colors duration-200 ${
@@ -328,7 +328,7 @@ const Signup = () => {
                         ? 'border-blue-500 focus:border-blue-500 focus:ring-blue-500/20'
                         : 'border-gray-200 hover:border-gray-300 focus:border-blue-500 focus:ring-blue-500/20'
                     } focus:ring-4 focus:outline-none`}
-                    placeholder="Enter your full name"
+                    placeholder="Adınızı ve soyadınızı girin"
                   />
                   {validationErrors.name && (
                     <motion.div
@@ -366,7 +366,7 @@ const Signup = () => {
               {/* Email Field */}
               <motion.div variants={inputVariants}>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                  Email Address
+                  E-posta Adresi
                 </label>
                 <div className="relative group">
                   <div className={`absolute left-3 top-1/2 -translate-y-1/2 transition-colors duration-200 ${
@@ -428,7 +428,7 @@ const Signup = () => {
               {/* Password Field */}
               <motion.div variants={inputVariants}>
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                  Password
+                  Şifre
                 </label>
                 <div className="relative group">
                   <div className={`absolute left-3 top-1/2 -translate-y-1/2 transition-colors duration-200 ${
@@ -452,7 +452,7 @@ const Signup = () => {
                         ? 'border-blue-500 focus:border-blue-500 focus:ring-blue-500/20'
                         : 'border-gray-200 hover:border-gray-300 focus:border-blue-500 focus:ring-blue-500/20'
                     } focus:ring-4 focus:outline-none`}
-                    placeholder="Create a strong password"
+                    placeholder="Güçlü bir şifre oluşturun"
                   />
                   <motion.button
                     whileHover={{ scale: 1.1 }}
@@ -475,13 +475,13 @@ const Signup = () => {
                       className="mt-2"
                     >
                       <div className="flex items-center space-x-2 mb-1">
-                        <span className="text-sm text-gray-600">Password strength:</span>
+                        <span className="text-sm text-gray-600">Şifre gücü:</span>
                         <span className={`text-sm font-medium ${
                           passwordStrength < 50 ? 'text-red-500' : 
                           passwordStrength < 75 ? 'text-yellow-500' : 'text-green-500'
                         }`}>
-                          {passwordStrength < 50 ? 'Weak' : 
-                           passwordStrength < 75 ? 'Medium' : 'Strong'}
+                          {passwordStrength < 50 ? 'Zayıf' : 
+                           passwordStrength < 75 ? 'Orta' : 'Güçlü'}
                         </span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
@@ -529,12 +529,12 @@ const Signup = () => {
                   {loading ? (
                     <>
                       <Loader className="w-5 h-5 animate-spin" />
-                      <span>Creating Account...</span>
+                      <span>Hesap Oluşturuluyor...</span>
                     </>
                   ) : (
                     <>
                       <UserPlus className="w-5 h-5" />
-                      <span>Create Account</span>
+                      <span>Hesap Oluştur</span>
                       <ArrowRight className="w-5 h-5" />
                     </>
                   )}
@@ -547,13 +547,13 @@ const Signup = () => {
                   <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
                     <Shield className="w-4 h-4 text-blue-600" />
                   </div>
-                  <p className="text-xs text-gray-600">Secure</p>
+                  <p className="text-xs text-gray-600">Güvenli</p>
                 </div>
                 <div className="text-center">
                   <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
                     <CheckCircle className="w-4 h-4 text-green-600" />
                   </div>
-                  <p className="text-xs text-gray-600">Verified</p>
+                  <p className="text-xs text-gray-600">Doğrulanmış</p>
                 </div>
                 <div className="text-center">
                   <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2">
@@ -569,7 +569,7 @@ const Signup = () => {
                   <div className="w-full border-t border-gray-200"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-4 bg-white text-gray-500">Already have an account?</span>
+                  <span className="px-4 bg-white text-gray-500">Zaten hesabınız var mı?</span>
                 </div>
               </motion.div>
 
@@ -579,7 +579,7 @@ const Signup = () => {
                   to="/login"
                   className="group w-full flex items-center justify-center px-4 py-3 border-2 border-gray-200 rounded-xl text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 font-medium"
                 >
-                  <span className="group-hover:mr-2 transition-all duration-200">Sign in to your account</span>
+                  <span className="group-hover:mr-2 transition-all duration-200">Hesabınıza giriş yapın</span>
                   <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all duration-200 ml-1" />
                 </Link>
               </motion.div>

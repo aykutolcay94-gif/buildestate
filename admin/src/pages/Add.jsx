@@ -1,11 +1,17 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import { backendurl } from '../config/constants';
 import { Upload, X } from 'lucide-react';
+import LocationPicker from '../components/LocationPicker';
 
-const PROPERTY_TYPES = ['House', 'Apartment', 'Office', 'Villa'];
-const AVAILABILITY_TYPES = ['rent', 'buy'];
+const PROPERTY_TYPES = ['Ev', 'Apartman', 'Ofis', 'Villa', 'Arsa'];
+const AVAILABILITY_TYPES = ['kiralık', 'satılık'];
+
+// Arsa için özel alanlar
+const ZONING_STATUS = ['İmarlı', 'İmarsız'];
+const LAND_TYPES = ['Bahçe', 'Tarla', 'Zeytinlik', 'Bağ', 'Orman', 'Diğer'];
+const DEED_STATUS = ['Kat Mülkiyeti', 'Kat İrtifakı', 'Arsa Tapusu'];
 
 const PropertyForm = () => {
   const [formData, setFormData] = useState({
@@ -20,7 +26,17 @@ const PropertyForm = () => {
     phone: '',
     availability: '',
     amenities: [],
-    images: []
+    images: [],
+    // Arsa için özel alanlar
+    zoningStatus: '',
+    landType: '',
+    deedStatus: '',
+    adaNumber: '',
+    parcelNumber: '',
+    buildingCoefficient: '',
+    // Koordinat alanları
+    latitude: '',
+    longitude: ''
   });
 
   const [previewUrls, setPreviewUrls] = useState([]);
@@ -34,6 +50,14 @@ const PropertyForm = () => {
       [name]: value
     }));
   };
+
+  const handleLocationChange = useCallback((lat, lng) => {
+    setFormData(prev => ({
+      ...prev,
+      latitude: lat,
+      longitude: lng
+    }));
+  }, []);
 
   const handleAmenityToggle = (amenity) => {
     setFormData(prev => ({
@@ -93,6 +117,20 @@ const PropertyForm = () => {
       formdata.append('sqft', formData.sqft);
       formdata.append('phone', formData.phone);
       formdata.append('availability', formData.availability);
+      
+      // Koordinat alanları
+      if (formData.latitude) formdata.append('latitude', formData.latitude);
+      if (formData.longitude) formdata.append('longitude', formData.longitude);
+      
+      // Arsa için özel alanlar
+      if (formData.type === 'Arsa') {
+        formdata.append('zoningStatus', formData.zoningStatus);
+        formdata.append('landType', formData.landType);
+        formdata.append('deedStatus', formData.deedStatus);
+        formdata.append('adaNumber', formData.adaNumber);
+        formdata.append('parcelNumber', formData.parcelNumber);
+        formdata.append('buildingCoefficient', formData.buildingCoefficient);
+      }
       formData.amenities.forEach((amenity, index) => {
         formdata.append(`amenities[${index}]`, amenity);
       });
@@ -120,16 +158,24 @@ const PropertyForm = () => {
           phone: '',
           availability: '',
           amenities: [],
-          images: []
+          images: [],
+          zoningStatus: '',
+          landType: '',
+          deedStatus: '',
+          adaNumber: '',
+          parcelNumber: '',
+          buildingCoefficient: '',
+          latitude: '',
+          longitude: ''
         });
         setPreviewUrls([]);
-        toast.success('Property added successfully');
+        toast.success('Emlak başarıyla eklendi');
       } else {
         toast.error(response.data.message);
       }
     } catch (error) {
       console.error('Error adding property:', error);
-      toast.error('An error occurred. Please try again.');
+      toast.error('Bir hata oluştu. Lütfen tekrar deneyin.');
     } finally {
       setLoading(false);
     }
@@ -138,14 +184,14 @@ const PropertyForm = () => {
   return (
     <div className="min-h-screen pt-32 px-4 bg-gray-50">
       <div className="max-w-2xl mx-auto rounded-lg shadow-xl bg-white p-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Add New Property</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Yeni Emlak Ekle</h2>
         
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Basic Information */}
           <div className="space-y-4">
             <div>
               <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-                Property Title
+                Emlak Başlığı
               </label>
               <input
                 type="text"
@@ -160,7 +206,7 @@ const PropertyForm = () => {
 
             <div>
               <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                Description
+                Açıklama
               </label>
               <textarea
                 id="description"
@@ -176,7 +222,7 @@ const PropertyForm = () => {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label htmlFor="type" className="block text-sm font-medium text-gray-700">
-                  Property Type
+                  Emlak Türü
                 </label>
                 <select
                   id="type"
@@ -186,7 +232,7 @@ const PropertyForm = () => {
                   onChange={handleInputChange}
                   className="mt-1 block w-full rounded-md border border-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 >
-                  <option value="">Select Type</option>
+                  <option value="">Tür Seçin</option>
                   {PROPERTY_TYPES.map(type => (
                     <option key={type} value={type}>
                       {type}
@@ -197,7 +243,7 @@ const PropertyForm = () => {
 
               <div>
                 <label htmlFor="availability" className="block text-sm font-medium text-gray-700">
-                  Availability
+                  Müsaitlik
                 </label>
                 <select
                   id="availability"
@@ -207,10 +253,10 @@ const PropertyForm = () => {
                   onChange={handleInputChange}
                   className="mt-1 block w-full rounded-md border border-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 >
-                  <option value="">Select Availability</option>
+                  <option value="">Müsaitlik Seçin</option>
                   {AVAILABILITY_TYPES.map(type => (
                     <option key={type} value={type}>
-                      {type.charAt(0).toUpperCase() + type.slice(1)}
+                      {type}
                     </option>
                   ))}
                 </select>
@@ -220,7 +266,7 @@ const PropertyForm = () => {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label htmlFor="price" className="block text-sm font-medium text-gray-700">
-                  Price
+                  Fiyat
                 </label>
                 <input
                   type="number"
@@ -236,7 +282,7 @@ const PropertyForm = () => {
 
               <div>
                 <label htmlFor="location" className="block text-sm font-medium text-gray-700">
-                  Location
+                  Konum
                 </label>
                 <input
                   type="text"
@@ -250,59 +296,203 @@ const PropertyForm = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-4">
-              <div>
-                <label htmlFor="beds" className="block text-sm font-medium text-gray-700">
-                  Bedrooms
-                </label>
-                <input
-                  type="number"
-                  id="beds"
-                  name="beds"
-                  required
-                  min="0"
-                  value={formData.beds}
-                  onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border border-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="baths" className="block text-sm font-medium text-gray-700">
-                  Bathrooms
-                </label>
-                <input
-                  type="number"
-                  id="baths"
-                  name="baths"
-                  required
-                  min="0"
-                  value={formData.baths}
-                  onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border border-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="sqft" className="block text-sm font-medium text-gray-700">
-                  Square Feet
-                </label>
-                <input
-                  type="number"
-                  id="sqft"
-                  name="sqft"
-                  required
-                  min="0"
-                  value={formData.sqft}
-                  onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border border-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                />
-              </div>
+            {/* Harita Konum Seçici */}
+            <div className="col-span-2">
+              <LocationPicker
+                latitude={formData.latitude}
+                longitude={formData.longitude}
+                onLocationChange={handleLocationChange}
+              />
             </div>
+
+            {/* Dinamik alanlar - Arsa değilse normal alanları göster */}
+            {formData.type !== 'Arsa' ? (
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <label htmlFor="beds" className="block text-sm font-medium text-gray-700">
+                    Yatak Odası
+                  </label>
+                  <input
+                    type="number"
+                    id="beds"
+                    name="beds"
+                    required
+                    min="0"
+                    value={formData.beds}
+                    onChange={handleInputChange}
+                    className="mt-1 block w-full rounded-md border border-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="baths" className="block text-sm font-medium text-gray-700">
+                    Banyo
+                  </label>
+                  <input
+                    type="number"
+                    id="baths"
+                    name="baths"
+                    required
+                    min="0"
+                    value={formData.baths}
+                    onChange={handleInputChange}
+                    className="mt-1 block w-full rounded-md border border-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="sqft" className="block text-sm font-medium text-gray-700">
+                    Metrekare
+                  </label>
+                  <input
+                    type="number"
+                    id="sqft"
+                    name="sqft"
+                    required
+                    min="0"
+                    value={formData.sqft}
+                    onChange={handleInputChange}
+                    className="mt-1 block w-full rounded-md border border-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+              </div>
+            ) : (
+              /* Arsa için özel alanlar */
+              <>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="zoningStatus" className="block text-sm font-medium text-gray-700">
+                      İmar Durumu
+                    </label>
+                    <select
+                      id="zoningStatus"
+                      name="zoningStatus"
+                      required
+                      value={formData.zoningStatus}
+                      onChange={handleInputChange}
+                      className="mt-1 block w-full rounded-md border border-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    >
+                      <option value="">İmar Durumu Seçin</option>
+                      {ZONING_STATUS.map(status => (
+                        <option key={status} value={status}>
+                          {status}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label htmlFor="landType" className="block text-sm font-medium text-gray-700">
+                      Arsa Türü
+                    </label>
+                    <select
+                      id="landType"
+                      name="landType"
+                      required
+                      value={formData.landType}
+                      onChange={handleInputChange}
+                      className="mt-1 block w-full rounded-md border border-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    >
+                      <option value="">Arsa Türü Seçin</option>
+                      {LAND_TYPES.map(type => (
+                        <option key={type} value={type}>
+                          {type}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <label htmlFor="deedStatus" className="block text-sm font-medium text-gray-700">
+                      Tapu Durumu
+                    </label>
+                    <select
+                      id="deedStatus"
+                      name="deedStatus"
+                      required
+                      value={formData.deedStatus}
+                      onChange={handleInputChange}
+                      className="mt-1 block w-full rounded-md border border-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    >
+                      <option value="">Tapu Durumu Seçin</option>
+                      {DEED_STATUS.map(status => (
+                        <option key={status} value={status}>
+                          {status}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label htmlFor="adaNumber" className="block text-sm font-medium text-gray-700">
+                      Ada No
+                    </label>
+                    <input
+                      type="text"
+                      id="adaNumber"
+                      name="adaNumber"
+                      value={formData.adaNumber}
+                      onChange={handleInputChange}
+                      className="mt-1 block w-full rounded-md border border-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="parcelNumber" className="block text-sm font-medium text-gray-700">
+                      Parsel No
+                    </label>
+                    <input
+                      type="text"
+                      id="parcelNumber"
+                      name="parcelNumber"
+                      value={formData.parcelNumber}
+                      onChange={handleInputChange}
+                      className="mt-1 block w-full rounded-md border border-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="buildingCoefficient" className="block text-sm font-medium text-gray-700">
+                      İmar Katsayısı
+                    </label>
+                    <input
+                      type="number"
+                      id="buildingCoefficient"
+                      name="buildingCoefficient"
+                      step="0.1"
+                      min="0"
+                      value={formData.buildingCoefficient}
+                      onChange={handleInputChange}
+                      className="mt-1 block w-full rounded-md border border-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="sqft" className="block text-sm font-medium text-gray-700">
+                      Metrekare
+                    </label>
+                    <input
+                      type="number"
+                      id="sqft"
+                      name="sqft"
+                      required
+                      min="0"
+                      value={formData.sqft}
+                      onChange={handleInputChange}
+                      className="mt-1 block w-full rounded-md border border-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                </div>
+              </>
+            )}
 
             <div>
               <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-                Contact Phone
+                İletişim Telefonu
               </label>
               <input
                 type="tel"
@@ -319,7 +509,7 @@ const PropertyForm = () => {
           {/* Amenities */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Amenities
+              Olanaklar
             </label>
             <div className="flex flex-wrap gap-2">
               {formData.amenities.map((amenity, index) => (
@@ -344,7 +534,7 @@ const PropertyForm = () => {
                 type="text"
                 value={newAmenity}
                 onChange={(e) => setNewAmenity(e.target.value)}
-                placeholder="Add new amenity"
+                placeholder="Yeni olanak ekle"
                 className="mt-1 block w-full rounded-md border border-gray-100 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               />
               <button
@@ -352,7 +542,7 @@ const PropertyForm = () => {
                 onClick={handleAddAmenity}
                 className="ml-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
               >
-                Add
+                Ekle
               </button>
             </div>
           </div>
@@ -360,14 +550,14 @@ const PropertyForm = () => {
           {/* Image Upload */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Property Images (Max 4)
+              Emlak Görselleri (Maksimum 4)
             </label>
             <div className="grid grid-cols-2 gap-4 mb-4">
               {previewUrls.map((url, index) => (
                 <div key={index} className="relative">
                   <img
                     src={url}
-                    alt={`Preview ${index + 1}`}
+                    alt={`Önizleme ${index + 1}`}
                     className="h-40 w-full object-cover rounded-lg"
                   />
                   <button
@@ -386,7 +576,7 @@ const PropertyForm = () => {
                   <Upload className="mx-auto h-12 w-12 text-gray-400" />
                   <div className="flex text-sm text-gray-600">
                     <label htmlFor="images" className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                      <span>Upload images</span>
+                      <span>Görsel yükle</span>
                       <input
                         id="images"
                         name="images"
@@ -398,7 +588,7 @@ const PropertyForm = () => {
                       />
                     </label>
                   </div>
-                  <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                  <p className="text-xs text-gray-500">PNG, JPG, GIF 10MB'a kadar</p>
                 </div>
               </div>
             )}
@@ -411,7 +601,7 @@ const PropertyForm = () => {
               className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               disabled={loading}
             >
-              {loading ? 'Submitting...' : 'Submit Property'}
+              {loading ? 'Gönderiliyor...' : 'Emlak Ekle'}
             </button>
           </div>
         </form>

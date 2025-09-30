@@ -30,12 +30,12 @@ const PropertyCard = ({ property, viewType }) => {
       if (navigator.share) {
         await navigator.share({
           title: property.title,
-          text: `Check out this property: ${property.title}`,
+          text: `Bu emlağa göz atın: ${property.title}`,
           url: window.location.href
         });
       } else {
         await navigator.clipboard.writeText(window.location.href);
-        alert('Link copied to clipboard!');
+        alert('Link panoya kopyalandı!');
       }
     } catch (error) {
       console.error('Error sharing:', error);
@@ -172,7 +172,7 @@ const PropertyCard = ({ property, viewType }) => {
 
           <div className="flex items-center gap-2">
             <div className="flex-1">
-              <p className="text-sm text-gray-500 mb-1">Price</p>
+              <p className="text-sm text-gray-500 mb-1">Fiyat</p>
               <div className="flex items-center gap-1">
                 <IndianRupee className="w-5 h-5 text-blue-600" />
                 <span className="text-2xl font-bold text-blue-600">
@@ -189,19 +189,19 @@ const PropertyCard = ({ property, viewType }) => {
           <div className="flex flex-col items-center gap-1 bg-blue-50 p-2 rounded-lg">
             <BedDouble className="w-5 h-5 text-blue-600" />
             <span className="text-sm font-medium text-gray-600">
-              {property.beds} {property.beds > 1 ? 'Beds' : 'Bed'}
+              {property.beds} {property.beds > 1 ? 'Yatak Odası' : 'Yatak Odası'}
             </span>
           </div>
           <div className="flex flex-col items-center gap-1 bg-blue-50 p-2 rounded-lg">
             <Bath className="w-5 h-5 text-blue-600" />
             <span className="text-sm font-medium text-gray-600">
-              {property.baths} {property.baths > 1 ? 'Baths' : 'Bath'}
+              {property.baths} {property.baths > 1 ? 'Banyo' : 'Banyo'}
             </span>
           </div>
           <div className="flex flex-col items-center gap-1 bg-blue-50 p-2 rounded-lg">
             <Maximize className="w-5 h-5 text-blue-600" />
             <span className="text-sm font-medium text-gray-600">
-              {property.sqft} sqft
+              {property.sqft} m²
             </span>
           </div>
         </div>

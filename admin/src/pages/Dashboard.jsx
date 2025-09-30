@@ -12,6 +12,7 @@ import {
   Tooltip,
   Legend,
   ArcElement,
+  Filler,
 } from "chart.js";
 import { Line, Doughnut } from "react-chartjs-2";
 import {
@@ -42,7 +43,8 @@ ChartJS.register(
   ArcElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 );
 
 const Dashboard = () => {
@@ -209,46 +211,46 @@ const Dashboard = () => {
 
   const statCards = [
     {
-      title: "Total Properties",
+      title: "Toplam Emlaklar",
       value: stats.totalProperties,
       icon: Home,
       color: "from-blue-500 to-blue-600",
       bgColor: "bg-blue-50",
       iconColor: "text-blue-600",
-      description: "Total properties listed",
+      description: "Listelenen toplam emlak sayısı",
       change: "+12%",
       changeType: "positive"
     },
     {
-      title: "Active Listings",
+      title: "Aktif İlanlar",
       value: stats.activeListings,
       icon: Activity,
       color: "from-green-500 to-green-600",
       bgColor: "bg-green-50",
       iconColor: "text-green-600",
-      description: "Currently active listings",
+      description: "Şu anda aktif olan ilanlar",
       change: "+8%",
       changeType: "positive"
     },
     {
-      title: "Total Views",
+      title: "Toplam Görüntüleme",
       value: stats.totalViews,
       icon: Eye,
       color: "from-purple-500 to-purple-600",
       bgColor: "bg-purple-50",
       iconColor: "text-purple-600",
-      description: "Property page views",
+      description: "Emlak sayfası görüntülenmeleri",
       change: "+23%",
       changeType: "positive"
     },
     {
-      title: "Pending Appointments",
+      title: "Bekleyen Randevular",
       value: stats.pendingAppointments,
       icon: Calendar,
       color: "from-orange-500 to-orange-600",
       bgColor: "bg-orange-50",
       iconColor: "text-orange-600",
-      description: "Awaiting confirmation",
+      description: "Onay bekleyen randevular",
       change: "-5%",
       changeType: "negative"
     },
@@ -266,8 +268,8 @@ const Dashboard = () => {
             <Loader className="w-12 h-12 text-blue-500 animate-spin mx-auto mb-4" />
             <div className="absolute inset-0 w-12 h-12 border-4 border-blue-100 rounded-full mx-auto"></div>
           </div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Loading Dashboard</h3>
-          <p className="text-gray-600">Fetching your latest data...</p>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">Panel Yükleniyor</h3>
+                <p className="text-gray-600">En son verileriniz getiriliyor...</p>
         </motion.div>
       </div>
     );
@@ -285,7 +287,7 @@ const Dashboard = () => {
             <AlertCircle className="w-8 h-8 text-red-500" />
           </div>
           <h3 className="text-xl font-semibold text-gray-900 mb-2">
-            Unable to Load Dashboard
+            Panel Yüklenemedi
           </h3>
           <p className="text-gray-600 mb-6">{stats.error}</p>
           <button
@@ -300,7 +302,7 @@ const Dashboard = () => {
             ) : (
               <TrendingUp className="w-4 h-4" />
             )}
-            {refreshing ? 'Retrying...' : 'Try Again'}
+            {refreshing ? 'Tekrar deneniyor...' : 'Tekrar Dene'}
           </button>
         </motion.div>
       </div>
@@ -322,11 +324,11 @@ const Dashboard = () => {
         >
           <div>
             <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent mb-2">
-              Dashboard Overview
+              Kontrol Paneli Genel Bakış
             </h1>
             <p className="text-lg text-gray-600 flex items-center gap-2">
               <Clock className="w-5 h-5" />
-              Welcome back! Here&apos;s what&apos;s happening with your properties
+              Tekrar hoş geldiniz! Emlakların ile ilgili son durumlar
             </p>
           </div>
 
@@ -343,7 +345,7 @@ const Dashboard = () => {
                       : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                   }`}
                 >
-                  {days} days
+                  {days} gün
                 </button>
               ))}
             </div>
@@ -357,7 +359,7 @@ const Dashboard = () => {
                 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
             >
               <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
-              {refreshing ? 'Updating...' : 'Refresh'}
+              {refreshing ? 'Güncelleniyor...' : 'Yenile'}
             </button>
           </div>
         </motion.div>
@@ -395,7 +397,7 @@ const Dashboard = () => {
                       )}
                       {stat.change}
                     </div>
-                    <span className="text-xs text-gray-500">vs last month</span>
+                    <span className="text-xs text-gray-500">geçen aya göre</span>
                   </div>
                 </div>
                 
@@ -429,14 +431,14 @@ const Dashboard = () => {
               <div>
                 <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                   <BarChart3 className="w-5 h-5 text-blue-600" />
-                  Property Views Analytics
+                  Emlak Görüntüleme Analizi
                 </h2>
-                <p className="text-sm text-gray-600 mt-1">Track your property engagement over time</p>
+                <p className="text-sm text-gray-600 mt-1">Emlak etkileşimlerinizi zaman içinde takip edin</p>
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                   <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                  Views
+                  Görüntüleme
                 </div>
               </div>
             </div>
@@ -448,8 +450,8 @@ const Dashboard = () => {
                   <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                     <BarChart3 className="w-8 h-8 text-gray-400" />
                   </div>
-                  <p className="text-gray-500 font-medium">No view data available</p>
-                  <p className="text-sm text-gray-400">Data will appear once you have property views</p>
+                  <p className="text-gray-500 font-medium">Görüntüleme verisi mevcut değil</p>
+                  <p className="text-sm text-gray-400">Emlak görüntülemeleriniz olduğunda veriler burada görünecek</p>
                 </div>
               )}
             </div>
@@ -466,9 +468,9 @@ const Dashboard = () => {
               <div>
                 <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                   <PieChart className="w-5 h-5 text-purple-600" />
-                  Property Types
+                  Emlak Türleri
                 </h2>
-                <p className="text-sm text-gray-600 mt-1">Distribution overview</p>
+                <p className="text-sm text-gray-600 mt-1">Dağılım genel bakışı</p>
               </div>
             </div>
             <div className="h-[350px]">
@@ -479,8 +481,8 @@ const Dashboard = () => {
                   <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                     <PieChart className="w-8 h-8 text-gray-400" />
                   </div>
-                  <p className="text-gray-500 font-medium">No property data</p>
-                  <p className="text-sm text-gray-400 text-center">Add properties to see distribution</p>
+                  <p className="text-gray-500 font-medium">Emlak verisi yok</p>
+                  <p className="text-sm text-gray-400 text-center">Dağılımı görmek için emlak ekleyin</p>
                 </div>
               )}
             </div>
@@ -499,10 +501,10 @@ const Dashboard = () => {
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                 <Activity className="w-5 h-5 text-green-600" />
-                Recent Activity
+                Son Aktiviteler
               </h2>
               <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
-                View All
+                Tümünü Gör
               </button>
             </div>
             <div className="space-y-4 max-h-[350px] overflow-y-auto">
@@ -536,8 +538,8 @@ const Dashboard = () => {
                   <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Activity className="w-8 h-8 text-gray-400" />
                   </div>
-                  <p className="text-gray-500 font-medium">No recent activity</p>
-                  <p className="text-sm text-gray-400">Activity will appear here as users interact with your properties</p>
+                  <p className="text-gray-500 font-medium">Son aktivite yok</p>
+                  <p className="text-sm text-gray-400">Kullanıcılar emlakların ile etkileşime geçtikçe aktiviteler burada görünecek</p>
                 </div>
               )}
             </div>
@@ -553,14 +555,14 @@ const Dashboard = () => {
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-indigo-600" />
-                Performance Insights
+                Performans Öngörüleri
               </h2>
             </div>
             <div className="space-y-6">
               {/* Average Views per Property */}
               <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl">
                 <div>
-                  <p className="text-sm text-gray-600">Avg. Views per Property</p>
+                  <p className="text-sm text-gray-600">Emlak Başına Ort. Görüntüleme</p>
                   <p className="text-2xl font-bold text-gray-900">
                     {stats.totalProperties > 0 ? Math.round(stats.totalViews / stats.totalProperties) : 0}
                   </p>
@@ -573,7 +575,7 @@ const Dashboard = () => {
               {/* Active Listing Rate */}
               <div className="flex items-center justify-between p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl">
                 <div>
-                  <p className="text-sm text-gray-600">Active Listing Rate</p>
+                  <p className="text-sm text-gray-600">Aktif İlan Oranı</p>
                   <p className="text-2xl font-bold text-gray-900">
                     {stats.totalProperties > 0 ? Math.round((stats.activeListings / stats.totalProperties) * 100) : 0}%
                   </p>
@@ -586,7 +588,7 @@ const Dashboard = () => {
               {/* Appointment Conversion */}
               <div className="flex items-center justify-between p-4 bg-gradient-to-r from-orange-50 to-amber-50 rounded-xl">
                 <div>
-                  <p className="text-sm text-gray-600">Pending Appointments</p>
+                  <p className="text-sm text-gray-600">Bekleyen Randevular</p>
                   <p className="text-2xl font-bold text-gray-900">{stats.pendingAppointments}</p>
                 </div>
                 <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">

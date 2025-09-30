@@ -24,8 +24,8 @@ const LocationTrends = ({ locations }) => {
       >
         <div className="flex flex-col items-center justify-center py-8 sm:py-10">
           <MapPin className="w-10 h-10 sm:w-12 sm:h-12 text-gray-300 mb-3 sm:mb-4" />
-          <p className="text-gray-500">No location data available</p>
-          <p className="text-sm text-gray-400 mt-2">Try searching for a different city</p>
+          <p className="text-gray-500">Konum verisi mevcut değil</p>
+          <p className="text-sm text-gray-400 mt-2">Farklı bir şehir aramayı deneyin</p>
         </div>
       </motion.div>
     );
@@ -63,7 +63,7 @@ const LocationTrends = ({ locations }) => {
           <div className="p-2 bg-blue-100 rounded-lg mr-3">
             <MapPin className="h-5 w-5 text-blue-600" />
           </div>
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-800">Location Price Trends</h2>
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-800">Konum Fiyat Trendleri</h2>
         </div>
         
         <div className="flex bg-gray-100 rounded-lg p-1 self-start sm:self-center">
@@ -72,7 +72,7 @@ const LocationTrends = ({ locations }) => {
             onClick={() => setActiveTab('table')}
           >
             <span className="flex items-center gap-1">
-              <BarChart3 className="w-4 h-4" /> Table
+              <BarChart3 className="w-4 h-4" /> Tablo
             </span>
           </button>
           <button 
@@ -80,7 +80,7 @@ const LocationTrends = ({ locations }) => {
             onClick={() => setActiveTab('insights')}
           >
             <span className="flex items-center gap-1">
-              <TrendingUp className="w-4 h-4" /> Insights
+              <TrendingUp className="w-4 h-4" /> Öngörüler
             </span>
           </button>
         </div>
@@ -111,13 +111,13 @@ const LocationTrends = ({ locations }) => {
                   </div>
                   <div className="grid grid-cols-2 gap-3 text-sm">
                     <div>
-                      <span className="text-gray-500 block mb-1">Price per sq.ft</span>
+                      <span className="text-gray-500 block mb-1">m² Fiyatı</span>
                       <span className="font-medium">
-                        {location.price_per_sqft ? `₹${location.price_per_sqft.toLocaleString()}` : 'N/A'}
+                        {location.price_per_sqft ? `₺${location.price_per_sqft.toLocaleString()}` : 'Veri Yok'}
                       </span>
                     </div>
                     <div>
-                      <span className="text-gray-500 block mb-1">Annual Increase</span>
+                      <span className="text-gray-500 block mb-1">Yıllık Artış</span>
                       <div className="flex items-center">
                         {location.percent_increase != null ? (
                           <>
@@ -129,14 +129,14 @@ const LocationTrends = ({ locations }) => {
                             )}
                           </>
                         ) : (
-                          <span className="font-medium text-gray-400">N/A</span>
+                          <span className="font-medium text-gray-400">Veri Yok</span>
                         )}
                       </div>
                     </div>
                     <div>
-                      <span className="text-gray-500 block mb-1">Rental Yield</span>
+                      <span className="text-gray-500 block mb-1">Kira Getirisi</span>
                       <div className="font-medium">
-                        {location.rental_yield != null ? `${location.rental_yield}%` : 'N/A'}
+                        {location.rental_yield != null ? `${location.rental_yield}%` : 'Veri Yok'}
                       </div>
                     </div>
                     <div>
@@ -159,10 +159,10 @@ const LocationTrends = ({ locations }) => {
               <table className="min-w-full bg-white">
                 <thead>
                   <tr className="bg-gray-50 border-b">
-                    <th className="py-3 px-4 text-left font-medium text-gray-700 rounded-tl-lg">Location</th>
-                    <th className="py-3 px-4 text-left font-medium text-gray-700">Price per sq.ft (₹)</th>
-                    <th className="py-3 px-4 text-left font-medium text-gray-700">Annual Increase (%)</th>
-                    <th className="py-3 px-4 text-left font-medium text-gray-700 rounded-tr-lg">Rental Yield (%)</th>
+                    <th className="py-3 px-4 text-left font-medium text-gray-700 rounded-tl-lg">Konum</th>
+                    <th className="py-3 px-4 text-left font-medium text-gray-700">m² Fiyatı (₺)</th>
+                    <th className="py-3 px-4 text-left font-medium text-gray-700">Yıllık Artış (%)</th>
+                    <th className="py-3 px-4 text-left font-medium text-gray-700 rounded-tr-lg">Kira Getirisi (%)</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
@@ -181,7 +181,7 @@ const LocationTrends = ({ locations }) => {
                         </div>
                       </td>
                       <td className="py-3 px-4">
-                        {location.price_per_sqft ? `₹${location.price_per_sqft.toLocaleString()}` : 'N/A'}
+                        {location.price_per_sqft ? `₺${location.price_per_sqft.toLocaleString()}` : 'Veri Yok'}
                       </td>
                       <td className="py-3 px-4">
                         <div className="flex items-center">
@@ -195,7 +195,7 @@ const LocationTrends = ({ locations }) => {
                               )}
                             </>
                           ) : (
-                            <span className="text-gray-400">N/A</span>
+                            <span className="text-gray-400">Veri Yok</span>
                           )}
                         </div>
                       </td>
@@ -212,7 +212,7 @@ const LocationTrends = ({ locations }) => {
                               </div>
                             </>
                           ) : (
-                            <span className="text-gray-400">N/A</span>
+                            <span className="text-gray-400">Veri Yok</span>
                           )}
                         </div>
                       </td>
@@ -236,7 +236,7 @@ const LocationTrends = ({ locations }) => {
                 <div className="flex items-start">
                   <AlertCircle className="h-5 w-5 text-yellow-600 mr-2 mt-0.5 flex-shrink-0" />
                   <p className="text-yellow-700">
-                    Some data is missing or incomplete. The insights shown may be limited.
+                    Bazı veriler eksik veya tamamlanmamış. Gösterilen öngörüler sınırlı olabilir.
                   </p>
                 </div>
               </div>
@@ -247,14 +247,14 @@ const LocationTrends = ({ locations }) => {
               <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg border border-blue-200">
                 <div className="flex items-center mb-2">
                   <DollarSign className="h-5 w-5 text-blue-600 mr-2 flex-shrink-0" />
-                  <h3 className="font-medium text-blue-800">Best Rental Yield</h3>
+                  <h3 className="font-medium text-blue-800">En İyi Kira Getirisi</h3>
                 </div>
                 <div className="ml-7">
                   <div className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 break-words">
-                    {bestRentalYield?.location || 'N/A'}
+                    {bestRentalYield?.location || 'Veri Yok'}
                   </div>
                   <div className="text-blue-700">
-                    {bestRentalYield?.rental_yield != null ? `${bestRentalYield.rental_yield}% annual return` : 'Data not available'}
+                    {bestRentalYield?.rental_yield != null ? `${bestRentalYield.rental_yield}% yıllık getiri` : 'Veri mevcut değil'}
                   </div>
                 </div>
               </div>
@@ -262,14 +262,14 @@ const LocationTrends = ({ locations }) => {
               <div className="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-lg border border-green-200">
                 <div className="flex items-center mb-2">
                   <TrendingUp className="h-5 w-5 text-green-600 mr-2 flex-shrink-0" />
-                  <h3 className="font-medium text-green-800">Highest Appreciation</h3>
+                  <h3 className="font-medium text-green-800">En Yüksek Değer Artışı</h3>
                 </div>
                 <div className="ml-7">
                   <div className="text-xl sm:text-2xl font-bold text-gray-900 mb-1 break-words">
-                    {bestAppreciation?.location || 'N/A'}
+                    {bestAppreciation?.location || 'Veri Yok'}
                   </div>
                   <div className="text-green-700">
-                    {bestAppreciation?.percent_increase != null ? `${bestAppreciation.percent_increase}% annual growth` : 'Data not available'}
+                    {bestAppreciation?.percent_increase != null ? `${bestAppreciation.percent_increase}% yıllık büyüme` : 'Veri mevcut değil'}
                   </div>
                 </div>
               </div>
@@ -278,7 +278,7 @@ const LocationTrends = ({ locations }) => {
             <div className="bg-blue-50 p-4 sm:p-5 rounded-lg border border-blue-100">
               <div className="flex items-center mb-4">
                 <Info className="h-5 w-5 text-blue-600 mr-2 flex-shrink-0" />
-                <h3 className="font-medium text-gray-800">Investment Insights</h3>
+                <h3 className="font-medium text-gray-800">Yatırım Öngörüleri</h3>
               </div>
               
               <ul className="space-y-4 sm:space-y-3 text-gray-700 text-sm sm:text-base">
@@ -291,7 +291,7 @@ const LocationTrends = ({ locations }) => {
                   >
                     <span className="inline-block w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
                     <span className="break-words">
-                      <strong>{bestRentalYield.location}</strong> offers the highest rental yield at {bestRentalYield.rental_yield}%, making it ideal for income-focused investors.
+                      <strong>{bestRentalYield.location}</strong> %{bestRentalYield.rental_yield} ile en yüksek kira getirisini sunuyor ve gelir odaklı yatırımcılar için ideal.
                     </span>
                   </motion.li>
                 )}
@@ -305,7 +305,7 @@ const LocationTrends = ({ locations }) => {
                   >
                     <span className="inline-block w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
                     <span className="break-words">
-                      <strong>{bestAppreciation.location}</strong> shows the strongest appreciation at {bestAppreciation.percent_increase}%, suggesting good potential for capital growth.
+                      <strong>{bestAppreciation.location}</strong> %{bestAppreciation.percent_increase} ile en güçlü değer artışını gösteriyor ve sermaye büyümesi için iyi potansiyel sunuyor.
                     </span>
                   </motion.li>
                 )}
@@ -318,7 +318,7 @@ const LocationTrends = ({ locations }) => {
                 >
                   <span className="inline-block w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-2 flex-shrink-0"></span>
                   <span className="break-words">
-                    Areas with rental yields above 4% and appreciation above 8% offer balanced investment opportunities for both income and growth.
+                    %4'ün üzerinde kira getirisi ve %8'in üzerinde değer artışı olan bölgeler hem gelir hem de büyüme için dengeli yatırım fırsatları sunar.
                   </span>
                 </motion.li>
                 
@@ -331,7 +331,7 @@ const LocationTrends = ({ locations }) => {
                   >
                     <AlertCircle className="w-4 h-4 mt-0.5 mr-2 flex-shrink-0" />
                     <span>
-                      Some locations have missing data. Consider this when making investment decisions or consult with a local real estate expert for more complete information.
+                      Bazı konumların verileri eksik. Yatırım kararları verirken bunu göz önünde bulundurun veya daha eksiksiz bilgi için yerel emlak uzmanına danışın.
                     </span>
                   </motion.li>
                 )}

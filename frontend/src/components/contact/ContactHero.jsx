@@ -53,11 +53,11 @@ export default function Hero() {
         className="relative text-center text-white px-4 max-w-4xl mx-auto z-10"
       >
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight">
-          Get in Touch With Us
+          Bizimle İletişime Geçin
         </h1>
         <p className="text-lg md:text-xl leading-relaxed font-light">
-          Have questions about our properties? Need assistance with finding your perfect home?
-          Our team is here to help you every step of the way.
+          Emlaklar hakkında sorularınız mı var? Mükemmel evinizi bulma konusunda yardıma mı ihtiyacınız var?
+          Ekibimiz her adımda size yardımcı olmak için burada.
         </p>
         
         {/* Decorative line */}

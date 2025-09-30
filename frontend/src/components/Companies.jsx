@@ -53,10 +53,10 @@ const floatingAnimation = {
 
 const Companies = () => {
   const stats = [
-    { icon: Users, value: "200+", label: "Trusted Partners" },
-    { icon: Star, value: "4.9", label: "Average Rating" },
-    { icon: Award, value: "50M+", label: "Properties Listed" },
-    { icon: TrendingUp, value: "98%", label: "Success Rate" }
+    { icon: Users, value: "200+", label: "Güvenilir Ortaklar" },
+    { icon: Star, value: "4.9", label: "Ortalama Puan" },
+    { icon: Award, value: "50M+", label: "Listelenen Emlaklar" },
+    { icon: TrendingUp, value: "98%", label: "Başarı Oranı" }
   ];
 
   const companyLogos = [
@@ -90,24 +90,24 @@ const Companies = () => {
             className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium mb-6"
           >
             <Shield className="w-4 h-4" />
-            Trusted Worldwide
+            Dünya Çapında Güvenilir
           </motion.div>
           
           <motion.h2 
             variants={itemVariants}
             className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
           >
-            Trusted by{' '}
             <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
-              Industry Leaders
+              Sektör Liderleri
             </span>
+            {' '}Tarafından Güvenilir
           </motion.h2>
           
           <motion.p 
             variants={itemVariants}
             className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
           >
-            Join thousands of successful companies that rely on our platform for their real estate needs
+            Emlak ihtiyaçları için platformumuza güvenen binlerce başarılı şirkete katılın
           </motion.p>
         </motion.div>
 
@@ -151,11 +151,11 @@ const Companies = () => {
             className="text-center mb-12"
           >
             <h3 className="text-2xl font-bold text-gray-900 mb-2">
-              Powering Success for Global Brands
+              Küresel Markaların Başarısını Destekliyoruz
             </h3>
             <p className="text-gray-600">
-              {`From startups to Fortune 500 companies, we're the trusted choice
-`}            </p>
+              Startup'lardan Fortune 500 şirketlerine kadar, güvenilir tercihiz
+            </p>
           </motion.div>
 
           <motion.div 
@@ -203,19 +203,19 @@ const Companies = () => {
             <div className="flex flex-wrap justify-center items-center gap-8 text-sm text-gray-600">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="font-medium">Enterprise Security</span>
+                <span className="font-medium">Kurumsal Güvenlik</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                <span className="font-medium">24/7 Support</span>
+                <span className="font-medium">7/24 Destek</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
-                <span className="font-medium">99.9% Uptime</span>
+                <span className="font-medium">%99.9 Çalışma Süresi</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
-                <span className="font-medium">GDPR Compliant</span>
+                <span className="font-medium">GDPR Uyumlu</span>
               </div>
             </div>
           </motion.div>
@@ -235,14 +235,14 @@ const Companies = () => {
               shadow-2xl hover:shadow-blue-500/25 transition-all font-bold text-lg inline-flex items-center group relative overflow-hidden"
           >
             <span className="relative z-10 flex items-center">
-              Join Our Network
+              Ağımıza Katılın
               <TrendingUp className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
             </span>
             <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </motion.button>
           
           <p className="text-gray-500 mt-4 text-sm">
-            Start your journey with industry-leading companies today
+            Sektör lideri şirketlerle yolculuğunuza bugün başlayın
           </p>
         </motion.div>
       </div>

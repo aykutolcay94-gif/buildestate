@@ -87,14 +87,14 @@ const Features = () => {
             className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-700 rounded-full text-sm font-semibold tracking-wide mb-6 shadow-lg border border-blue-200/50"
           >
             <Sparkles className="w-4 h-4" />
-            OUR PREMIUM FEATURES
+            PREMİUM ÖZELLİKLERİMİZ
             <Sparkles className="w-4 h-4" />
           </motion.div>
           
           <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-indigo-900 bg-clip-text text-transparent mb-6 leading-tight">
-            Why Choose{' '}
+            Neden{' '}
             <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
-              Excellence
+              Mükemmelliği Seçmelisiniz
             </span>
           </h2>
           
@@ -106,8 +106,9 @@ const Features = () => {
           </div>
           
           <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed font-light">
-            Experience unparalleled service with our innovative approach to finding your{' '}
-            <span className="text-blue-600 font-semibold">perfect home</span>
+            Yenilikçi yaklaşımımızla{' '}
+            <span className="text-blue-600 font-semibold">mükemmel evinizi</span>
+            {' '}bulmanızda benzersiz hizmet deneyimi yaşayın
           </p>
 
           {/* Trust indicators */}
@@ -119,15 +120,15 @@ const Features = () => {
           >
             <div className="flex items-center gap-2">
               <Award className="w-5 h-5 text-yellow-500" />
-              <span className="font-medium">Award Winning Service</span>
+              <span className="font-medium">Ödüllü Hizmet</span>
             </div>
             <div className="flex items-center gap-2">
               <TrendingUp className="w-5 h-5 text-green-500" />
-              <span className="font-medium">98% Success Rate</span>
+              <span className="font-medium">%98 Başarı Oranı</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-              <span className="font-medium">Trusted by 10K+ Families</span>
+              <span className="font-medium">10K+ Aile Tarafından Güvenilir</span>
             </div>
           </motion.div>
         </motion.div>
@@ -200,7 +201,7 @@ const Features = () => {
                     className="inline-flex items-center text-blue-600 text-sm font-semibold hover:text-blue-800 transition-colors group/link"
                     whileHover={{ x: 5 }}
                   >
-                    Explore Feature
+                    Özelliği Keşfet
                     <ChevronRight className="ml-2 h-4 w-4 group-hover/link:translate-x-1 transition-transform duration-300" />
                   </motion.a>
                   
@@ -238,14 +239,14 @@ const Features = () => {
             </motion.div>
             
             <h3 className="text-3xl font-bold text-gray-900 mb-4">
-              Ready to Find Your{' '}
               <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                Dream Home?
+                Hayalinizdeki Evi
               </span>
+              {' '}Bulmaya Hazır mısınız?
             </h3>
             
             <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-              Join thousands of satisfied customers who found their perfect home with our premium features and personalized service.
+              Premium özelliklerimiz ve kişiselleştirilmiş hizmetimizle mükemmel evini bulan binlerce memnun müşterimize katılın.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -256,7 +257,7 @@ const Features = () => {
                 className="px-8 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white font-bold rounded-2xl shadow-2xl hover:shadow-blue-500/25 transition-all text-lg inline-flex items-center group relative overflow-hidden"
               >
                 <span className="relative z-10 flex items-center">
-                  Browse Properties
+                  Emlakları İncele
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -268,7 +269,7 @@ const Features = () => {
                 whileTap={{ scale: 0.98 }}
                 className="px-8 py-4 bg-white text-gray-700 font-bold rounded-2xl shadow-lg hover:shadow-xl border border-gray-200 hover:border-blue-300 transition-all text-lg inline-flex items-center group"
               >
-                Contact Expert
+                Uzmanla İletişim
                 <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
               </motion.a>
             </div>
@@ -282,15 +283,15 @@ const Features = () => {
             >
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="font-medium">10,000+ Happy Families</span>
+                <span className="font-medium">10,000+ Mutlu Aile</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                <span className="font-medium">5-Star Average Rating</span>
+                <span className="font-medium">5 Yıldız Ortalama Puan</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
-                <span className="font-medium">24/7 Premium Support</span>
+                <span className="font-medium">7/24 Premium Destek</span>
               </div>
             </motion.div>
           </div>

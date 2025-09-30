@@ -59,7 +59,7 @@ export const getAdminStats = async (req, res) => {
     console.error('Admin stats error:', error);
     res.status(500).json({
       success: false,
-      message: 'Error fetching admin statistics'
+      message: 'Admin istatistikleri getirilirken hata oluştu'
     });
   }
 };
@@ -180,7 +180,7 @@ export const getAllAppointments = async (req, res) => {
     console.error('Error fetching appointments:', error);
     res.status(500).json({
       success: false,
-      message: 'Error fetching appointments'
+      message: 'Randevular getirilirken hata oluştu'
     });
   }
 };
@@ -198,7 +198,7 @@ export const updateAppointmentStatus = async (req, res) => {
     if (!appointment) {
       return res.status(404).json({
         success: false,
-        message: 'Appointment not found'
+        message: 'Randevu bulunamadı'
       });
     }
 
@@ -214,14 +214,14 @@ export const updateAppointmentStatus = async (req, res) => {
 
     res.json({
       success: true,
-      message: `Appointment ${status} successfully`,
+      message: `Randevu başarıyla ${status === 'confirmed' ? 'onaylandı' : status === 'cancelled' ? 'iptal edildi' : 'güncellendi'}`,
       appointment
     });
   } catch (error) {
     console.error('Error updating appointment:', error);
     res.status(500).json({
       success: false,
-      message: 'Error updating appointment'
+      message: 'Randevu güncellenirken hata oluştu'
     });
   }
 };
@@ -241,7 +241,7 @@ export const scheduleViewing = async (req, res) => {
     if (!property) {
       return res.status(404).json({
         success: false,
-        message: 'Property not found'
+        message: 'Emlak bulunamadı'
       });
     }
 
@@ -256,7 +256,7 @@ export const scheduleViewing = async (req, res) => {
     if (existingAppointment) {
       return res.status(400).json({
         success: false,
-        message: 'This time slot is already booked'
+        message: 'Bu zaman dilimi zaten rezerve edilmiş'
       });
     }
 
@@ -284,14 +284,14 @@ export const scheduleViewing = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: 'Viewing scheduled successfully',
-      appointment
+      message: 'Görüntüleme randevusu başarıyla planlandı',
+      appointment: newAppointment
     });
   } catch (error) {
     console.error('Error scheduling viewing:', error);
     res.status(500).json({
       success: false,
-      message: 'Error scheduling viewing'
+      message: 'Görüntüleme randevusu planlanırken hata oluştu'
     });
   }
 };
@@ -307,7 +307,7 @@ export const cancelAppointment = async (req, res) => {
     if (!appointment) {
       return res.status(404).json({
         success: false,
-        message: 'Appointment not found'
+        message: 'Randevu bulunamadı'
       });
     }
 
@@ -346,13 +346,13 @@ export const cancelAppointment = async (req, res) => {
 
     res.json({
       success: true,
-      message: 'Appointment cancelled successfully'
+      message: 'Randevu başarıyla iptal edildi'
     });
   } catch (error) {
     console.error('Error cancelling appointment:', error);
     res.status(500).json({
       success: false,
-      message: 'Error cancelling appointment'
+      message: 'Randevu iptal edilirken hata oluştu'
     });
   }
 };
@@ -372,7 +372,7 @@ export const getAppointmentsByUser = async (req, res) => {
     console.error('Error fetching user appointments:', error);
     res.status(500).json({
       success: false,
-      message: 'Error fetching appointments'
+      message: 'Randevular getirilirken hata oluştu'
     });
   }
 };
@@ -424,14 +424,14 @@ export const updateAppointmentMeetingLink = async (req, res) => {
 
     res.json({
       success: true,
-      message: 'Meeting link updated successfully',
+      message: 'Toplantı linki başarıyla güncellendi',
       appointment
     });
   } catch (error) {
     console.error('Error updating meeting link:', error);
     res.status(500).json({
       success: false,
-      message: 'Error updating meeting link'
+      message: 'Toplantı linki güncellenirken hata oluştu'
     });
   }
 };
@@ -484,7 +484,7 @@ export const getAppointmentStats = async (req, res) => {
     console.error('Error fetching appointment stats:', error);
     res.status(500).json({
       success: false,
-      message: 'Error fetching appointment statistics'
+      message: 'Randevu istatistikleri getirilirken hata oluştu'
     });
   }
 };
@@ -506,7 +506,7 @@ export const submitAppointmentFeedback = async (req, res) => {
     if (appointment.userId.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         success: false,
-        message: 'Not authorized to submit feedback for this appointment'
+        message: 'Bu randevu için geri bildirim gönderme yetkiniz yok'
       });
     }
 
@@ -516,13 +516,13 @@ export const submitAppointmentFeedback = async (req, res) => {
 
     res.json({
       success: true,
-      message: 'Feedback submitted successfully'
+      message: 'Geri bildirim başarıyla gönderildi'
     });
   } catch (error) {
     console.error('Error submitting feedback:', error);
     res.status(500).json({
       success: false,
-      message: 'Error submitting feedback'
+      message: 'Geri bildirim gönderilirken hata oluştu'
     });
   }
 };
@@ -547,7 +547,7 @@ export const getUpcomingAppointments = async (req, res) => {
     console.error('Error fetching upcoming appointments:', error);
     res.status(500).json({
       success: false,
-      message: 'Error fetching upcoming appointments'
+      message: 'Yaklaşan randevular getirilirken hata oluştu'
     });
   }
 };

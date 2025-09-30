@@ -6,15 +6,15 @@ import CountUp from './Contup';
 const milestones = [
   {
     icon: Home,
-    title: 'Properties Listed',
+    title: 'Listelenen Emlaklar',
     value: 5000,
-    description: 'And growing daily',
+    description: 'Ve her gün artıyor',
   },
   {
     icon: Target,
-    title: 'Happy Clients',
+    title: 'Mutlu Müşteriler',
     value: 10000,
-    description: 'Satisfied customers',
+    description: 'Memnun müşteriler',
   },
 ];
 
@@ -28,10 +28,10 @@ export default function Milestones() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-4">Our Journey So Far</h2>
+          <h2 className="text-4xl font-bold mb-4">Şimdiye Kadarki Yolculuğumuz</h2>
           <div className="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            Milestones that mark our growth and success
+            Büyümemizi ve başarımızı işaret eden kilometre taşları
           </p>
         </motion.div>
 

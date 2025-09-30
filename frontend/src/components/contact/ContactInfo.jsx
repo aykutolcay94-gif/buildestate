@@ -6,26 +6,26 @@ import ContactInfoItem from './InfoItem';
 const contactInfo = [
   {
     icon: Phone,
-    title: 'Phone',
+    title: 'Telefon',
     content: '+1 (234) 567-890',
     link: 'tel:+1234567890',
   },
   {
     icon: Mail,
-    title: 'Email',
+    title: 'E-posta',
     content: 'support@buildestate.com',
     link: 'mailto:support@buildestate.com',
   },
   {
     icon: MapPin,
-    title: 'Address',
-    content: '123 Main Street, City, Country',
+    title: 'Adres',
+    content: '123 Ana Cadde, Şehir, Ülke',
     link: '#map',
   },
   {
     icon: Clock,
-    title: 'Working Hours',
-    content: 'Mon-Fri: 9 AM - 6 PM',
+    title: 'Çalışma Saatleri',
+    content: 'Pzt-Cum: 09:00 - 18:00',
   },
 ];
 
@@ -37,7 +37,7 @@ export default function ContactInfo() {
       viewport={{ once: true }}
       className="bg-white p-8 rounded-2xl shadow-sm"
     >
-      <h2 className="text-2xl font-bold mb-8">Our Office</h2>
+      <h2 className="text-2xl font-bold mb-8">Ofisimiz</h2>
       <div className="space-y-6">
         {contactInfo.map((info, index) => (
           <ContactInfoItem key={index} {...info} />

@@ -7,7 +7,7 @@ const ContactForm = () => {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <label htmlFor="name">Name *</label>
+        <label htmlFor="name">Ad *</label>
         <input
           type="text"
           id="name"
@@ -19,7 +19,7 @@ const ContactForm = () => {
       </div>
 
       <div>
-        <label htmlFor="email">Email *</label>
+        <label htmlFor="email">E-posta *</label>
         <input
           type="email"
           id="email"
@@ -31,7 +31,7 @@ const ContactForm = () => {
       </div>
 
       <div>
-        <label htmlFor="phone">Phone</label>
+        <label htmlFor="phone">Telefon</label>
         <input
           type="tel"
           id="phone"
@@ -42,7 +42,7 @@ const ContactForm = () => {
       </div>
 
       <div>
-        <label htmlFor="message">Message *</label>
+        <label htmlFor="message">Mesaj *</label>
         <textarea
           id="message"
           name="message"
@@ -52,7 +52,7 @@ const ContactForm = () => {
         {errors.message && <p>{errors.message}</p>}
       </div>
 
-      <button type="submit">Send Message</button>
+      <button type="submit">Mesaj Gönder</button>
     </form>
   );
 };

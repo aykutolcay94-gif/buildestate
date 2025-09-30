@@ -6,25 +6,26 @@ import heroimage from "../assets/images/heroimage.png";
 import { RadialGradient } from "react-text-gradients";
 
 const popularLocations = [
-  "Mumbai",
-  "Delhi", 
-  "Bangalore",
-  "Hyderabad",
-  "Chennai"
+  "İstanbul",
+  "Ankara", 
+  "İzmir",
+  "Antalya",
+  "Bursa"
 ];
 
 const quickFilters = [
-  { label: "Apartments", icon: Home, count: "2.5k+" },
-  { label: "Houses", icon: Home, count: "1.8k+" },
-  { label: "Villas", icon: Home, count: "750+" },
-  { label: "Studios", icon: Home, count: "1.2k+" }
+  { label: "Daireler", icon: Home, count: "2.5k+" },
+  { label: "Evler", icon: Home, count: "1.8k+" },
+  { label: "Villalar", icon: Home, count: "750+" },
+  { label: "Stüdyolar", icon: Home, count: "1.2k+" },
+  { label: "Arsalar", icon: Home, count: "450+" }
 ];
 
 const stats = [
-  { icon: Users, value: "50K+", label: "Happy Customers", color: "from-blue-500 to-cyan-500" },
-  { icon: Home, value: "25K+", label: "Properties Listed", color: "from-green-500 to-emerald-500" },
-  { icon: Star, value: "4.9", label: "Average Rating", color: "from-yellow-500 to-orange-500" },
-  { icon: Shield, value: "100%", label: "Verified Properties", color: "from-purple-500 to-pink-500" }
+  { icon: Users, value: "50K+", label: "Mutlu Müşteriler", color: "from-blue-500 to-cyan-500" },
+  { icon: Home, value: "25K+", label: "Listelenen Emlaklar", color: "from-green-500 to-emerald-500" },
+  { icon: Star, value: "4.9", label: "Ortalama Puan", color: "from-yellow-500 to-orange-500" },
+  { icon: Shield, value: "100%", label: "Doğrulanmış Emlaklar", color: "from-purple-500 to-pink-500" }
 ];
 
 // Enhanced animation variants
@@ -177,7 +178,7 @@ const Hero = () => {
                 className="inline-flex items-center gap-2 px-6 py-3 bg-white/90 backdrop-blur-md text-blue-700 rounded-full text-sm font-semibold mb-8 shadow-lg border border-blue-100"
               >
                 <Shield className="w-4 h-4" />
-                <span>Trusted by 50,000+ families</span>
+                <span>50.000+ ailenin güvendiği</span>
                 <div className="flex items-center gap-1">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
@@ -191,11 +192,11 @@ const Hero = () => {
                   <RadialGradient
                     gradient={["circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%"]}
                   >
-                    Find Your Perfect
+                    Mükemmel
                   </RadialGradient>
                   <br />
                   <span className="text-gray-900 bg-gradient-to-r from-gray-800 via-gray-900 to-black bg-clip-text text-transparent">
-                    Dream Home
+                    Hayalinizdeki Evi Bulun
                   </span>
                 </h1>
 
@@ -203,9 +204,9 @@ const Hero = () => {
                   variants={itemVariants}
                   className="text-gray-700 text-xl sm:text-2xl mb-12 max-w-3xl mx-auto leading-relaxed font-medium"
                 >
-                  Discover exceptional properties in prime locations with our 
-                  <span className="text-blue-600 font-semibold"> AI-powered search</span> and 
-                  <span className="text-purple-600 font-semibold"> expert guidance</span>
+                  Prime lokasyonlardaki olağanüstü emlakları 
+                  <span className="text-blue-600 font-semibold"> AI destekli arama</span> ve 
+                  <span className="text-purple-600 font-semibold"> uzman rehberliği</span> ile keşfedin
                 </motion.p>
               </motion.div>
 
@@ -251,7 +252,7 @@ const Hero = () => {
                           setIsSearchFocused(true);
                         }}
                         onBlur={() => setIsSearchFocused(false)}
-                        placeholder="Enter city, locality, or landmark..."
+                        placeholder="Şehir, semt veya landmark girin..."
                         className="w-full pl-12 pr-6 py-4 rounded-2xl border-2 border-gray-200 bg-white/90 
                           focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300 
                           text-lg placeholder-gray-500 font-medium"
@@ -266,7 +267,7 @@ const Hero = () => {
                           transition-all flex items-center gap-2 font-medium"
                       >
                         <Filter className="w-5 h-5" />
-                        <span className="hidden sm:inline">Filters</span>
+                        <span className="hidden sm:inline">Filtreler</span>
                       </motion.button>
                       
                       <motion.button
@@ -278,7 +279,7 @@ const Hero = () => {
                           font-bold text-lg shadow-xl"
                       >
                         <Search className="w-5 h-5" />
-                        <span>Search Properties</span>
+                        <span>Emlak Ara</span>
                         <ArrowRight className="w-5 h-5" />
                       </motion.button>
                     </div>
@@ -299,9 +300,9 @@ const Hero = () => {
                           <div className="flex items-center justify-between mb-4">
                             <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
                               <TrendingUp className="w-5 h-5 text-orange-500" />
-                              Popular Locations
+                              Popüler Lokasyonlar
                             </h3>
-                            <span className="text-sm text-gray-500">Choose from trending areas</span>
+                            <span className="text-sm text-gray-500">Trend bölgelerden seçin</span>
                           </div>
                           
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -325,7 +326,7 @@ const Hero = () => {
                                     <span className="font-semibold text-gray-900 group-hover:text-blue-600 
                                       transition-colors">{location}</span>
                                     <div className="text-xs text-gray-500">
-                                      {Math.floor(Math.random() * 500) + 100}+ properties
+                                      {Math.floor(Math.random() * 500) + 100}+ emlak
                                     </div>
                                   </div>
                                 </div>

@@ -3,22 +3,22 @@ import { MessageSquare, Shield, Home, Users } from 'lucide-react';
 export const features = [
   {
     icon: MessageSquare,
-    title: 'Direct Communication',
-    description: 'Get instant responses from our experienced agents through our real-time chat system.',
+    title: 'Doğrudan İletişim',
+    description: 'Gerçek zamanlı sohbet sistemimiz aracılığıyla deneyimli temsilcilerimizden anında yanıt alın.',
   },
   {
     icon: Shield,
-    title: 'Verified Properties',
-    description: 'Every property is thoroughly inspected and verified to ensure quality and authenticity.',
+    title: 'Doğrulanmış Mülkler',
+    description: 'Her mülk kalite ve özgünlüğü sağlamak için kapsamlı olarak incelenir ve doğrulanır.',
   },
   {
     icon: Home,
-    title: 'Quality First',
-    description: 'We maintain high standards for all properties, ensuring you get the best value.',
+    title: 'Önce Kalite',
+    description: 'Tüm mülkler için yüksek standartları koruyarak en iyi değeri almanızı sağlıyoruz.',
   },
   {
     icon: Users,
-    title: 'Family Focused',
-    description: 'Find homes that perfectly match your family needs and lifestyle preferences.',
+    title: 'Aile Odaklı',
+    description: 'Aile ihtiyaçlarınıza ve yaşam tarzı tercihlerinize mükemmel uyum sağlayan evler bulun.',
   },
 ];

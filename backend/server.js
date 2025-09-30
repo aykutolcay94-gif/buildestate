@@ -15,8 +15,8 @@ import adminRouter from './routes/adminRoute.js';
 import propertyRoutes from './routes/propertyRoutes.js';
 import getStatusPage from './serverweb.js';
 
-
-dotenv.config();
+// Load environment variables from .env.local
+dotenv.config({ path: '.env.local' });
 
 const app = express();
 
@@ -78,9 +78,11 @@ app.use(trackAPIStats);
 // CORS Configuration
 app.use(cors({
   origin: [
+    'http://localhost:3000', // Frontend
     'http://localhost:4000',
     'http://localhost:5174',
     'http://localhost:5173',
+    'http://localhost:8080', // Admin panel
     'https://buildestate.vercel.app',
     'https://real-estate-website-admin.onrender.com',
     'https://real-estate-website-backend-zfu7.onrender.com',

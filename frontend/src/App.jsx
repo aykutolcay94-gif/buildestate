@@ -14,7 +14,11 @@ import ForgotPassword from './components/forgetpassword';
 import ResetPassword from './components/resetpassword';
 import Footer from './components/footer';
 import NotFoundPage from './components/Notfound';
+import Profile from './pages/Profile';
+import SavedProperties from './pages/SavedProperties';
+import Settings from './pages/Settings';
 import { AuthProvider } from './context/AuthContext';
+import { LanguageProvider } from './context/LanguageContext';
 import AIPropertyHub from './pages/Aiagent'
 import StructuredData from './components/SEO/StructuredData';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,6 +29,7 @@ export const Backendurl = import.meta.env.VITE_API_BASE_URL;
 const App = () => {
   return (
     <HelmetProvider>
+    <LanguageProvider>
     <AuthProvider>
     <Router>
       {/* Base website structured data */}
@@ -43,12 +48,16 @@ const App = () => {
         <Route path="/about" element={<Aboutus />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/ai-property-hub" element={<AIPropertyHub />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/saved-properties" element={<SavedProperties />} />
+        <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Footer />
       <ToastContainer />
     </Router>
     </AuthProvider>
+    </LanguageProvider>
     </HelmetProvider>
   )
 }

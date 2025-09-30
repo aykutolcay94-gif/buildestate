@@ -5,23 +5,23 @@ import { Home, Globe, Headphones, List } from 'lucide-react';
 const benefits = [
   {
     icon: Home,
-    title: 'Verified Properties',
-    description: 'Every property is thoroughly verified for quality and security.',
+    title: 'Doğrulanmış Emlaklar',
+    description: 'Her emlak kalite ve güvenlik açısından kapsamlı şekilde doğrulanır.',
   },
   {
     icon: Globe,
-    title: 'User-Friendly Platform',
-    description: 'Intuitive navigation and seamless property management.',
+    title: 'Kullanıcı Dostu Platform',
+    description: 'Sezgisel navigasyon ve sorunsuz emlak yönetimi.',
   },
   {
     icon: Headphones,
-    title: '24/7 Support',
-    description: 'Round-the-clock assistance for all your queries.',
+    title: '7/24 Destek',
+    description: 'Tüm sorularınız için günün her saati yardım.',
   },
   {
     icon: List,
-    title: 'Comprehensive Listings',
-    description: 'Wide range of properties to match every need and budget.',
+    title: 'Kapsamlı İlanlar',
+    description: 'Her ihtiyaç ve bütçeye uygun geniş emlak yelpazesi.',
   },
 ];
 
@@ -35,10 +35,10 @@ export default function Benefits() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-4">Why Choose BuildEstate?</h2>
+          <h2 className="text-4xl font-bold mb-4">Neden BuildEstate'i Seçmelisiniz?</h2>
           <div className="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            Experience the difference with our comprehensive property solutions
+            Kapsamlı emlak çözümlerimizle farkı deneyimleyin
           </p>
         </motion.div>
 

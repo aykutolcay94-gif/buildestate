@@ -43,7 +43,7 @@ const Appointments = () => {
       }
     } catch (error) {
       console.error("Error fetching appointments:", error);
-      toast.error("Failed to fetch appointments");
+      toast.error("Randevular yüklenemedi");
     } finally {
       setLoading(false);
     }
@@ -63,21 +63,21 @@ const Appointments = () => {
       );
 
       if (response.data.success) {
-        toast.success(`Appointment ${newStatus} successfully`);
+        toast.success(`Randevu başarıyla ${newStatus === 'confirmed' ? 'onaylandı' : newStatus === 'cancelled' ? 'iptal edildi' : 'güncellendi'}`);
         fetchAppointments();
       } else {
         toast.error(response.data.message);
       }
     } catch (error) {
       console.error("Error updating appointment:", error);
-      toast.error("Failed to update appointment status");
+      toast.error("Randevu durumu güncellenemedi");
     }
   };
 
   const handleMeetingLinkUpdate = async (appointmentId) => {
     try {
       if (!meetingLink) {
-        toast.error("Please enter a meeting link");
+        toast.error("Lütfen toplantı linki girin");
         return;
       }
 
@@ -93,7 +93,7 @@ const Appointments = () => {
       );
 
       if (response.data.success) {
-        toast.success("Meeting link sent successfully");
+        toast.success("Toplantı linki başarıyla gönderildi");
         setEditingMeetingLink(null);
         setMeetingLink("");
         fetchAppointments();
@@ -102,7 +102,7 @@ const Appointments = () => {
       }
     } catch (error) {
       console.error("Error updating meeting link:", error);
-      toast.error("Failed to update meeting link");
+      toast.error("Toplantı linki güncellenemedi");
     }
   };
 
@@ -135,6 +135,19 @@ const Appointments = () => {
     }
   };
 
+  const getStatusText = (status) => {
+    switch (status) {
+      case "pending":
+        return "Bekleyen";
+      case "confirmed":
+        return "Onaylanmış";
+      case "cancelled":
+        return "İptal Edilmiş";
+      default:
+        return status.charAt(0).toUpperCase() + status.slice(1);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen pt-32 flex items-center justify-center">
@@ -150,10 +163,10 @@ const Appointments = () => {
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 mb-1">
-              Appointments
+              Randevular
             </h1>
             <p className="text-gray-600">
-              Manage and track property viewing appointments
+              Emlak görüntüleme randevularını yönetin ve takip edin
             </p>
           </div>
 
@@ -161,7 +174,7 @@ const Appointments = () => {
             <div className="relative">
               <input
                 type="text"
-                placeholder="Search appointments..."
+                placeholder="Randevularda ara..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
@@ -176,10 +189,10 @@ const Appointments = () => {
                 onChange={(e) => setFilter(e.target.value)}
                 className="rounded-lg border border-gray-200 px-4 py-2 focus:ring-2 focus:ring-blue-500"
               >
-                <option value="all">All Appointments</option>
-                <option value="pending">Pending</option>
-                <option value="confirmed">Confirmed</option>
-                <option value="cancelled">Cancelled</option>
+                <option value="all">Tüm Randevular</option>
+                <option value="pending">Bekleyen</option>
+                <option value="confirmed">Onaylanmış</option>
+                <option value="cancelled">İptal Edilmiş</option>
               </select>
             </div>
           </div>
@@ -191,22 +204,22 @@ const Appointments = () => {
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Property
+                    Emlak
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Client
+                    Müşteri
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Date & Time
+                    Tarih & Saat
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
+                    Durum
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Meeting Link
+                    Toplantı Linki
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
+                    İşlemler
                   </th>
                 </tr>
               </thead>
@@ -271,8 +284,7 @@ const Appointments = () => {
                           appointment.status
                         )}`}
                       >
-                        {appointment.status.charAt(0).toUpperCase() +
-                          appointment.status.slice(1)}
+                        {getStatusText(appointment.status)}
                       </span>
                     </td>
 
@@ -284,7 +296,7 @@ const Appointments = () => {
                             type="url"
                             value={meetingLink}
                             onChange={(e) => setMeetingLink(e.target.value)}
-                            placeholder="Enter meeting link"
+                            placeholder="Toplantı linki girin"
                             className="px-2 py-1 border rounded-lg focus:ring-2 focus:ring-blue-500 text-sm w-full"
                           />
                           <button
@@ -315,10 +327,10 @@ const Appointments = () => {
                               className="text-blue-600 hover:text-blue-800 underline flex items-center gap-1"
                             >
                               <LinkIcon className="w-4 h-4" />
-                              View Link
+                              Linki Görüntüle
                             </a>
                           ) : (
-                            <span className="text-gray-500">No link yet</span>
+                            <span className="text-gray-500">Henüz link yok</span>
                           )}
                           {appointment.status === "confirmed" && (
                             <button
@@ -366,7 +378,7 @@ const Appointments = () => {
 
           {filteredAppointments.length === 0 && (
             <div className="text-center py-8 text-gray-500">
-              No appointments found
+              Randevu bulunamadı
             </div>
           )}
         </div>

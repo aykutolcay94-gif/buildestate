@@ -190,10 +190,10 @@ const PropertiesShow = () => {
   const navigate = useNavigate();
 
   const categories = [
-    { id: 'all', label: 'All Properties' },
-    { id: 'apartment', label: 'Apartments' },
-    { id: 'villa', label: 'Villas' },
-    { id: 'house', label: 'Houses' }
+    { id: 'all', label: 'Tüm Mülkler' },
+    { id: 'apartment', label: 'Daireler' },
+    { id: 'villa', label: 'Villalar' },
+    { id: 'house', label: 'Evler' }
   ];
   
   const containerVariants = {
@@ -236,7 +236,7 @@ const PropertiesShow = () => {
         }
       } catch (err) {
         console.error('Error fetching properties:', err);
-        setError('Failed to load properties. Using sample data instead.');
+        setError('Mülkler yüklenemedi. Bunun yerine örnek veriler kullanılıyor.');
         // Fallback to sample data
         setProperties(sampleProperties);
       } finally {
@@ -299,13 +299,13 @@ const PropertiesShow = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="text-blue-600 font-semibold tracking-wide uppercase text-sm">Explore Properties</span>
+          <span className="text-blue-600 font-semibold tracking-wide uppercase text-sm">Mülkleri Keşfedin</span>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-            Featured Properties
+            Öne Çıkan Mülkler
           </h2>
           <div className="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Discover our handpicked selection of premium properties designed to match your lifestyle needs
+            Yaşam tarzı ihtiyaçlarınıza uygun olarak tasarlanmış premium mülklerin özenle seçilmiş koleksiyonumuzu keşfedin
           </p>
         </motion.div>
 
@@ -337,7 +337,7 @@ const PropertiesShow = () => {
             className="text-amber-700 bg-amber-50 p-4 rounded-lg border border-amber-200 mb-8 max-w-md mx-auto text-center"
           >
             <p className="font-medium mb-1">Note: {error}</p>
-            <p className="text-sm">Showing sample properties for demonstration.</p>
+            <p className="text-sm">Gösterim için örnek mülkler gösteriliyor.</p>
           </motion.div>
         )}
 
@@ -357,13 +357,13 @@ const PropertiesShow = () => {
         ) : (
           <div className="text-center py-10 bg-white rounded-xl shadow-sm">
             <Search className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-xl font-medium text-gray-800 mb-2">No properties available</h3>
-            <p className="text-gray-600 mb-6">No properties found in this category.</p>
+            <h3 className="text-xl font-medium text-gray-800 mb-2">Mülk mevcut değil</h3>
+            <p className="text-gray-600 mb-6">Bu kategoride mülk bulunamadı.</p>
             <button 
               onClick={() => setActiveCategory('all')} 
               className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
-              View All Properties
+              Tüm Mülkleri Görüntüle
             </button>
           </div>
         )}
@@ -378,11 +378,11 @@ const PropertiesShow = () => {
             onClick={viewAllProperties}
             className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20 font-medium"
           >
-            Browse All Properties
+            Tüm Mülkleri İncele
             <ArrowRight className="ml-2 w-4 h-4" />
           </button>
           <p className="text-gray-600 mt-4 text-sm">
-            Discover our complete collection of premium properties
+            Premium mülklerin tam koleksiyonumuzu keşfedin
           </p>
         </motion.div>
       </div>

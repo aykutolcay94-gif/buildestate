@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
-dotenv.config();
+// Load environment variables from .env.local
+dotenv.config({ path: '.env.local' });
 
 const connectdb = async () => {
   try {
@@ -11,8 +12,14 @@ const connectdb = async () => {
     }
 
     const conn = await mongoose.connect(process.env.MONGO_URI, {
-      serverSelectionTimeoutMS: 10000, // Increased timeout for better stability
-      socketTimeoutMS: 45000
+      serverSelectionTimeoutMS: 30000, // 30 seconds for server selection
+      socketTimeoutMS: 60000, // 60 seconds for socket timeout
+      connectTimeoutMS: 30000, // 30 seconds for initial connection
+      maxPoolSize: 10, // Maintain up to 10 socket connections
+      minPoolSize: 5, // Maintain a minimum of 5 socket connections
+      maxIdleTimeMS: 30000, // Close connections after 30 seconds of inactivity
+      retryWrites: true,
+      w: 'majority'
     });
 
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
@@ -40,14 +47,10 @@ const connectdb = async () => {
     return conn;
   } catch (error) {
     console.error(`❌ MongoDB Connection Error: ${error.message}`);
+    console.log('⚠️  Running in demo mode without database');
     
-    // In production, you might want to retry connection instead of exiting
-    if (process.env.NODE_ENV === 'production') {
-      console.log('🔄 Retrying connection in 5 seconds...');
-      setTimeout(() => connectdb(), 5000);
-    } else {
-      process.exit(1);
-    }
+    // Don't exit, just continue without database
+    return null;
   }
 };
 

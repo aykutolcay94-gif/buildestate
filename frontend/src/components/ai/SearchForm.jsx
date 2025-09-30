@@ -26,7 +26,7 @@ const SearchForm = ({ onSearch, isLoading }) => {
     onSearch(searchParams);
   };
 
-  const popularCities = ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Pune', 'Chennai'];
+  const popularCities = ['İstanbul', 'Ankara', 'İzmir', 'Bursa', 'Antalya', 'Adana'];
 
   const handleCitySelect = (city) => {
     setSearchParams(prev => ({
@@ -47,7 +47,7 @@ const SearchForm = ({ onSearch, isLoading }) => {
         <div className="p-2 bg-blue-100 rounded-lg mr-3 w-10 h-10 flex items-center justify-center">
           <Search className="h-5 w-5 text-blue-600" />
         </div>
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Find Your Dream Property</h2>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Hayalinizdeki Emlağı Bulun</h2>
       </div>
       
       <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
@@ -55,7 +55,7 @@ const SearchForm = ({ onSearch, isLoading }) => {
         <div className="relative">
           <label htmlFor="city" className="flex items-center text-sm font-medium text-gray-700 mb-1.5">
             <MapPin className="w-4 h-4 mr-1.5 text-blue-600" />
-            City
+            Şehir
           </label>
           <div className="relative">
             <input
@@ -66,7 +66,7 @@ const SearchForm = ({ onSearch, isLoading }) => {
               onChange={handleChange}
               onFocus={() => setActiveField('city')}
               onBlur={() => setTimeout(() => setActiveField(null), 100)}
-              placeholder="Enter city name (e.g., Mumbai)"
+              placeholder="Şehir adını girin (örn. İstanbul)"
               className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-shadow text-sm sm:text-base"
               required
             />
@@ -76,7 +76,7 @@ const SearchForm = ({ onSearch, isLoading }) => {
                 animate={{ opacity: 1, y: 0 }}
                 className="absolute z-10 mt-1 w-full bg-white rounded-lg shadow-lg border border-gray-200 py-2"
               >
-                <p className="px-3 py-1 text-xs font-medium text-gray-500">Popular Cities</p>
+                <p className="px-3 py-1 text-xs font-medium text-gray-500">Popüler Şehirler</p>
                 <div className="mt-1 max-h-48 overflow-y-auto">
                   {popularCities.map((city) => (
                     <div
@@ -99,7 +99,7 @@ const SearchForm = ({ onSearch, isLoading }) => {
           <div>
             <label htmlFor="maxPrice" className="flex items-center text-sm font-medium text-gray-700 mb-1.5">
               <IndianRupee className="w-4 h-4 mr-1.5 text-blue-600" />
-              Maximum Price (in Crores)
+              Maksimum Fiyat (Milyon TL)
             </label>
             <div className="relative">
               <input
@@ -124,7 +124,7 @@ const SearchForm = ({ onSearch, isLoading }) => {
           <div>
             <label htmlFor="propertyType" className="flex items-center text-sm font-medium text-gray-700 mb-1.5">
               <Home className="w-4 h-4 mr-1.5 text-blue-600" />
-              Property Type
+              Emlak Türü
             </label>
             <select
               id="propertyType"
@@ -133,10 +133,11 @@ const SearchForm = ({ onSearch, isLoading }) => {
               onChange={handleChange}
               className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-shadow appearance-none text-sm sm:text-base"
             >
-              <option value="Flat">Flat</option>
-              <option value="Individual House">Individual House</option>
+              <option value="Flat">Daire</option>
+              <option value="Individual House">Müstakil Ev</option>
               <option value="Villa">Villa</option>
-              <option value="Penthouse">Penthouse</option>
+              <option value="Penthouse">Çatı Katı</option>
+              <option value="Arsa">Arsa</option>
             </select>
           </div>
           
@@ -144,7 +145,7 @@ const SearchForm = ({ onSearch, isLoading }) => {
           <div>
             <label htmlFor="propertyCategory" className="flex items-center text-sm font-medium text-gray-700 mb-1.5">
               <Building className="w-4 h-4 mr-1.5 text-blue-600" />
-              Property Category
+              Emlak Kategorisi
             </label>
             <select
               id="propertyCategory"
@@ -153,8 +154,8 @@ const SearchForm = ({ onSearch, isLoading }) => {
               onChange={handleChange}
               className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-shadow appearance-none text-sm sm:text-base"
             >
-              <option value="Residential">Residential</option>
-              <option value="Commercial">Commercial</option>
+              <option value="Residential">Konut</option>
+              <option value="Commercial">Ticari</option>
             </select>
           </div>
 
@@ -162,7 +163,7 @@ const SearchForm = ({ onSearch, isLoading }) => {
           <div>
             <label className="flex items-center text-sm font-medium text-gray-700 mb-2 sm:mb-4">
               <IndianRupee className="w-4 h-4 mr-1.5 text-blue-600" />
-              Price Range: ₹{searchParams.maxPrice} Cr
+              Fiyat Aralığı: {searchParams.maxPrice} Milyon TL
             </label>
             <input
               type="range"
@@ -174,8 +175,8 @@ const SearchForm = ({ onSearch, isLoading }) => {
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
             />
             <div className="flex justify-between text-xs text-gray-500 mt-1">
-              <span>₹50L</span>
-              <span>₹50Cr</span>
+              <span>500K TL</span>
+              <span>50M TL</span>
             </div>
           </div>
         </div>
@@ -193,12 +194,12 @@ const SearchForm = ({ onSearch, isLoading }) => {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              <span className="text-sm sm:text-base">Searching for Properties...</span>
+              <span className="text-sm sm:text-base">Emlaklar Aranıyor...</span>
             </span>
           ) : (
             <span className="flex items-center justify-center">
               <Search className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-              <span className="text-sm sm:text-base">Find Properties</span>
+              <span className="text-sm sm:text-base">Emlakları Bul</span>
             </span>
           )}
         </motion.button>

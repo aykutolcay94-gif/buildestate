@@ -12,7 +12,7 @@ export default function MissionVision() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-4">Our Purpose</h2>
+          <h2 className="text-4xl font-bold mb-4">Amacımız</h2>
           <div className="w-24 h-1 bg-blue-600 mx-auto"></div>
         </motion.div>
 
@@ -25,12 +25,12 @@ export default function MissionVision() {
           >
             <div className="flex items-center mb-6">
               <Target className="w-8 h-8 text-blue-600 mr-3" />
-              <h2 className="text-2xl font-bold">Our Mission</h2>
+              <h2 className="text-2xl font-bold">Misyonumuz</h2>
             </div>
             <p className="text-gray-600 leading-relaxed">
-              To provide a transparent and efficient property rental experience for all users. 
-              We strive to make the process of finding your perfect home as seamless as possible, 
-              while maintaining the highest standards of service and integrity.
+              Tüm kullanıcılar için şeffaf ve verimli bir emlak kiralama deneyimi sağlamak. 
+              Mükemmel evinizi bulma sürecini mümkün olduğunca sorunsuz hale getirmeye çalışırken, 
+              en yüksek hizmet ve dürüstlük standartlarını koruyoruz.
             </p>
           </motion.div>
 
@@ -42,12 +42,12 @@ export default function MissionVision() {
           >
             <div className="flex items-center mb-6">
               <Eye className="w-8 h-8 text-blue-600 mr-3" />
-              <h2 className="text-2xl font-bold">Our Vision</h2>
+              <h2 className="text-2xl font-bold">Vizyonumuz</h2>
             </div>
             <p className="text-gray-600 leading-relaxed">
-              Empowering millions of users to find their perfect home with ease and trust. 
-              We envision a future where property search is not just about finding a place to live, 
-              but about discovering a community to belong to.
+              Milyonlarca kullanıcının mükemmel evini kolaylık ve güvenle bulmasını sağlamak. 
+              Emlak aramasının sadece yaşayacak bir yer bulmakla ilgili olmadığı, 
+              aynı zamanda ait olunacak bir topluluk keşfetmekle ilgili olduğu bir gelecek hayal ediyoruz.
             </p>
           </motion.div>
         </div>

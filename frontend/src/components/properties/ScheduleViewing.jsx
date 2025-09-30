@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Backendurl } from '../../App';
+import TurkishCalendar from '../common/TurkishCalendar';
 
 const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, propertyImage, onClose }) => {
   const [formData, setFormData] = useState({
@@ -57,7 +58,7 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
   const handleDateChange = (e) => {
     const selectedDate = e.target.value;
     if (isWeekend(selectedDate)) {
-      toast.error('Viewings are not available on weekends');
+      toast.error('Hafta sonları görüntüleme mevcut değil');
       return;
     }
     setFormData(prev => ({ ...prev, date: selectedDate, time: '' }));
@@ -66,7 +67,7 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
   const handleTimeChange = (e) => {
     const selectedTime = e.target.value;
     if (formData.date === dateRestrictions.min && isPastTime(selectedTime)) {
-      toast.error('Please select a future time slot');
+      toast.error('Lütfen gelecek bir zaman dilimi seçin');
       return;
     }
     setFormData(prev => ({ ...prev, time: selectedTime }));
@@ -77,7 +78,7 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        toast.error('Please login to schedule a viewing');
+        toast.error('Görüntüleme planlamak için lütfen giriş yapın');
         return;
       }
     
@@ -115,7 +116,7 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
   const formatDate = (dateString) => {
     if (!dateString) return '';
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString('en-US', options);
+    return new Date(dateString).toLocaleDateString('tr-TR', options);
   };
 
   // Check if form can proceed to next step
@@ -138,7 +139,7 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
           <button
             onClick={onClose}
             className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 bg-white rounded-full p-1 hover:bg-gray-100 transition-colors z-10"
-            aria-label="Close dialog"
+            aria-label="Pencereyi kapat"
           >
             <X size={20} />
           </button>
@@ -157,7 +158,7 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
                   </div>
                 )}
                 <div className="flex-1 min-w-0">
-                  <h2 className="text-xl font-bold text-gray-900 truncate">Schedule a Viewing</h2>
+                  <h2 className="text-xl font-bold text-gray-900 truncate">Görüntüleme Planla</h2>
                   {propertyTitle && (
                     <p className="text-gray-700 font-medium truncate">{propertyTitle}</p>
                   )}
@@ -177,7 +178,7 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 mb-1 ${step >= 1 ? 'border-blue-600 bg-blue-50' : 'border-gray-300'}`}>
                       <Calendar className="w-4 h-4" />
                     </div>
-                    <span className="text-xs">Date & Time</span>
+                    <span className="text-xs">Tarih & Saat</span>
                   </div>
                   <div className="flex-1 h-0.5 mx-4 bg-gray-200">
                     <div className={`h-full bg-blue-600 transition-all duration-300`} style={{ width: step >= 2 ? '100%' : '0%' }}></div>
@@ -186,7 +187,7 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 mb-1 ${step >= 2 ? 'border-blue-600 bg-blue-50' : 'border-gray-300'}`}>
                       <Info className="w-4 h-4" />
                     </div>
-                    <span className="text-xs">Details</span>
+                    <span className="text-xs">Detaylar</span>
                   </div>
                 </div>
               </div>
@@ -201,30 +202,27 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
                   >
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Select Date
+                        Tarih Seçin
                       </label>
-                      <div className="relative">
-                        <input
-                          type="date"
-                          value={formData.date}
-                          onChange={handleDateChange}
-                          min={dateRestrictions.min}
-                          max={dateRestrictions.max}
-                          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
-                          required
-                          disabled={loading}
-                        />
-                        <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                      </div>
+                      <TurkishCalendar
+                        selectedDate={formData.date ? new Date(formData.date) : null}
+                        onDateSelect={(date) => {
+                          const formattedDate = date.toISOString().split('T')[0];
+                          setFormData(prev => ({ ...prev, date: formattedDate }));
+                        }}
+                        minDate={new Date(dateRestrictions.min)}
+                        maxDate={new Date(dateRestrictions.max)}
+                        className="w-full"
+                      />
                       <p className="text-xs text-gray-500 mt-1.5 flex items-center">
                         <Info className="w-3 h-3 mr-1 inline flex-shrink-0" />
-                        Available Monday to Friday, up to 30 days in advance
+                        Pazartesi-Cuma arası, 30 güne kadar önceden mevcut
                       </p>
                     </div>
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Select Time Slot
+                        Saat Dilimi Seçin
                       </label>
                       <div className="relative">
                         <select
@@ -234,7 +232,7 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
                           required
                           disabled={!formData.date || loading}
                         >
-                          <option value="">Choose a time slot</option>
+                          <option value="">Bir saat dilimi seçin</option>
                           {timeSlots.map((slot) => (
                             <option 
                               key={slot} 
@@ -254,7 +252,7 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
                       </div>
                       <p className="text-xs text-gray-500 mt-1.5 flex items-center">
                         <Info className="w-3 h-3 mr-1 inline flex-shrink-0" />
-                        Available from 9:00 AM to 6:00 PM
+                        09:00 - 18:00 arası mevcut
                       </p>
                     </div>
 
@@ -266,7 +264,7 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
                         className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 
                           transition-colors flex items-center justify-center gap-2 disabled:bg-blue-300"
                       >
-                        Continue
+                        Devam Et
                       </button>
                     </div>
                   </motion.div>
@@ -281,13 +279,13 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
                   >
                     <div className="bg-blue-50 rounded-lg p-4 mb-4">
                       <div className="flex justify-between items-start mb-2">
-                        <h3 className="text-sm font-medium text-gray-900">Selected Time</h3>
+                        <h3 className="text-sm font-medium text-gray-900">Seçilen Zaman</h3>
                         <button 
                           type="button" 
                           onClick={() => setStep(1)}
                           className="text-xs text-blue-600 hover:text-blue-800"
                         >
-                          Change
+                          Değiştir
                         </button>
                       </div>
                       <div className="flex items-center">
@@ -302,15 +300,15 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
 
                     <div>
                       <label className="flex justify-between text-sm font-medium text-gray-700 mb-1">
-                        <span>Additional Notes</span>
-                        <span className="text-gray-400 text-xs">(Optional)</span>
+                        <span>Ek Notlar</span>
+                        <span className="text-gray-400 text-xs">(İsteğe Bağlı)</span>
                       </label>
                       <textarea
                         value={formData.notes}
                         onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
                         rows={4}
-                        placeholder="Any specific requirements or questions about the property..."
+                        placeholder="Emlak hakkında özel gereksinimleriniz veya sorularınız..."
                         disabled={loading}
                       />
                     </div>
@@ -323,7 +321,7 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
                         className="lg:w-1/2 order-2 lg:order-1 bg-gray-100 text-gray-700 py-3 rounded-lg hover:bg-gray-200 
                           transition-colors flex items-center justify-center gap-2 disabled:bg-gray-100 disabled:text-gray-400"
                       >
-                        Back
+                        Geri
                       </button>
                       <button
                         type="submit"
@@ -334,10 +332,10 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
                         {loading ? (
                           <>
                             <Loader className="w-4 h-4 animate-spin" />
-                            Scheduling...
+                            Planlanıyor...
                           </>
                         ) : (
-                          'Schedule Viewing'
+                          'Görüntüleme Planla'
                         )}
                       </button>
                     </div>
@@ -355,9 +353,9 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
                 <CheckCircle className="w-8 h-8 text-green-600" />
               </div>
               
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Viewing Scheduled!</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Görüntüleme Planlandı!</h3>
               <p className="text-gray-600 mb-6">
-                We've sent you a confirmation email with all the details.
+                Tüm detayları içeren bir onay e-postası gönderdik.
               </p>
               
               <div className="bg-blue-50 rounded-lg p-4 max-w-xs mx-auto mb-6">
@@ -378,14 +376,14 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
               </div>
               
               <p className="text-sm text-gray-500 mb-6">
-                One of our agents will contact you to confirm the details.
+                Temsilcilerimizden biri detayları onaylamak için sizinle iletişime geçecek.
               </p>
               
               <button
                 onClick={onClose}
                 className="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors"
               >
-                Close
+                Kapat
               </button>
             </motion.div>
           )}
@@ -395,7 +393,7 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
             <div className="mt-6 pt-4 border-t border-gray-100">
               <div className="flex items-center text-sm text-gray-600">
                 <Users className="w-4 h-4 text-blue-600 mr-2" />
-                <span>A qualified agent will guide you through the viewing</span>
+                <span>Nitelikli bir temsilci görüntüleme boyunca size rehberlik edecek</span>
               </div>
             </div>
           )}

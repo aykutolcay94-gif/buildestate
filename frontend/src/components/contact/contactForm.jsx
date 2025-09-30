@@ -13,12 +13,12 @@ function ContactForm() {
       viewport={{ once: true }}
       className="bg-white p-8 rounded-2xl shadow-sm"
     >
-      <h2 className="text-2xl font-bold mb-6">Send Us a Message</h2>
+      <h2 className="text-2xl font-bold mb-6">Bize Mesaj Gönderin</h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-            Name *
-          </label>
+          Ad *
+        </label>
           <input
             type="text"
             id="name"
@@ -34,8 +34,8 @@ function ContactForm() {
 
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-            Email *
-          </label>
+          E-posta *
+        </label>
           <input
             type="email"
             id="email"
@@ -51,7 +51,7 @@ function ContactForm() {
 
         <div>
           <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-            Phone Number (Optional)
+            Telefon
           </label>
           <input
             type="tel"
@@ -65,8 +65,8 @@ function ContactForm() {
 
         <div>
           <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-            Message *
-          </label>
+          Mesaj *
+        </label>
           <textarea
             id="message"
             name="message"
@@ -85,7 +85,7 @@ function ContactForm() {
           className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center"
         >
           <Send className="w-4 h-4 mr-2" />
-          Send Message
+          Mesaj Gönder
         </button>
       </form>
     </motion.div>

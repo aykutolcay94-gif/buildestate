@@ -238,10 +238,10 @@ const Testimonials = () => {
 
   // Statistics for enhanced visual appeal
   const stats = [
-    { icon: Users, value: "10K+", label: "Happy Clients", color: "from-blue-500 to-cyan-500" },
-    { icon: Star, value: "4.9", label: "Average Rating", color: "from-yellow-500 to-orange-500" },
-    { icon: Award, value: "50+", label: "Awards Won", color: "from-purple-500 to-pink-500" },
-    { icon: TrendingUp, value: "98%", label: "Success Rate", color: "from-green-500 to-emerald-500" }
+    { icon: Users, value: "10K+", label: "Mutlu Müşteri", color: "from-blue-500 to-cyan-500" },
+    { icon: Star, value: "4.9", label: "Ortalama Puan", color: "from-yellow-500 to-orange-500" },
+    { icon: Award, value: "50+", label: "Kazanılan Ödül", color: "from-purple-500 to-pink-500" },
+    { icon: TrendingUp, value: "98%", label: "Başarı Oranı", color: "from-green-500 to-emerald-500" }
   ];
 
   // Auto-rotate testimonials
@@ -323,7 +323,7 @@ const Testimonials = () => {
             className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-full text-sm font-semibold mb-6 shadow-lg"
           >
             <Star className="w-4 h-4 fill-current" />
-            <span>Client Testimonials</span>
+            <span>Müşteri Yorumları</span>
             <Sparkles className="w-4 h-4" />
           </motion.div>
 
@@ -334,8 +334,8 @@ const Testimonials = () => {
             transition={{ delay: 0.3 }}
             className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent mb-6"
           >
-            What Our Clients
-            <span className="block text-blue-600">Are Saying</span>
+            Müşterilerimiz
+            <span className="block text-blue-600">Ne Diyor</span>
           </motion.h2>
 
           <motion.div 
@@ -353,8 +353,8 @@ const Testimonials = () => {
             transition={{ delay: 0.5 }}
             className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
           >
-            Discover why thousands of homeowners trust BuildEstate to find their perfect property. 
-            Our commitment to excellence speaks through their experiences.
+            Binlerce ev sahibinin mükemmel emlağını bulmak için neden BuildEstate'e güvendiğini keşfedin. 
+            Mükemmellik konusundaki kararlılığımız onların deneyimleriyle konuşuyor.
           </motion.p>
         </motion.div>
 
@@ -564,7 +564,7 @@ const Testimonials = () => {
               style={{ boxShadow: "0 10px 30px rgba(59, 130, 246, 0.3)" }}
             >
               <Heart className="mr-3 w-5 h-5 text-pink-300 group-hover:text-pink-200 transition-colors duration-200" />
-              Share Your Experience
+              Deneyiminizi Paylaşın
               <ArrowRight className="ml-3 w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-200" />
             </a>
           </motion.div>
@@ -576,7 +576,7 @@ const Testimonials = () => {
             transition={{ delay: 0.5 }}
             className="mt-4 text-gray-600"
           >
-            Join thousands of satisfied clients in our growing community
+            Büyüyen topluluğumuzda binlerce memnun müşteriye katılın
           </motion.p>
         </motion.div>
       </div>

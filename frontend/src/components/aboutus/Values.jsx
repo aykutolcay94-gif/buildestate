@@ -5,18 +5,18 @@ import { Shield, Clock, CheckCircle } from 'lucide-react';
 const values = [
   {
     icon: Shield,
-    title: 'Trust',
-    description: 'We verify all property owners and renters to ensure a safe and reliable experience for everyone.',
+    title: 'Güven',
+    description: 'Herkes için güvenli ve güvenilir bir deneyim sağlamak için tüm emlak sahiplerini ve kiracıları doğrularız.',
   },
   {
     icon: CheckCircle,
-    title: 'Transparency',
-    description: 'Clear and honest property listings with accurate information and no hidden fees.',
+    title: 'Şeffaflık',
+    description: 'Doğru bilgiler ve gizli ücretler olmadan açık ve dürüst emlak ilanları.',
   },
   {
     icon: Clock,
-    title: 'Efficiency',
-    description: 'Streamlined property search and listing process to save you time and effort.',
+    title: 'Verimlilik',
+    description: 'Zaman ve çabanızı tasarruf etmek için kolaylaştırılmış emlak arama ve listeleme süreci.',
   },
 ];
 
@@ -30,10 +30,10 @@ export default function Values() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-4">Our Values</h2>
+          <h2 className="text-4xl font-bold mb-4">Değerlerimiz</h2>
           <div className="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
           <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-            These core values guide everything we do at BuildEstate
+            Bu temel değerler BuildEstate'te yaptığımız her şeye rehberlik eder
           </p>
         </motion.div>
 

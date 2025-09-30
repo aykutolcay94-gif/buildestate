@@ -18,17 +18,17 @@ export default function useContactForm() {
     const newErrors = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
+      newErrors.name = 'İsim gereklidir';
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = 'E-posta gereklidir';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = 'Lütfen geçerli bir e-posta adresi girin';
     }
 
     if (!formData.message.trim()) {
-      newErrors.message = 'Message is required';
+      newErrors.message = 'Mesaj gereklidir';
     }
 
     setErrors(newErrors);
@@ -48,11 +48,11 @@ export default function useContactForm() {
     if (validateForm()) {
       try {
         const response = await axios.post(`${Backendurl}/api/forms/submit`, formData);
-        toast.success('Form submitted successfully!');
+        toast.success('Form başarıyla gönderildi!');
         // Reset form
         setFormData({ name: '', email: '', phone: '', message: '' });
       } catch (error) {
-        toast.error('Error submitting form. Please try again.');
+        toast.error('Form gönderilirken hata oluştu. Lütfen tekrar deneyin.');
         console.error('Error submitting form:', error);
       }
     } else {

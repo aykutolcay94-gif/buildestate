@@ -32,9 +32,30 @@ const PropertyListings = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all");
   const [sortBy, setSortBy] = useState("newest");
-  const [viewMode, setViewMode] = useState("grid"); // grid or list
+  const [viewMode, setViewMode] = useState("grid");
   const [refreshing, setRefreshing] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+
+  const parseAmenities = (amenities) => {
+    if (!amenities) return [];
+    
+    // If it's already an array, return it
+    if (Array.isArray(amenities)) {
+      return amenities;
+    }
+    
+    // If it's a string, try to parse it
+    if (typeof amenities === "string") {
+      try {
+        return JSON.parse(amenities.replace(/'/g, '"'));
+      } catch (error) {
+        console.error("Error parsing amenities:", error);
+        return [];
+      }
+    }
+    
+    return [];
+  };
 
   const fetchProperties = async () => {
     try {
@@ -51,7 +72,7 @@ const PropertyListings = () => {
       }
     } catch (error) {
       console.error("Error fetching properties:", error);
-      toast.error("Failed to fetch properties");
+      toast.error("Emlaklar yüklenemedi");
     } finally {
       setLoading(false);
     }
@@ -61,44 +82,32 @@ const PropertyListings = () => {
     setRefreshing(true);
     await fetchProperties();
     setRefreshing(false);
-    toast.success("Properties refreshed!");
+    toast.success("Emlaklar yenilendi!");
   };
-
-  const parseAmenities = (amenities) => {
-    if (!amenities || !Array.isArray(amenities)) return [];
-    try {
-      return typeof amenities[0] === "string" 
-        ? JSON.parse(amenities[0].replace(/'/g, '"'))
-        : amenities;
-    } catch (error) {
-      console.error("Error parsing amenities:", error);
-      return [];
-    }
-  };
-
-  useEffect(() => {
-    fetchProperties();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleRemoveProperty = async (propertyId, propertyTitle) => {
-    if (window.confirm(`Are you sure you want to remove "${propertyTitle}"?`)) {
+    if (window.confirm(`"${propertyTitle}" emlakını silmek istediğinizden emin misiniz?`)) {
       try {
         const response = await axios.post(`${backendurl}/api/products/remove`, {
           id: propertyId
         });
 
         if (response.data.success) {
-          toast.success("Property removed successfully");
+          toast.success("Emlak başarıyla silindi");
           await fetchProperties();
         } else {
           toast.error(response.data.message);
         }
       } catch (error) {
         console.error("Error removing property:", error);
-        toast.error("Failed to remove property");
+        toast.error("Emlak silinemedi");
       }
     }
   };
+
+  useEffect(() => {
+    fetchProperties();
+  }, []);
 
   const filteredProperties = properties
     .filter(property => {
@@ -123,7 +132,6 @@ const PropertyListings = () => {
       }
     });
 
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { 
@@ -173,7 +181,7 @@ const PropertyListings = () => {
             transition={{ delay: 0.2 }}
             className="text-xl font-semibold text-gray-700 mb-2"
           >
-            Loading Properties
+            Emlaklar Yükleniyor
           </motion.h3>
           <motion.p 
             initial={{ opacity: 0, y: 10 }}
@@ -181,7 +189,7 @@ const PropertyListings = () => {
             transition={{ delay: 0.4 }}
             className="text-gray-500"
           >
-            Fetching the latest property listings...
+            En son emlak ilanları getiriliyor...
           </motion.p>
         </div>
       </motion.div>
@@ -196,7 +204,6 @@ const PropertyListings = () => {
       className="min-h-screen pt-20 bg-gradient-to-br from-gray-50 via-white to-gray-50"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header Section */}
         <motion.div 
           variants={itemVariants}
           className="mb-8"
@@ -204,16 +211,16 @@ const PropertyListings = () => {
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
             <div className="space-y-2">
               <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
-                Property Management
+                Emlak Yönetimi
               </h1>
               <div className="flex items-center gap-4 text-sm text-gray-600">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span>{filteredProperties.length} Properties Listed</span>
+                  <span>{filteredProperties.length} Emlak Listelendi</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <TrendingUp className="w-4 h-4" />
-                  <span>Portfolio Overview</span>
+                  <span>Portföy Genel Bakış</span>
                 </div>
               </div>
             </div>
@@ -227,7 +234,7 @@ const PropertyListings = () => {
                 className="flex items-center gap-2 px-4 py-2 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-all duration-200 shadow-sm hover:shadow-md disabled:opacity-50"
               >
                 <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
-                <span className="hidden sm:inline">Refresh</span>
+                <span className="hidden sm:inline">Yenile</span>
               </motion.button>
               
               <Link to="/add">
@@ -237,25 +244,23 @@ const PropertyListings = () => {
                   className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl"
                 >
                   <Plus className="w-5 h-5" />
-                  <span>Add Property</span>
+                  <span>Emlak Ekle</span>
                 </motion.button>
               </Link>
             </div>
           </div>
         </motion.div>
 
-        {/* Stats Cards */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 20 }}
           variants={itemVariants}
           className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8"
         >
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Total Properties</p>
+                <p className="text-sm font-medium text-gray-600">Toplam Emlak</p>
                 <p className="text-2xl font-bold text-gray-900">{properties.length}</p>
               </div>
               <div className="p-3 bg-blue-50 rounded-xl">
@@ -267,7 +272,7 @@ const PropertyListings = () => {
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">For Rent</p>
+                <p className="text-sm font-medium text-gray-600">Kiralık</p>
                 <p className="text-2xl font-bold text-gray-900">
                   {properties.filter(p => p.availability === 'rent').length}
                 </p>
@@ -281,7 +286,7 @@ const PropertyListings = () => {
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">For Sale</p>
+                <p className="text-sm font-medium text-gray-600">Satılık</p>
                 <p className="text-2xl font-bold text-gray-900">
                   {properties.filter(p => p.availability === 'sale').length}
                 </p>
@@ -295,9 +300,9 @@ const PropertyListings = () => {
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Avg. Price</p>
+                <p className="text-sm font-medium text-gray-600">Ort. Fiyat</p>
                 <p className="text-2xl font-bold text-gray-900">
-                  ₹{properties.length > 0 ? Math.round(properties.reduce((sum, p) => sum + p.price, 0) / properties.length / 100000) : 0}L
+                  ₺{properties.length > 0 ? Math.round(properties.reduce((sum, p) => sum + p.price, 0) / properties.length / 100000) : 0}L
                 </p>
               </div>
               <div className="p-3 bg-orange-50 rounded-xl">
@@ -307,29 +312,26 @@ const PropertyListings = () => {
           </div>
         </motion.div>
 
-        {/* Search and Filters */}
         <motion.div 
-        initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           variants={itemVariants}
           className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-8"
         >
           <div className="space-y-4">
-            {/* Search Bar */}
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <Search className="h-5 w-5 text-gray-400" />
               </div>
               <input
                 type="text"
-                placeholder="Search by title, location, or property type..."
+                placeholder="Başlık, konum veya emlak türüne göre ara..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="block w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
             </div>
 
-            {/* Filters Row */}
             <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
               <div className="flex items-center gap-4 w-full sm:w-auto">
                 <button
@@ -337,7 +339,7 @@ const PropertyListings = () => {
                   className="flex items-center gap-2 px-4 py-2 text-gray-600 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
                 >
                   <Filter className="w-4 h-4" />
-                  <span>Filters</span>
+                  <span>Filtreler</span>
                   <ChevronDown className={`w-4 h-4 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
                 </button>
 
@@ -346,11 +348,11 @@ const PropertyListings = () => {
                   onChange={(e) => setFilterType(e.target.value)}
                   className="px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
                 >
-                  <option value="all">All Types</option>
-                  <option value="house">Houses</option>
-                  <option value="apartment">Apartments</option>
-                  <option value="villa">Villas</option>
-                  <option value="office">Offices</option>
+                  <option value="all">Tüm Türler</option>
+                  <option value="house">Evler</option>
+                  <option value="apartment">Apartmanlar</option>
+                  <option value="villa">Villalar</option>
+                  <option value="office">Ofisler</option>
                 </select>
 
                 <select
@@ -358,9 +360,9 @@ const PropertyListings = () => {
                   onChange={(e) => setSortBy(e.target.value)}
                   className="px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
                 >
-                  <option value="newest">Newest First</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
+                  <option value="newest">En Yeni Önce</option>
+                  <option value="price-low">Fiyat: Düşükten Yükseğe</option>
+                  <option value="price-high">Fiyat: Yüksekten Düşüğe</option>
                 </select>
               </div>
 
@@ -389,9 +391,9 @@ const PropertyListings = () => {
             </div>
           </div>
         </motion.div>
-        {/* Property Grid */}
+
         <motion.div 
-        initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           variants={itemVariants}
           className="space-y-6"
@@ -407,12 +409,12 @@ const PropertyListings = () => {
                   <Home className="w-10 h-10 text-gray-400" />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  No properties found
+                  Emlak bulunamadı
                 </h3>
                 <p className="text-gray-500 mb-6">
                   {searchTerm || filterType !== "all" 
-                    ? "Try adjusting your search criteria or filters" 
-                    : "Get started by adding your first property"
+                    ? "Arama kriterlerinizi veya filtrelerinizi ayarlamayı deneyin" 
+                    : "İlk emlağınızı ekleyerek başlayın"
                   }
                 </p>
                 {(!searchTerm && filterType === "all") && (
@@ -423,7 +425,7 @@ const PropertyListings = () => {
                       className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
                     >
                       <Plus className="w-5 h-5" />
-                      Add Your First Property
+                      İlk Emlağınızı Ekleyin
                     </motion.button>
                   </Link>
                 )}
@@ -449,7 +451,6 @@ const PropertyListings = () => {
                       viewMode === 'list' ? 'flex flex-col sm:flex-row' : ''
                     }`}
                   >
-                    {/* Property Image */}
                     <div className={`relative ${
                       viewMode === 'list' 
                         ? 'sm:w-80 h-48 sm:h-auto flex-shrink-0' 
@@ -463,14 +464,12 @@ const PropertyListings = () => {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                       
-                      {/* Property Type Badge */}
                       <div className="absolute top-4 left-4">
                         <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-gray-800 text-sm font-medium rounded-full shadow-sm">
                           {property.type}
                         </span>
                       </div>
 
-                      {/* Status Badge */}
                       <div className="absolute top-4 right-4">
                         <span className={`px-3 py-1 text-xs font-medium rounded-full backdrop-blur-sm shadow-sm ${
                           property.availability === 'rent' 
@@ -481,7 +480,6 @@ const PropertyListings = () => {
                         </span>
                       </div>
 
-                      {/* Action Buttons */}
                       <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
                         <Link 
                           to={`/update/${property._id}`}
@@ -500,7 +498,6 @@ const PropertyListings = () => {
                       </div>
                     </div>
 
-                    {/* Property Details */}
                     <div className={`p-6 flex-1 ${viewMode === 'list' ? 'flex flex-col justify-between' : ''}`}>
                       <div>
                         <div className="mb-4">
@@ -512,39 +509,37 @@ const PropertyListings = () => {
                             <span className="text-sm">{property.location}</span>
                           </div>
                           <div className="flex items-center justify-between">
-                            <p className="text-3xl font-bold text-gray-900">
-                              ₹{property.price.toLocaleString()}
-                            </p>
+                             <p className="text-3xl font-bold text-gray-900">
+                               ₺{property.price.toLocaleString()}
+                             </p>
                             <div className="flex items-center gap-1">
                               <Eye className="w-4 h-4 text-gray-400" />
-                              <span className="text-sm text-gray-500">2.4k views</span>
+                              <span className="text-sm text-gray-500">2.4k görüntüleme</span>
                             </div>
                           </div>
                         </div>
 
-                        {/* Property Stats */}
                         <div className="grid grid-cols-3 gap-4 mb-6">
                           <div className="text-center p-3 bg-gray-50 rounded-xl">
                             <BedDouble className="w-5 h-5 text-gray-400 mx-auto mb-1" />
                             <div className="text-sm font-medium text-gray-900">{property.beds}</div>
-                            <div className="text-xs text-gray-500">Bedrooms</div>
+                            <div className="text-xs text-gray-500">Yatak Odası</div>
                           </div>
                           <div className="text-center p-3 bg-gray-50 rounded-xl">
                             <Bath className="w-5 h-5 text-gray-400 mx-auto mb-1" />
                             <div className="text-sm font-medium text-gray-900">{property.baths}</div>
-                            <div className="text-xs text-gray-500">Bathrooms</div>
+                            <div className="text-xs text-gray-500">Banyo</div>
                           </div>
                           <div className="text-center p-3 bg-gray-50 rounded-xl">
                             <Maximize className="w-5 h-5 text-gray-400 mx-auto mb-1" />
                             <div className="text-sm font-medium text-gray-900">{property.sqft}</div>
-                            <div className="text-xs text-gray-500">Sq Ft</div>
+                            <div className="text-xs text-gray-500">m²</div>
                           </div>
                         </div>
 
-                        {/* Amenities */}
                         {property.amenities.length > 0 && (
                           <div className="border-t pt-4">
-                            <h4 className="text-sm font-medium text-gray-900 mb-3">Top Amenities</h4>
+                            <h4 className="text-sm font-medium text-gray-900 mb-3">Öne Çıkan Olanaklar</h4>
                             <div className="flex flex-wrap gap-2">
                               {property.amenities.slice(0, 4).map((amenity, index) => (
                                 <span
@@ -557,7 +552,7 @@ const PropertyListings = () => {
                               ))}
                               {property.amenities.length > 4 && (
                                 <span className="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
-                                  +{property.amenities.length - 4} more
+                                  +{property.amenities.length - 4} daha fazla
                                 </span>
                               )}
                             </div>
@@ -568,7 +563,7 @@ const PropertyListings = () => {
                       {viewMode === 'list' && (
                         <div className="flex items-center justify-between pt-4 mt-4 border-t">
                           <div className="text-sm text-gray-500">
-                            Listed {new Date(property.createdAt).toLocaleDateString()}
+                            Listelendi {new Date(property.createdAt).toLocaleDateString()}
                           </div>
                           <div className="flex items-center gap-2">
                             <Link 

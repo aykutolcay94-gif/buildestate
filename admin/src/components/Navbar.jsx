@@ -53,10 +53,10 @@ const Navbar = () => {
   };
 
   const navItems = [
-    { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { path: '/list', label: 'Properties', icon: List },
-    { path: '/add', label: 'Add Property', icon: PlusSquare },
-    { path: '/appointments', label: 'Appointments', icon: Calendar },
+    { path: '/dashboard', label: 'Kontrol Paneli', icon: LayoutDashboard },
+    { path: '/list', label: 'Emlaklar', icon: List },
+    { path: '/add', label: 'Emlak Ekle', icon: PlusSquare },
+    { path: '/appointments', label: 'Randevular', icon: Calendar },
   ];
 
   const containerVariants = {
@@ -103,7 +103,7 @@ const Navbar = () => {
               <span className="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
                 BuildEstate
               </span>
-              <div className="text-xs text-gray-500 font-medium">Admin Panel</div>
+              <div className="text-xs text-gray-500 font-medium">Yönetim Paneli</div>
             </div>
           </Link>
           
@@ -162,7 +162,7 @@ const Navbar = () => {
                 </div>
                 <div className="text-left hidden lg:block">
                   <div className="text-sm font-medium text-gray-900">Admin</div>
-                  <div className="text-xs text-gray-500">Administrator</div>
+                  <div className="text-xs text-gray-500">Yönetici</div>
                 </div>
                 <ChevronDown className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${
                   isProfileOpen ? 'rotate-180' : ''
@@ -179,21 +179,21 @@ const Navbar = () => {
                     className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 py-2"
                   >
                     <div className="px-4 py-2 border-b border-gray-100">
-                      <div className="text-sm font-medium text-gray-900">Admin Panel</div>
-                      <div className="text-xs text-gray-500">Manage your properties</div>
+                      <div className="text-sm font-medium text-gray-900">Yönetim Paneli</div>
+                      <div className="text-xs text-gray-500">Emlakları yönetin</div>
                     </div>
                     <button
                       className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center"
                     >
                       <Settings className="h-4 w-4 mr-2" />
-                      Settings
+                      Ayarlar
                     </button>
                     <button
                       onClick={handleLogout}
                       className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center"
                     >
                       <LogOut className="h-4 w-4 mr-2" />
-                      Logout
+                      Çıkış Yap
                     </button>
                   </motion.div>
                 )}
@@ -261,8 +261,8 @@ const Navbar = () => {
                     <User className="h-5 w-5 text-white" />
                   </div>
                   <div className="ml-3">
-                    <div className="text-sm font-medium text-gray-900">Admin</div>
-                    <div className="text-xs text-gray-500">Administrator</div>
+                    <div className="text-sm font-medium text-gray-900">Yönetici</div>
+                    <div className="text-xs text-gray-500">Sistem Yöneticisi</div>
                   </div>
                 </div>
                 
@@ -270,7 +270,7 @@ const Navbar = () => {
                   className="w-full text-left px-4 py-3 rounded-xl text-sm text-gray-700 hover:bg-gray-50 flex items-center mb-2"
                 >
                   <Settings className="h-4 w-4 mr-3" />
-                  Settings
+                  Ayarlar
                 </button>
                 
                 <button
@@ -278,7 +278,7 @@ const Navbar = () => {
                   className="w-full text-left px-4 py-3 rounded-xl text-sm text-red-600 hover:bg-red-50 flex items-center"
                 >
                   <LogOut className="h-4 w-4 mr-3" />
-                  Logout
+                  Çıkış Yap
                 </button>
               </motion.div>
             </div>

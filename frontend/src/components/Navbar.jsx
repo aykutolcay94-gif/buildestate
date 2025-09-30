@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu,
@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import logo from "../assets/home-regular-24.png";
 import { useAuth } from "../context/AuthContext";
+import { NavbarLanguageSwitcher } from "./LanguageSwitcher";
 import PropTypes from "prop-types";
 
 // Enhanced Animation Variants
@@ -88,11 +89,14 @@ const sparkleVariants = {
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [notifications] = useState(3); // Example notification count
+  const [notifications, setNotifications] = useState(3); // Example notification count
   const dropdownRef = useRef(null);
+  const notificationRef = useRef(null);
   const { isLoggedIn, user, logout } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Handle click outside of dropdown
   useEffect(() => {
@@ -100,16 +104,19 @@ const Navbar = () => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
       }
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setIsNotificationOpen(false);
+      }
     };
 
-    if (isDropdownOpen) {
+    if (isDropdownOpen || isNotificationOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isDropdownOpen]);
+  }, [isDropdownOpen, isNotificationOpen]);
 
   // Handle scroll effect for navbar
   useEffect(() => {
@@ -128,6 +135,60 @@ const Navbar = () => {
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const toggleNotification = () => setIsNotificationOpen(!isNotificationOpen);
+
+  const handleNotificationClick = (notificationId, notificationType) => {
+    console.log(`Bildirim tıklandı: ${notificationId}, Tip: ${notificationType}`);
+    
+    // Bildirim tipine göre farklı aksiyonlar (mevcut sayfalara yönlendir)
+    switch (notificationType) {
+      case 'property':
+        // Emlak ilanına yönlendir
+        navigate('/properties');
+        break;
+      case 'message':
+        // Profil sayfasına yönlendir (mesajlar için)
+        navigate('/profile');
+        break;
+      case 'favorite':
+        // Kayıtlı emlaklar sayfasına yönlendir
+        navigate('/saved-properties');
+        break;
+      default:
+        // Ayarlar sayfasına yönlendir (bildirim ayarları için)
+        navigate('/settings');
+    }
+    
+    // Bildirim menüsünü kapat
+    setIsNotificationOpen(false);
+  };
+
+  const handleMarkAllAsRead = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('Tüm bildirimler okundu olarak işaretlendi');
+    
+    // Bildirim sayısını sıfırla
+    setNotifications(0);
+    
+    // Görsel geri bildirim için kısa bir alert
+    alert('Tüm bildirimler okundu olarak işaretlendi!');
+    
+    // Bildirim menüsünü kapat
+    setIsNotificationOpen(false);
+    
+    // Burada API çağrısı yapılabilir
+    // try {
+    //   await markAllNotificationsAsRead();
+    // } catch (error) {
+    //   console.error('Bildirimler işaretlenirken hata:', error);
+    // }
+  };
+
+  const handleViewAllNotifications = () => {
+    navigate('/settings'); // Bildirim ayarları için settings sayfasına yönlendir
+    setIsNotificationOpen(false);
+  };
 
   const handleLogout = () => {
     logout();
@@ -185,25 +246,30 @@ const Navbar = () => {
                 BuildEstate
               </span>
               <span className="text-xs text-gray-500 font-medium -mt-1">
-                Premium Properties
+                Premium Emlaklar
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-4">
             <NavLinks currentPath={location.pathname} />
 
             {/* Enhanced Auth Section */}
             <div className="flex items-center space-x-4">
               {isLoggedIn ? (
                 <div className="flex items-center space-x-3">
+                  {/* Language Switcher */}
+                  <NavbarLanguageSwitcher />
+                  
                   {/* Notification Bell */}
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="relative p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                  >
+                  <div className="relative" ref={notificationRef}>
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={toggleNotification}
+                      className="relative p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                    >
                     <Bell className="w-5 h-5 text-gray-600" />
                     {notifications > 0 && (
                       <motion.span
@@ -215,6 +281,102 @@ const Navbar = () => {
                       </motion.span>
                     )}
                   </motion.button>
+
+                  {/* Notification Dropdown */}
+                  <AnimatePresence>
+                    {isNotificationOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute right-0 top-full mt-2 w-80 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 overflow-hidden"
+                      >
+                        {/* Header */}
+                        <div className="px-4 py-3 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-purple-50">
+                          <div className="flex items-center justify-between">
+                            <h3 className="text-sm font-semibold text-gray-900">Bildirimler</h3>
+                            <span className="text-xs text-gray-500">{notifications} yeni</span>
+                          </div>
+                        </div>
+
+                        {/* Notifications List */}
+                        <div className="max-h-96 overflow-y-auto">
+                          {/* Sample Notifications */}
+                          <div 
+                            className="p-4 hover:bg-gray-50 border-b border-gray-50 cursor-pointer transition-colors active:bg-gray-100"
+                            onClick={() => handleNotificationClick('1', 'property')}
+                          >
+                            <div className="flex items-start space-x-3">
+                              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <Home className="w-4 h-4 text-blue-600" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium text-gray-900">Yeni Emlak İlanı</p>
+                                <p className="text-xs text-gray-600 mt-1">Aradığınız kriterlere uygun yeni bir emlak ilanı eklendi.</p>
+                                <p className="text-xs text-gray-400 mt-1">2 saat önce</p>
+                              </div>
+                              <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 mt-2"></div>
+                            </div>
+                          </div>
+
+                          <div 
+                            className="p-4 hover:bg-gray-50 border-b border-gray-50 cursor-pointer transition-colors active:bg-gray-100"
+                            onClick={() => handleNotificationClick('2', 'message')}
+                          >
+                            <div className="flex items-start space-x-3">
+                              <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <MessageCircle className="w-4 h-4 text-green-600" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium text-gray-900">Yeni Mesaj</p>
+                                <p className="text-xs text-gray-600 mt-1">Emlak danışmanınızdan yeni bir mesaj var.</p>
+                                <p className="text-xs text-gray-400 mt-1">5 saat önce</p>
+                              </div>
+                              <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0 mt-2"></div>
+                            </div>
+                          </div>
+
+                          <div 
+                            className="p-4 hover:bg-gray-50 border-b border-gray-50 cursor-pointer transition-colors active:bg-gray-100"
+                            onClick={() => handleNotificationClick('3', 'favorite')}
+                          >
+                            <div className="flex items-start space-x-3">
+                              <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <Heart className="w-4 h-4 text-purple-600" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium text-gray-900">Favori İlan Güncellendi</p>
+                                <p className="text-xs text-gray-600 mt-1">Favori listenizde bulunan bir ilanın fiyatı güncellendi.</p>
+                                <p className="text-xs text-gray-400 mt-1">1 gün önce</p>
+                              </div>
+                              <div className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0 mt-2"></div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Footer */}
+                        <div className="px-4 py-3 border-t border-gray-100 bg-gray-50">
+                          <div className="flex items-center justify-between">
+                            <button 
+                              className="text-xs text-blue-600 hover:text-blue-700 hover:bg-blue-50 font-medium transition-all duration-200 px-2 py-1 rounded cursor-pointer select-none"
+                              onClick={handleMarkAllAsRead}
+                              type="button"
+                            >
+                              Tümünü Okundu İşaretle
+                            </button>
+                            <button 
+                              className="text-xs text-gray-600 hover:text-gray-700 transition-colors"
+                              onClick={handleViewAllNotifications}
+                            >
+                              Tümünü Gör
+                            </button>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                  </div>
 
                   {/* User Profile Dropdown */}
                   <div className="relative" ref={dropdownRef}>
@@ -238,7 +400,7 @@ const Navbar = () => {
                       </div>
                       <div className="hidden lg:flex flex-col items-start">
                         <span className="text-sm font-semibold text-gray-700">{user?.name}</span>
-                        <span className="text-xs text-gray-500">Premium Member</span>
+                        <span className="text-xs text-gray-500">Premium Üye</span>
                       </div>
                       <motion.div
                         animate={{ rotate: isDropdownOpen ? 180 : 0 }}
@@ -279,24 +441,36 @@ const Navbar = () => {
                           <div className="py-2">
                             <motion.button
                               whileHover={{ x: 4, backgroundColor: "rgb(243 244 246)" }}
+                              onClick={() => {
+                                navigate('/profile');
+                                setIsDropdownOpen(false);
+                              }}
                               className="w-full px-6 py-3 text-left text-sm text-gray-700 hover:text-blue-600 flex items-center space-x-3 transition-colors"
                             >
                               <UserCircle className="w-4 h-4" />
-                              <span>My Profile</span>
+                              <span>Profilim</span>
                             </motion.button>
                             <motion.button
                               whileHover={{ x: 4, backgroundColor: "rgb(243 244 246)" }}
+                              onClick={() => {
+                                navigate('/saved-properties');
+                                setIsDropdownOpen(false);
+                              }}
                               className="w-full px-6 py-3 text-left text-sm text-gray-700 hover:text-blue-600 flex items-center space-x-3 transition-colors"
                             >
                               <Heart className="w-4 h-4" />
-                              <span>Saved Properties</span>
+                              <span>Kayıtlı Emlaklar</span>
                             </motion.button>
                             <motion.button
                               whileHover={{ x: 4, backgroundColor: "rgb(243 244 246)" }}
+                              onClick={() => {
+                                navigate('/settings');
+                                setIsDropdownOpen(false);
+                              }}
                               className="w-full px-6 py-3 text-left text-sm text-gray-700 hover:text-blue-600 flex items-center space-x-3 transition-colors"
                             >
                               <Settings className="w-4 h-4" />
-                              <span>Settings</span>
+                              <span>Ayarlar</span>
                             </motion.button>
                             <div className="border-t border-gray-100 my-2" />
                             <motion.button
@@ -305,7 +479,7 @@ const Navbar = () => {
                               className="w-full px-6 py-3 text-left text-sm text-red-600 hover:text-red-700 flex items-center space-x-3 transition-colors"
                             >
                               <LogOut className="w-4 h-4" />
-                              <span>Sign out</span>
+                              <span>Çıkış Yap</span>
                             </motion.button>
                           </div>
                         </motion.div>
@@ -315,15 +489,21 @@ const Navbar = () => {
                 </div>
               ) : (
                 <div className="flex items-center space-x-4">
+                  {/* Language Switcher */}
+                  <NavbarLanguageSwitcher />
+                  
                   <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
                     <Link
                       to="/login"
-                      className="text-gray-700 hover:text-blue-600 font-medium transition-colors px-4 py-2 rounded-lg hover:bg-blue-50"
+                      className="relative group flex items-center gap-2 px-5 py-2.5 rounded-xl border-2 border-gray-200 text-gray-700 hover:border-blue-500 hover:text-blue-600 font-semibold transition-all duration-300 bg-white hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 shadow-sm hover:shadow-lg hover:shadow-blue-500/20"
                     >
-                      Sign in
+                      <UserCircle className="w-4 h-4 transition-transform group-hover:scale-110" />
+                      <span>Giriş Yap</span>
+                      {/* Animated border gradient */}
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300 -z-10" />
                     </Link>
                   </motion.div>
                   <motion.div
@@ -332,9 +512,9 @@ const Navbar = () => {
                   >
                     <Link
                       to="/signup"
-                      className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white px-6 py-2.5 rounded-xl hover:from-blue-700 hover:via-purple-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl shadow-blue-500/30 font-semibold overflow-hidden"
+                      className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white px-7 py-3 rounded-xl hover:from-blue-700 hover:via-purple-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl shadow-blue-500/30 font-semibold overflow-hidden whitespace-nowrap"
                     >
-                      <span className="relative z-10">Get Started</span>
+                      <span className="relative z-10">Başlayın</span>
                       <motion.div
                         animate={sparkleVariants.animate}
                         className="absolute top-1 right-1"
@@ -407,35 +587,35 @@ const Navbar = () => {
 };
 
 const NavLinks = ({ currentPath }) => {
-  // Enhanced NavLinks with modern styling
+  // Enhanced navigation links with colors and descriptions
   const navLinks = [
     { 
-      name: "Home", 
+      name: "Ana Sayfa", 
       path: "/", 
       icon: Home, 
       color: "from-blue-500 to-cyan-500",
-      description: "Welcome home"
+      description: "Hoş geldiniz"
     },
     { 
-      name: "Properties", 
+      name: "Emlaklar", 
       path: "/properties", 
       icon: Search, 
       color: "from-green-500 to-emerald-500",
-      description: "Find your dream"
+      description: "Hayalinizdeki evi bulun"
     },
     { 
-      name: "About Us", 
+      name: "Hakkımızda", 
       path: "/about", 
       icon: Users, 
       color: "from-purple-500 to-pink-500",
-      description: "Our story"
+      description: "Hikayemiz"
     },
     { 
-      name: "Contact", 
+      name: "İletişim", 
       path: "/contact", 
       icon: MessageCircle, 
       color: "from-orange-500 to-red-500",
-      description: "Get in touch"
+      description: "Bizimle iletişime geçin"
     },
   ];
 
@@ -453,7 +633,7 @@ const NavLinks = ({ currentPath }) => {
   const isAIHubActive = currentPath.startsWith("/ai-property-hub");
 
   return (
-    <div className="flex space-x-2 items-center">
+    <div className="flex space-x-1 items-center">
       {navLinks.map(({ name, path, icon: Icon, color, description }) => {
         const isActive = path === "/" ? currentPath === path : currentPath.startsWith(path);
 
@@ -465,7 +645,7 @@ const NavLinks = ({ currentPath }) => {
           >
             <Link
               to={path}
-              className={`relative group font-medium transition-all duration-300 flex items-center gap-2 px-4 py-2.5 rounded-xl
+              className={`relative group font-medium transition-all duration-300 flex items-center gap-2 px-3 py-2 rounded-xl
                 ${isActive
                   ? `text-white bg-gradient-to-r ${color} shadow-lg shadow-blue-500/30`
                   : "text-gray-700 hover:text-blue-600 hover:bg-blue-50/80"
@@ -473,11 +653,11 @@ const NavLinks = ({ currentPath }) => {
               `}
             >
               <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-gray-600 group-hover:text-blue-600'}`} />
-              <span className="font-semibold">{name}</span>
+              <span className="font-medium text-sm">{name}</span>
               
               {/* Tooltip */}
-              <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-                <div className="bg-gray-900 text-white text-xs px-2 py-1 rounded-lg whitespace-nowrap">
+              <div className="absolute -bottom-14 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                <div className="bg-gray-900 text-white text-xs px-3 py-2 rounded-lg whitespace-nowrap">
                   {description}
                   <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45"></div>
                 </div>
@@ -503,7 +683,7 @@ const NavLinks = ({ currentPath }) => {
       >
         <Link
           to="/ai-property-hub"
-          className={`relative group font-semibold transition-all duration-300 flex items-center gap-2.5 px-5 py-2.5 rounded-xl overflow-hidden ${
+          className={`relative group font-medium transition-all duration-300 flex items-center gap-2 px-4 py-2 rounded-xl overflow-hidden ${
             isAIHubActive
               ? "text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 shadow-xl shadow-purple-500/40"
               : "text-indigo-700 bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 hover:text-white border border-indigo-200 hover:border-transparent"
@@ -526,7 +706,7 @@ const NavLinks = ({ currentPath }) => {
               <Sparkles className="w-3 h-3 text-yellow-400" />
             </motion.div>
           </div>
-          <span>AI Property Hub</span>
+          <span className="font-medium text-sm">AI Emlak Merkezi</span>
           
           {/* Premium badge */}
           {!isAIHubActive && (
@@ -539,7 +719,7 @@ const NavLinks = ({ currentPath }) => {
               className="absolute -top-2 -right-2 px-2 py-0.5 bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 rounded-full text-[10px] font-bold shadow-lg flex items-center gap-2"
             >
               <Zap className="w-2.5 h-2.5" />
-              NEW
+              YENİ
             </motion.span>
           )}
 
@@ -560,9 +740,9 @@ const NavLinks = ({ currentPath }) => {
           )}
 
           {/* Tooltip */}
-          <div className="absolute -bottom-14 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-            <div className="bg-gray-900 text-white text-xs px-3 py-2 rounded-lg whitespace-nowrap">
-              AI-powered property recommendations
+          <div className="absolute -bottom-14 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
+            <div className="bg-gray-900 text-white text-xs px-3 py-2 rounded-lg whitespace-nowrap shadow-lg">
+              AI destekli emlak önerileri
               <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45"></div>
             </div>
           </div>
@@ -583,32 +763,32 @@ const MobileNavLinks = ({
   // Enhanced navigation links with colors and descriptions
   const navLinks = [
     { 
-      name: "Home", 
+      name: "Ana Sayfa", 
       path: "/", 
       icon: Home, 
       color: "from-blue-500 to-cyan-500",
-      description: "Welcome home"
+      description: "Hoş geldiniz"
     },
     { 
-      name: "Properties", 
+      name: "Emlaklar", 
       path: "/properties", 
       icon: Search, 
       color: "from-green-500 to-emerald-500",
-      description: "Find your dream"
+      description: "Hayalinizdeki evi bulun"
     },
     { 
-      name: "About Us", 
+      name: "Hakkımızda", 
       path: "/about", 
       icon: Users, 
       color: "from-purple-500 to-pink-500",
-      description: "Our story"
+      description: "Hikayemiz"
     },
     { 
-      name: "Contact", 
+      name: "İletişim", 
       path: "/contact", 
       icon: MessageCircle, 
       color: "from-orange-500 to-red-500",
-      description: "Get in touch"
+      description: "Bizimle iletişime geçin"
     },
   ];
 
@@ -659,9 +839,9 @@ const MobileNavLinks = ({
             </motion.div>
           </div>
           <div className="flex-1">
-            <div className="font-bold text-lg">AI Property Hub</div>
+            <div className="font-bold text-lg">AI Emlak Merkezi</div>
             <div className={`text-sm ${isAIHubActive ? "text-indigo-100" : "text-indigo-500"}`}>
-              Smart property recommendations
+              Akıllı emlak önerileri
             </div>
           </div>
           {!isAIHubActive && (
@@ -671,7 +851,7 @@ const MobileNavLinks = ({
               className="px-3 py-1 bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 rounded-full text-xs font-bold shadow-lg flex items-center gap-1"
             >
               <Zap className="w-3 h-3" />
-              NEW
+              YENİ
             </motion.span>
           )}
           
@@ -687,7 +867,7 @@ const MobileNavLinks = ({
       {/* Elegant separator */}
       <div className="flex items-center gap-4 px-2">
         <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-        <span className="text-xs text-gray-400 font-medium">Navigation</span>
+        <span className="text-xs text-gray-400 font-medium">Navigasyon</span>
         <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
       </div>
 
@@ -738,7 +918,7 @@ const MobileNavLinks = ({
       <div className="pt-4 mt-2">
         <div className="flex items-center gap-4 px-2 mb-4">
           <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-          <span className="text-xs text-gray-400 font-medium">Account</span>
+          <span className="text-xs text-gray-400 font-medium">Hesap</span>
           <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
         </div>
 
@@ -776,7 +956,7 @@ const MobileNavLinks = ({
                   <p className="text-sm text-gray-600 truncate">{user?.email}</p>
                   <div className="flex items-center gap-2 mt-1">
                     <Crown className="w-4 h-4 text-yellow-500" />
-                    <span className="text-xs text-yellow-600 font-semibold">Premium Member</span>
+                    <span className="text-xs text-yellow-600 font-semibold">Premium Üye</span>
                   </div>
                 </div>
               </div>
@@ -788,17 +968,25 @@ const MobileNavLinks = ({
             <div className="grid grid-cols-2 gap-3">
               <motion.button
                 whileTap={{ scale: 0.95 }}
+                onClick={() => {
+                  navigate('/saved-properties');
+                  setMobileMenuOpen(false);
+                }}
                 className="flex items-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all"
               >
                 <Heart className="w-5 h-5 text-gray-600" />
-                <span className="text-sm font-medium text-gray-700">Saved</span>
+                <span className="text-sm font-medium text-gray-700">Kayıtlı</span>
               </motion.button>
               <motion.button
                 whileTap={{ scale: 0.95 }}
+                onClick={() => {
+                  navigate('/settings');
+                  setMobileMenuOpen(false);
+                }}
                 className="flex items-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all"
               >
                 <Settings className="w-5 h-5 text-gray-600" />
-                <span className="text-sm font-medium text-gray-700">Settings</span>
+                <span className="text-sm font-medium text-gray-700">Ayarlar</span>
               </motion.button>
             </div>
 
@@ -812,7 +1000,7 @@ const MobileNavLinks = ({
               className="w-full flex items-center justify-center gap-3 px-4 py-4 text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 rounded-xl transition-all font-semibold"
             >
               <LogOut className="w-5 h-5" />
-              <span>Sign out</span>
+              <span>Çıkış Yap</span>
             </motion.button>
           </motion.div>
         ) : (
@@ -821,13 +1009,19 @@ const MobileNavLinks = ({
             animate={{ y: 0, opacity: 1 }}
             className="flex flex-col space-y-3 px-2"
           >
-            <motion.div whileTap={{ scale: 0.97 }}>
+            <motion.div 
+              whileTap={{ scale: 0.97 }}
+              whileHover={{ scale: 1.02 }}
+            >
               <Link
                 to="/login"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full flex items-center justify-center px-6 py-4 border-2 border-gray-200 text-gray-700 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all font-semibold"
+                className="relative group w-full flex items-center justify-center gap-3 px-6 py-4 border-2 border-gray-200 text-gray-700 rounded-xl hover:border-blue-500 hover:text-blue-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-300 font-semibold shadow-sm hover:shadow-lg hover:shadow-blue-500/20 overflow-hidden"
               >
-                Sign in
+                <UserCircle className="w-5 h-5 transition-transform group-hover:scale-110" />
+                <span>Giriş Yap</span>
+                {/* Animated background */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </Link>
             </motion.div>
             <motion.div whileTap={{ scale: 0.97 }}>
@@ -836,7 +1030,7 @@ const MobileNavLinks = ({
                 onClick={() => setMobileMenuOpen(false)}
                 className="relative w-full flex items-center justify-center px-6 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:via-purple-700 hover:to-indigo-700 transition-all font-semibold shadow-lg shadow-blue-500/30 overflow-hidden"
               >
-                <span className="relative z-10">Create account</span>
+                <span className="relative z-10">Başlayın</span>
                 <motion.div
                   animate={sparkleVariants.animate}
                   className="absolute top-2 right-2"

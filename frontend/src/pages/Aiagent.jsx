@@ -70,7 +70,7 @@ const AIPropertyHub = () => {
   const handleSearch = async (searchParams) => {
     if (isDeployedVersion) {
       setSearchError(
-        "AI features are only available in the local development environment. Please download the repository to use this feature."
+        "AI özellikleri yalnızca yerel geliştirme ortamında kullanılabilir. Bu özelliği kullanmak için lütfen depoyu indirin."
       );
       return;
     }
@@ -96,7 +96,7 @@ const AIPropertyHub = () => {
       setLocationAnalysis(locationResponse.analysis || "");
     } catch (error) {
       console.error("Error during search:", error);
-      setSearchError("Failed to fetch property data. Please try again.");
+      setSearchError("Emlak verilerini getirme başarısız oldu. Lütfen tekrar deneyin.");
     } finally {
       setIsLoading(false);
     }
@@ -106,13 +106,13 @@ const AIPropertyHub = () => {
   const renderLoadingIndicator = () => {
     const getLoadingMessage = () => {
       if (loadingTime < 5) {
-        return "Extracting property data from various sources...";
+        return "Çeşitli kaynaklardan emlak verileri çıkarılıyor...";
       } else if (loadingTime < 15) {
-        return "Loading AI model for comprehensive analysis...";
+        return "Kapsamlı analiz için AI modeli yükleniyor...";
       } else if (loadingTime < 30) {
-        return "AI is analyzing property details and market conditions...";
+        return "AI emlak detaylarını ve piyasa koşullarını analiz ediyor...";
       } else {
-        return "Finalizing results and generating insights for you...";
+        return "Sonuçlar tamamlanıyor ve sizin için öngörüler oluşturuluyor...";
       }
     };
 
@@ -238,8 +238,8 @@ const AIPropertyHub = () => {
         <div className="text-center mb-6 max-w-lg px-4">
           <h3 className="text-xl sm:text-2xl font-medium text-gray-800 mb-3 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
             {loadingStage === "properties"
-              ? "Finding Ideal Properties"
-              : "Analyzing Market Trends"}
+              ? "İdeal Emlaklar Bulunuyor"
+              : "Piyasa Trendleri Analiz Ediliyor"}
           </h3>
           <p className="text-gray-600 text-base sm:text-lg">
             {getLoadingMessage()}
@@ -265,14 +265,14 @@ const AIPropertyHub = () => {
               )}
             </div>
             <h4 className="font-medium text-blue-800 text-sm sm:text-base">
-              AI Processing
+              AI İşleme
             </h4>
           </div>
 
           <p className="text-blue-700 text-xs sm:text-sm">
             {loadingTime < 20
-              ? "Our AI is searching for properties that match your exact requirements and analyzing local market data."
-              : "We're using advanced algorithms to evaluate property quality, value for money, and investment potential."}
+              ? "AI'mız tam gereksinimlerinize uyan emlakları arıyor ve yerel piyasa verilerini analiz ediyor."
+              : "Emlak kalitesi, paranın karşılığı ve yatırım potansiyelini değerlendirmek için gelişmiş algoritmalar kullanıyoruz."}
           </p>
 
           {loadingTime > 15 && (
@@ -280,7 +280,7 @@ const AIPropertyHub = () => {
               <div className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-600 rounded-full animate-pulse"></div>
                 <p className="text-xs text-blue-600 font-medium">
-                  Deep analysis takes time for quality insights
+                  Kaliteli öngörüler için derinlemesine analiz zaman alır
                 </p>
               </div>
             </div>
@@ -299,11 +299,10 @@ const AIPropertyHub = () => {
         <div className="mb-8 sm:mb-12 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl sm:rounded-2xl p-5 sm:p-8 shadow-lg sm:shadow-xl">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3 sm:mb-4">
-              AI Property Hub | Real Estate Analysis Tool
+              AI Emlak Merkezi | Emlak Analiz Aracı
             </h1>
             <p className="text-blue-100 text-lg sm:text-xl mb-6 sm:mb-8">
-              Discover your perfect property with AI-powered insights and market
-              analysis
+              AI destekli öngörüler ve piyasa analizi ile mükemmel emlağınızı keşfedin
             </p>
 
             {isDeployedVersion ? (
@@ -314,11 +313,11 @@ const AIPropertyHub = () => {
                   </div>
                   <div className="text-center">
                     <h3 className="text-lg font-semibold mb-2">
-                      AI Features Limited Online
+                      AI Özellikleri Çevrimiçi Sınırlı
                     </h3>
                     <p className="text-gray-600 mb-4">
-                      Due to API limitations, AI property features are only
-                      available in local development environment.
+                      API sınırlamaları nedeniyle, AI emlak özellikleri yalnızca
+                      yerel geliştirme ortamında kullanılabilir.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-3 justify-center">
                       <a
@@ -328,14 +327,14 @@ const AIPropertyHub = () => {
                         className="flex items-center justify-center gap-2 px-4 py-2.5 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors"
                       >
                         <Github className="w-4 h-4" />
-                        <span>View on GitHub</span>
+                        <span>GitHub'da Görüntüle</span>
                       </a>
                       <a
                         href="https://github.com/AAYUSH412/Real-Estate-Website/archive/refs/heads/main.zip"
                         className="flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
                       >
                         <Download className="w-4 h-4" />
-                        <span>Download Repository</span>
+                        <span>Depoyu İndir</span>
                       </a>
                     </div>
                   </div>
@@ -367,7 +366,7 @@ const AIPropertyHub = () => {
               <div className="bg-white rounded-lg sm:rounded-xl shadow-md p-4 sm:p-6 md:p-8">
                 <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-800 flex items-center">
                   <Building className="mr-2 text-blue-600 flex-shrink-0" />
-                  <span className="break-words">Property Results</span>
+                  <span className="break-words">Emlak Sonuçları</span>
                 </h2>
 
                 {properties.length > 0 ? (
@@ -379,8 +378,7 @@ const AIPropertyHub = () => {
                 ) : (
                   <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-100">
                     <p className="text-sm sm:text-base text-yellow-700">
-                      No properties found matching your criteria. Try adjusting
-                      your search parameters.
+                      Kriterlerinize uyan emlak bulunamadı. Arama parametrelerinizi ayarlamayı deneyin.
                     </p>
                   </div>
                 )}
@@ -396,7 +394,7 @@ const AIPropertyHub = () => {
               <div className="bg-white rounded-lg sm:rounded-xl shadow-md p-4 sm:p-6 md:p-8">
                 <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-800 flex items-center">
                   <TrendingUp className="mr-2 text-blue-600 flex-shrink-0" />
-                  <span className="break-words">Location Insights</span>
+                  <span className="break-words">Konum Öngörüleri</span>
                 </h2>
                 <LocationTrends locations={locations} />
 
@@ -416,19 +414,16 @@ const AIPropertyHub = () => {
                   <Brain className="w-7 h-7 sm:w-8 sm:h-8 text-blue-600" />
                 </div>
                 <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
-                  Welcome to AI Property Hub
+                  AI Emlak Merkezi'ne Hoş Geldiniz
                 </h2>
                 <p className="text-sm sm:text-base text-gray-600">
-                  Our advanced AI analyzes real estate data to help you make
-                  better property decisions
+                  Gelişmiş AI'mız daha iyi emlak kararları vermenize yardımcı olmak için emlak verilerini analiz eder
                 </p>
 
                 {isDeployedVersion && (
                   <div className="mt-4 p-4 bg-amber-50 border border-amber-100 rounded-lg text-sm text-amber-800">
                     <p>
-                      <strong>Note:</strong> AI features are currently only
-                      available in the local development environment due to API
-                      key restrictions.
+                      <strong>Not:</strong> AI özellikleri şu anda API anahtarı kısıtlamaları nedeniyle yalnızca yerel geliştirme ortamında kullanılabilir.
                     </p>
                   </div>
                 )}
@@ -437,18 +432,18 @@ const AIPropertyHub = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mt-6 sm:mt-8">
                 <FeatureCard
                   icon={<Building className="w-5 h-5 sm:w-6 sm:h-6" />}
-                  title="Property Analysis"
-                  description="Discover properties matching your requirements with detailed AI insights"
+                  title="Emlak Analizi"
+                  description="Gereksinimlerinize uyan emlakları detaylı AI öngörüleri ile keşfedin"
                 />
                 <FeatureCard
                   icon={<MapPin className="w-5 h-5 sm:w-6 sm:h-6" />}
-                  title="Location Trends"
-                  description="Evaluate neighborhood growth, rental yields, and price appreciation"
+                  title="Konum Trendleri"
+                  description="Mahalle büyümesi, kira getirisi ve fiyat artışını değerlendirin"
                 />
                 <FeatureCard
                   icon={<TrendingUp className="w-5 h-5 sm:w-6 sm:h-6" />}
-                  title="Investment Insights"
-                  description="Get expert recommendations on property investment potential"
+                  title="Yatırım Öngörüleri"
+                  description="Emlak yatırım potansiyeli hakkında uzman önerileri alın"
                 />
               </div>
             </div>

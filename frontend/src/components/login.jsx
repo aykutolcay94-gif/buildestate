@@ -122,14 +122,14 @@ const Login = () => {
       );
       if (response.data.success) {
         await login(response.data.token, response.data.user);
-        toast.success("Login successful!");
+        toast.success("Giriş başarılı!");
         navigate("/");
       } else {
         toast.error(response.data.message);
       }
     } catch (error) {
       console.error("Error logging in:", error);
-      toast.error("An error occurred. Please try again.");
+      toast.error("Bir hata oluştu. Lütfen tekrar deneyin.");
     } finally {
       setLoading(false);
     }
@@ -214,10 +214,10 @@ const Login = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
                 >
-                  <h2 className="text-2xl font-bold text-gray-800 mb-2">Welcome back!</h2>
+                  <h2 className="text-2xl font-bold text-gray-800 mb-2">Tekrar hoş geldiniz!</h2>
                   <p className="text-gray-600 flex items-center justify-center gap-2">
                     <Shield className="w-4 h-4 text-blue-500" />
-                    Sign in to your secure account
+                    Güvenli hesabınıza giriş yapın
                   </p>
                 </motion.div>
               </motion.div>
@@ -235,7 +235,7 @@ const Login = () => {
                 >
                   <label htmlFor="email" className="flex items-center gap-2 text-sm font-semibold text-gray-700">
                     <Mail className="w-4 h-4 text-blue-500" />
-                    Email address
+                    E-posta adresi
                   </label>
                   <div className="relative">
                     <motion.input
@@ -267,7 +267,7 @@ const Login = () => {
                 >
                   <label htmlFor="password" className="flex items-center gap-2 text-sm font-semibold text-gray-700">
                     <Lock className="w-4 h-4 text-blue-500" />
-                    Password
+                    Şifre
                   </label>
                   <div className="relative">
                     <motion.input
@@ -305,7 +305,7 @@ const Login = () => {
                     to="/forgot-password"
                     className="text-sm text-blue-600 hover:text-blue-700 transition-colors font-medium hover:underline"
                   >
-                    Forgot password?
+                    Şifremi unuttum?
                   </Link>
                 </div>
 
@@ -321,12 +321,12 @@ const Login = () => {
                   {loading ? (
                     <>
                       <Loader className="w-5 h-5 animate-spin" />
-                      <span>Signing in...</span>
+                      <span>Giriş yapılıyor...</span>
                     </>
                   ) : (
                     <>
                       <CheckCircle className="w-5 h-5" />
-                      <span>Sign in</span>
+                      <span>Giriş Yap</span>
                       <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                     </>
                   )}
@@ -339,7 +339,7 @@ const Login = () => {
                   </div>
                   <div className="relative flex justify-center text-sm">
                     <span className="px-4 bg-white/80 text-gray-500 font-medium">
-                      Don&apos;t have an account?
+                      Hesabınız yok mu?
                     </span>
                   </div>
                 </div>
@@ -354,7 +354,7 @@ const Login = () => {
                     className="w-full flex items-center justify-center gap-3 px-6 py-4 border border-gray-200 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 hover:border-blue-200 transition-all duration-300 font-medium group"
                   >
                     <User className="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors duration-300" />
-                    Create an account
+                    Hesap oluştur
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                   </Link>
                 </motion.div>
