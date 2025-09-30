@@ -68,6 +68,7 @@ app.use(cors({
     'https://aykutolcay.com', // Production domain
     'https://www.aykutolcay.com', // Production domain with www
     'https://frontend-1ucvef2mf-aykutolcay94-gifs-projects.vercel.app', // Vercel deployment URL
+    'https://frontend-three-mu-99.vercel.app', // New Vercel deployment URL
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD'],
