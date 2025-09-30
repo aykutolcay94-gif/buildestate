@@ -77,12 +77,12 @@ app.use(cors({
       return callback(null, true);
     }
     
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    if (allowedOrigins.includes(origin)) {
       console.log('🌐 CORS: Origin allowed:', origin);
-      callback(null, true);
+      return callback(null, true);
     } else {
       console.log('🌐 CORS: Origin blocked:', origin);
-      callback(new Error('Not allowed by CORS'));
+      return callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
