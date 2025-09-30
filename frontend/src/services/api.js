@@ -1,8 +1,26 @@
 // frontend/src/services/api.js
 import axios from 'axios';
 
-// Change this to match your backend server port (4000)
-const API_URL = import.meta.env.VITE_API_BASE_URL;
+// Auto-detect backend URL based on environment
+const getBackendUrl = () => {
+  // If environment variable is set, use it
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+  
+  // Auto-detect based on current domain
+  const currentDomain = window.location.hostname;
+  
+  if (currentDomain === 'localhost' || currentDomain === '127.0.0.1') {
+    return 'http://localhost:4000';
+  } else {
+    // For production, try to find the backend URL
+    // You should replace this with your actual backend domain
+    return 'https://buildestate-backend.vercel.app';
+  }
+};
+
+const API_URL = getBackendUrl();
 
 const api = axios.create({
   baseURL: API_URL,

@@ -4,7 +4,26 @@ import axios from 'axios';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-const Backendurl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000';
+// Auto-detect backend URL based on environment
+const getBackendUrl = () => {
+  // If environment variable is set, use it
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+  
+  // Auto-detect based on current domain
+  const currentDomain = window.location.hostname;
+  
+  if (currentDomain === 'localhost' || currentDomain === '127.0.0.1') {
+    return 'http://localhost:4000';
+  } else {
+    // For production, try to find the backend URL
+    // You should replace this with your actual backend domain
+    return 'https://buildestate-backend.vercel.app';
+  }
+};
+
+const Backendurl = getBackendUrl();
 
 const PropertiesMap = () => {
   const [properties, setProperties] = useState([]);
@@ -108,17 +127,22 @@ const PropertiesMap = () => {
   const fetchProperties = async () => {
     try {
       setLoading(true);
+      console.log('🗺️ PropertiesMap: Fetching properties from:', `${Backendurl}/api/products/list`);
       const response = await axios.get(`${Backendurl}/api/products/list`);
+      
+      console.log('🗺️ PropertiesMap: API Response:', response.data);
       
       // Filter properties that have coordinates
       const propertiesWithCoords = response.data.property?.filter(
         property => property.latitude && property.longitude
       ) || [];
       
+      console.log('🗺️ PropertiesMap: Properties with coordinates:', propertiesWithCoords);
+      
       setProperties(propertiesWithCoords);
       setError(null);
     } catch (err) {
-      console.error('Error fetching properties:', err);
+      console.error('🗺️ PropertiesMap: Error fetching properties:', err);
       setError('Emlaklar yüklenirken hata oluştu');
     } finally {
       setLoading(false);

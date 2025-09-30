@@ -24,7 +24,26 @@ import StructuredData from './components/SEO/StructuredData';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-export const Backendurl = import.meta.env.VITE_API_BASE_URL;
+// Auto-detect backend URL based on environment
+const getBackendUrl = () => {
+  // If environment variable is set, use it
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+  
+  // Auto-detect based on current domain
+  const currentDomain = window.location.hostname;
+  
+  if (currentDomain === 'localhost' || currentDomain === '127.0.0.1') {
+    return 'http://localhost:4000';
+  } else {
+    // For production, try to find the backend URL
+    // You should replace this with your actual backend domain
+    return 'https://buildestate-backend.vercel.app';
+  }
+};
+
+export const Backendurl = getBackendUrl();
 
 const App = () => {
   return (
