@@ -1,7 +1,7 @@
 // frontend/src/services/api.js
 import axios from 'axios';
 
-// Auto-detect backend URL based on environment
+// Backend URL configuration - automatically detects environment
 const getBackendUrl = () => {
   // If environment variable is set, use it
   if (import.meta.env.VITE_API_BASE_URL) {
@@ -9,14 +9,11 @@ const getBackendUrl = () => {
   }
   
   // Auto-detect based on current domain
-  const currentDomain = window.location.hostname;
-  
-  if (currentDomain === 'localhost' || currentDomain === '127.0.0.1') {
+  if (window.location.hostname === 'localhost') {
     return 'http://localhost:4000';
   } else {
-    // For production, try to find the backend URL
-    // You should replace this with your actual backend domain
-    return 'https://buildestate-backend.vercel.app';
+    // Production backend URL
+    return 'https://real-estate-website-backend-zfu7.onrender.com';
   }
 };
 

@@ -19,7 +19,7 @@ const getBackendUrl = () => {
   } else {
     // For production, try to find the backend URL
     // You should replace this with your actual backend domain
-    return 'https://buildestate-backend.vercel.app';
+    return 'https://real-estate-website-backend-zfu7.onrender.com';
   }
 };
 
