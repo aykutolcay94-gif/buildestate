@@ -70,43 +70,34 @@ const allowedOrigins = [
   'https://frontend-three-mu-99.vercel.app', // New Vercel deployment URL
 ];
 
-// Custom CORS middleware for better control
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  
-  console.log('🌐 CORS Request:', {
-    method: req.method,
-    origin: origin,
-    url: req.url,
-    headers: req.headers
-  });
-
-  // Set CORS headers for all requests
-  if (origin && allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    console.log('✅ CORS Origin allowed:', origin);
-  } else if (!origin) {
+// CORS Configuration using cors middleware
+const corsOptions = {
+  origin: function (origin, callback) {
+    console.log('🌐 CORS Request from origin:', origin);
+    
     // Allow requests with no origin (like mobile apps or curl requests)
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    console.log('✅ CORS No origin - allowing all');
-  } else {
-    console.log('❌ CORS Origin blocked:', origin);
-  }
+    if (!origin) {
+      console.log('✅ CORS No origin - allowing');
+      return callback(null, true);
+    }
+    
+    if (allowedOrigins.includes(origin)) {
+      console.log('✅ CORS Origin allowed:', origin);
+      callback(null, true);
+    } else {
+      console.log('❌ CORS Origin blocked:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+  exposedHeaders: ['Content-Length', 'X-Foo', 'X-Bar'],
+  maxAge: 86400,
+  optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+};
 
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, HEAD');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
-  res.setHeader('Access-Control-Expose-Headers', 'Content-Length, X-Foo, X-Bar');
-  res.setHeader('Access-Control-Max-Age', '86400');
-
-  // Handle preflight requests
-  if (req.method === 'OPTIONS') {
-    console.log('✅ CORS Preflight handled for:', origin);
-    return res.status(200).end();
-  }
-
-  next();
-});
+app.use(cors(corsOptions));
 
 // Security middlewares
 app.use(limiter);
