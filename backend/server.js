@@ -60,6 +60,7 @@ app.use(cors({
     'http://localhost:4000',
     'http://localhost:5174',
     'http://localhost:5173',
+    'http://localhost:9000', // Production site (aykutolcay.com)
     'http://localhost:8080', // Admin panel
     'https://buildestate.vercel.app',
     'https://real-estate-website-admin.onrender.com',
