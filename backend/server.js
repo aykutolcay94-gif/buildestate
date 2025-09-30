@@ -53,6 +53,26 @@ const limiter = rateLimit({
   }
 });
 
+// CORS Configuration - MUST be before other middlewares
+app.use(cors({
+  origin: [
+    'http://localhost:3000', // Frontend
+    'http://localhost:4000',
+    'http://localhost:5174',
+    'http://localhost:5173',
+    'http://localhost:8080', // Admin panel
+    'https://buildestate.vercel.app',
+    'https://real-estate-website-admin.onrender.com',
+    'https://real-estate-website-backend-zfu7.onrender.com',
+    'https://aykutolcay.com', // Production domain
+    'https://www.aykutolcay.com', // Production domain with www
+    'https://frontend-1ucvef2mf-aykutolcay94-gifs-projects.vercel.app', // Vercel deployment URL
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD'], // Added HEAD
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+}));
+
 // Security middlewares
 app.use(limiter);
 app.use(helmet({
@@ -76,27 +96,6 @@ app.use(trackAPIStats);
 
 // Serve uploaded files statically
 app.use('/uploads', express.static('uploads'));
-
-
-// CORS Configuration
-app.use(cors({
-  origin: [
-    'http://localhost:3000', // Frontend
-    'http://localhost:4000',
-    'http://localhost:5174',
-    'http://localhost:5173',
-    'http://localhost:8080', // Admin panel
-    'https://buildestate.vercel.app',
-    'https://real-estate-website-admin.onrender.com',
-    'https://real-estate-website-backend-zfu7.onrender.com',
-    'https://aykutolcay.com', // Production domain
-    'https://www.aykutolcay.com', // Production domain with www
-    'https://frontend-1ucvef2mf-aykutolcay94-gifs-projects.vercel.app', // Vercel deployment URL
-  ],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD'], // Added HEAD
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-}));
 
 // Database connection
 connectdb().then(() => {
